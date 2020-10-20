@@ -1,0 +1,68 @@
+﻿<Window x:Class="OneMoreTryWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
+        xmlns:local="clr-namespace:OneMoreTryWPF"
+        xmlns:uc="clr-namespace:OneMoreTryWPF.UserControls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <RadialGradientBrush x:Key="redLed" RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.5">
+            <GradientStop Color="PaleGoldenrod" Offset="0"/>
+            <GradientStop Color="Red" Offset="0.4"/>
+            <GradientStop Color="Silver" Offset="0.4"/>
+            <GradientStop Color="Silver" Offset="0.5"/>
+            <GradientStop Color="Transparent" Offset="0.5"/>
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="greenLed" RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.5">
+            <GradientStop Color="PaleGoldenrod" Offset="0"/>
+            <GradientStop Color="Green" Offset="0.4"/>
+            <GradientStop Color="Silver" Offset="0.4"/>
+            <GradientStop Color="Silver" Offset="0.5"/>
+            <GradientStop Color="Transparent" Offset="0.5"/>
+        </RadialGradientBrush>
+    </Window.Resources>
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="SteelBlue" Offset="0"/>
+            <GradientStop Color="White" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Border BorderThickness="2" VerticalAlignment="Stretch">
+        <Border.BorderBrush>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="SteelBlue" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <DockPanel x:Name="mainPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="False">
+            <ToolBar Name="mainToolbar" DockPanel.Dock="Top"  VerticalAlignment="Top" Padding="5,0">
+                <CheckBox x:Name="isEditable" VerticalAlignment="Stretch" Height="Auto" IsThreeState="False" Margin="2" IsChecked="{Binding IsEnable, UpdateSourceTrigger=PropertyChanged}"  Foreground="SteelBlue" Click="isEditable_Click">
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock x:Name="led" Width="20" Height="20" Background="{StaticResource redLed}" >
+                        </TextBlock>
+                        <TextBlock Text="Режим редакции" VerticalAlignment="Center" Margin="2" Foreground="SteelBlue"></TextBlock>
+                    </StackPanel>
+                </CheckBox>
+                <Separator/>
+                <Button x:Name="btnAddRow" Margin="2" VerticalAlignment="Stretch" Command="{Binding AddCommand}" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Source="Resources/images/add_product.png" Width="20" Height="20"></Image>
+                        <TextBlock Text="Добавить ТРУ" VerticalAlignment="Center" Margin="2" Foreground="SteelBlue"></TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+            <StatusBar x:Name="mainStatusBar" Background="Transparent" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+            </StatusBar>
+            <DockPanel x:Name="leftPanel" DockPanel.Dock="Left" VerticalAlignment="Stretch">                
+            </DockPanel>
+            <DockPanel x:Name="rightPanel" DockPanel.Dock="Right" VerticalAlignment="top" LastChildFill="False">
+                <uc:ProductForm x:Name="Product" Padding="5" Height="Auto" />
+            </DockPanel>
+            <Grid x:Name="contentPanel" Height="Auto" VerticalAlignment="Top">
+                <uc:ProductsDataGrid x:Name="ProductSet" Padding="5" Height="Auto"/>
+            </Grid>            
+        </DockPanel>
+    </Border>
+</Window>

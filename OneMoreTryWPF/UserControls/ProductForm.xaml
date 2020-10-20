@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="OneMoreTryWPF.UserControls.ProductForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OneMoreTryWPF.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="240">
+    <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
+        <Grid x:Name="productGrid" IsEnabled="{Binding IsEnable}" Margin="20" Visibility="Visible" DataContext="{Binding SelectedProduct}" Height="Auto" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock VerticalAlignment="Center" Padding="5,0" Text="Признак происхождения ТРУ"></TextBlock>
+            <TextBlock x:Name="l_description" Padding="5,0"  TextWrapping="Wrap"  Visibility="{Binding ElementName=tbDescription, Path=Visibility}" VerticalAlignment="Center" Text="Наименование ТРУ" Grid.Row="1"></TextBlock>
+            <TextBlock x:Name="l_tnvedName" Padding="5,0" TextWrapping="Wrap"  Visibility="{Binding ElementName=tbTnvedName, Path=Visibility}" VerticalAlignment="Center" Text="Наименование товаров по классификатору ТН ВЭД ЕАЭС" Grid.Row="2"></TextBlock>
+            <TextBlock x:Name="l_unitCode" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbUnitCode, Path=Visibility}"  VerticalAlignment="Center" Text="Код товара (ТНВД ЕАЭС)" Grid.Row="3"></TextBlock>
+            <TextBlock x:Name="l_unitNomenclature" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbUnitNomenclature, Path=Visibility}"  VerticalAlignment="Center" Text="Еденицы измерения" Grid.Row="4"></TextBlock>
+            <TextBlock x:Name="l_quantity" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbQuantity, Path=Visibility}"  VerticalAlignment="Center" Text="Кол-во (объем)" Grid.Row="5"></TextBlock>
+            <TextBlock x:Name="l_unitPrice" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbUnitPrice, Path=Visibility}"  VerticalAlignment="Center" Text="Цена (тариф) за единицу ТРУ без косвенных налогов" Grid.Row="6"></TextBlock>
+            <TextBlock x:Name="l_priceWithoutTax" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbPriceWithoutTax, Path=Visibility}"  VerticalAlignment="Center" Text="Стоимость ТРУ без косвенных налогов" Grid.Row="7"></TextBlock>
+            <TextBlock x:Name="l_exciseRate" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbExciseRate, Path=Visibility}"  VerticalAlignment="Center" Text="Акциз-Ставка(%)" Grid.Row="8"></TextBlock>
+            <TextBlock x:Name="exciseAmount" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbExciseAmount, Path=Visibility}"  VerticalAlignment="Center" Text="Акциз-Сумма" Grid.Row="9"></TextBlock>
+            <TextBlock x:Name="l_turnoverSize" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbTurnoverSize, Path=Visibility}"  VerticalAlignment="Center" Text="Размер оборота по реализации (облагаемый/необлагаемый оборот)" Grid.Row="10"></TextBlock>
+            <TextBlock x:Name="l_ndsRate" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbNdsRate, Path=Visibility}"  VerticalAlignment="Center" Text="НДС-Ставка(%)" Grid.Row="11"></TextBlock>
+            <TextBlock x:Name="l_ndsAmount" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbNdsAmount, Path=Visibility}"  VerticalAlignment="Center" Text="НДС-Сумма" Grid.Row="12"></TextBlock>
+            <TextBlock x:Name="l_priceWithTax" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbPriceWithTax, Path=Visibility}"  VerticalAlignment="Center" Text="Стоимость ТРУ с учетом НДС" Grid.Row="13"></TextBlock>
+            <TextBlock x:Name="l_productDeclaration" Padding="5,0" TextWrapping="Wrap" Visibility="{Binding ElementName=tbProductDeclaration, Path=Visibility}"  VerticalAlignment="Center" Text="Номер декларации на товары, заявления в рамках ТС, СТ-1 или СТ-KZ" Grid.Row="14"></TextBlock>
+            <TextBlock x:Name="l_productNumberInDeclaration" TextWrapping="Wrap" Padding="5,0"  Visibility="{Binding ElementName=tbProductNumberInDeclaration, Path=Visibility}"  VerticalAlignment="Center" Text="Номер товарной позиции из заявления в рамках ТС или Декларации на товары" Grid.Row="15"></TextBlock>
+            <TextBlock x:Name="l_catalogTruId" Padding="5,0" TextWrapping="Wrap" VerticalAlignment="Center" Visibility="{Binding ElementName=tbCatalogTruId, Path=Visibility}"  Text="Идентификатор товара, работ, услуг" Grid.Row="16"></TextBlock>
+            <TextBlock x:Name="l_additional" Padding="5,0" TextWrapping="Wrap" VerticalAlignment="Center" Visibility="{Binding ElementName=tbAdditional, Path=Visibility}"  Text="Дополнительные данные " Grid.Row="17"></TextBlock>
+
+            <ComboBox  x:Name="cbTruOriginCode" Grid.Column="1" Margin="2" Padding="5,0" SelectionChanged="ComboBox_SelectionChanged" Text="{Binding truOriginCode}">
+                <TextBlock>1</TextBlock>
+                <TextBlock>2</TextBlock>
+                <TextBlock>3</TextBlock>
+                <TextBlock>4</TextBlock>
+                <TextBlock>5</TextBlock>
+                <TextBlock>6</TextBlock>
+            </ComboBox>
+            <TextBox x:Name="tbDescription" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding description, Mode=TwoWay}" Grid.Row="1"></TextBox>
+            <TextBox x:Name="tbTnvedName" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding tnvedName , Mode=TwoWay}" Grid.Row="2"></TextBox >
+            <TextBox x:Name="tbUnitCode" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding unitCode , Mode=TwoWay}" Grid.Row="3"></TextBox>
+            <TextBox x:Name="tbUnitNomenclature" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding unitNomenclature , Mode=TwoWay}" Grid.Row="4"></TextBox>
+            <TextBox x:Name="tbQuantity" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding quantity , Mode=TwoWay}" Grid.Row="5"></TextBox>
+            <TextBox x:Name="tbUnitPrice" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding unitPrice , Mode=TwoWay}" Grid.Row="6"></TextBox>
+            <TextBox x:Name="tbPriceWithoutTax" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding priceWithoutTax , Mode=TwoWay}" Grid.Row="7"></TextBox>
+            <TextBox x:Name="tbExciseRate" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding exciseRate , Mode=TwoWay}" Grid.Row="8"></TextBox>
+            <TextBox x:Name="tbExciseAmount" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding exciseAmount , Mode=TwoWay}" Grid.Row="9"></TextBox>
+            <TextBox x:Name="tbTurnoverSize" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding turnoverSize , Mode=TwoWay}" Grid.Row="10"></TextBox>
+            <TextBox x:Name="tbNdsRate" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding ndsRate , Mode=TwoWay}" Grid.Row="11"></TextBox>
+            <TextBox x:Name="tbNdsAmount" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding ndsAmount , Mode=TwoWay}" Grid.Row="12"></TextBox>
+            <TextBox x:Name="tbPriceWithTax" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding priceWithTax , Mode=TwoWay}" Grid.Row="13"></TextBox>
+            <TextBox x:Name="tbProductDeclaration" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding productDeclaration , Mode=TwoWay}" Grid.Row="14"></TextBox>
+            <TextBox x:Name="tbProductNumberInDeclaration" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding productNumberInDeclaration , Mode=TwoWay}" Grid.Row="15"></TextBox>
+            <TextBox x:Name="tbCatalogTruId" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding catalogTruId , Mode=TwoWay}" Grid.Row="16"></TextBox>
+            <TextBox x:Name="tbAdditional" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding additional , Mode=TwoWay}" Grid.Row="17"></TextBox>
+        </Grid>
+    </Border>
+</UserControl>
