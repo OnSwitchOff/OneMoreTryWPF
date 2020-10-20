@@ -38,7 +38,7 @@
         </Border.BorderBrush>
         <DockPanel x:Name="mainPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="False">
             <ToolBar Name="mainToolbar" DockPanel.Dock="Top"  VerticalAlignment="Top" Padding="5,0">
-                <CheckBox x:Name="isEditable" VerticalAlignment="Stretch" Height="Auto" IsThreeState="False" Margin="2" IsChecked="{Binding IsEnable, UpdateSourceTrigger=PropertyChanged}"  Foreground="SteelBlue" Click="isEditable_Click">
+                <CheckBox x:Name="isEditable" VerticalAlignment="Stretch" Height="Auto" IsThreeState="False" Margin="2" IsChecked="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}"  Foreground="SteelBlue" Click="isEditable_Click">
                     <StackPanel Orientation="Horizontal" >
                         <TextBlock x:Name="led" Width="20" Height="20" Background="{StaticResource redLed}" >
                         </TextBlock>

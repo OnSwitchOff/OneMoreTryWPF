@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="240">
     <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
-        <Grid x:Name="productGrid" IsEnabled="{Binding IsEnable}" Margin="20" Visibility="Visible" DataContext="{Binding SelectedProduct}" Height="Auto" >
+        <Grid x:Name="productGrid" IsEnabled="{Binding IsEditable}" Margin="20" Visibility="Visible" DataContext="{Binding SelectedProduct}" Height="Auto" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="180"/>
                 <ColumnDefinition Width="120"/>

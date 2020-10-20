@@ -29,7 +29,7 @@
                 <TextBlock x:Name="currencyRateBlock" Text="{Binding ElementName=currencyRateBox,Path=Text}" Grid.Row="1" Grid.Column="1" Padding="5"></TextBlock>
                 <TextBox x:Name="currencyCodeBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="KZT" Grid.Row="0" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
                 <TextBox x:Name="currencyRateBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="" Grid.Row="1" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-                <DataGrid Name="products" IsReadOnly="{Binding IsEnable}" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
+                <DataGrid Name="products" IsReadOnly="{Binding IsEditable}" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
                     <DataGrid.Resources>
                         <Style x:Key="WrappedColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="ContentTemplate">
