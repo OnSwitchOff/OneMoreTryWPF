@@ -53,12 +53,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolInverter.cs" />
+    <Compile Include="Converters\SellerStatusesToBoolsConverter.cs" />
+    <Compile Include="ENUMs\SellerType.cs" />
+    <Compile Include="Models\SellerV2.cs" />
+    <Compile Include="Models\UserStatus.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="UserControls\ProductForm.xaml.cs">
       <DependentUpon>ProductForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ProductsDataGrid.xaml.cs">
       <DependentUpon>ProductsDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SellerForm.xaml.cs">
+      <DependentUpon>SellerForm.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -78,6 +86,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ProductsDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SellerForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

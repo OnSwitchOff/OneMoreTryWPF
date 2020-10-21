@@ -4,10 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OneMoreTryWPF.UserControls"
+             xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="240">
+             d:DesignHeight="450" d:DesignWidth="2400"  IsEnabled="{Binding IsEditable}">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="required" Color="Green" Opacity="0.3"/>
+        <SolidColorBrush x:Key="optional" Color="Orange" Opacity="0.3"/>
+        <SolidColorBrush x:Key="ignored"  Color="DarkGray" Opacity="0.5"/>
+    </UserControl.Resources>
     <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
-        <Grid x:Name="productGrid" IsEnabled="{Binding IsEditable}" Margin="20" Visibility="Visible" DataContext="{Binding SelectedProduct}" Height="Auto" >
+        <Grid x:Name="productGrid" Margin="20" Visibility="Visible" DataContext="{Binding SelectedProduct}" Height="Auto" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="180"/>
                 <ColumnDefinition Width="120"/>
@@ -59,7 +65,7 @@
                 <TextBlock>5</TextBlock>
                 <TextBlock>6</TextBlock>
             </ComboBox>
-            <TextBox x:Name="tbDescription" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding description, Mode=TwoWay}" Grid.Row="1"></TextBox>
+            <TextBox x:Name="tbDescription" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding description, Mode=TwoWay}" Grid.Row="1"/>
             <TextBox x:Name="tbTnvedName" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding tnvedName , Mode=TwoWay}" Grid.Row="2"></TextBox >
             <TextBox x:Name="tbUnitCode" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding unitCode , Mode=TwoWay}" Grid.Row="3"></TextBox>
             <TextBox x:Name="tbUnitNomenclature" Visibility="Visible" Grid.Column="1" Margin="2" Padding="5,0" Text="{Binding unitNomenclature , Mode=TwoWay}" Grid.Row="4"></TextBox>

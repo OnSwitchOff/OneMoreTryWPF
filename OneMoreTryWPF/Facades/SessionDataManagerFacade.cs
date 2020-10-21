@@ -1,4 +1,5 @@
-﻿using OneMoreTryWPF.Models;
+﻿using OneMoreTryWPF.ENUMs;
+using OneMoreTryWPF.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,7 +28,7 @@ namespace OneMoreTryWPF.Facades
 				p.priceWithTax = 1.1f * 1.1f * i * 1000;
 				p.productDeclaration = "productDecl" + i;
 				p.productNumberInDeclaration = "productNumberInDec" + i;
-				p.quantity = 1;
+				p.quantity = "1";
 				p.rowNumber = i;
 				p.tnvedName = "tnvedName";
 				p.truOriginCode = (i - 1) % 6 + 1;
@@ -38,6 +39,20 @@ namespace OneMoreTryWPF.Facades
 				list.Add(p);
 			}
 			return list;
+		}
+
+		internal static ObservableCollection<UserStatus> GetRandomStatuses()
+		{
+			ObservableCollection<UserStatus> statuses = new ObservableCollection<UserStatus>();
+
+			foreach (SellerType status in (SellerType[])Enum.GetValues(typeof(SellerType)))
+			{
+				UserStatus tmp = new UserStatus();
+				tmp.type = status;
+				tmp.isChecked = true;
+				statuses.Add(tmp);
+			}
+			return statuses;
 		}
 	}
 }

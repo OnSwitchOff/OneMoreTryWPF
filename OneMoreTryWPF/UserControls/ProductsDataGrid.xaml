@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:OneMoreTryWPF.UserControls"
+             xmlns:local ="clr-namespace:OneMoreTryWPF.UserControls"
+             xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:BoolInverter x:Key="boolInverter"/>
+    </UserControl.Resources>
     <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" VerticalAlignment="Stretch">
         <DockPanel>
             <Grid  x:Name="topBar"  VerticalAlignment="Stretch" Background="LightBlue" DockPanel.Dock="Top" Margin="20">
@@ -29,7 +33,7 @@
                 <TextBlock x:Name="currencyRateBlock" Text="{Binding ElementName=currencyRateBox,Path=Text}" Grid.Row="1" Grid.Column="1" Padding="5"></TextBlock>
                 <TextBox x:Name="currencyCodeBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="KZT" Grid.Row="0" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
                 <TextBox x:Name="currencyRateBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="" Grid.Row="1" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-                <DataGrid Name="products" IsReadOnly="{Binding IsEditable}" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
+                <DataGrid Name="products" IsReadOnly="{Binding IsEditable, Converter={StaticResource boolInverter}}" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
                     <DataGrid.Resources>
                         <Style x:Key="WrappedColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="ContentTemplate">
@@ -39,7 +43,7 @@
                                     </DataTemplate>
                                 </Setter.Value>
                             </Setter>
-                        </Style>
+                        </Style>                        
                     </DataGrid.Resources>
                     <DataGrid.Columns >
                         <DataGridTextColumn Header="№ п/п" Width="30" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding Path=rowNumber}"/>

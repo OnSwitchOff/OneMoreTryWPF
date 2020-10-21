@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:OneMoreTryWPF"
         xmlns:uc="clr-namespace:OneMoreTryWPF.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
     <Window.Resources>
         <RadialGradientBrush x:Key="redLed" RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.5">
             <GradientStop Color="PaleGoldenrod" Offset="0"/>
@@ -46,16 +46,23 @@
                     </StackPanel>
                 </CheckBox>
                 <Separator/>
-                <Button x:Name="btnAddRow" Margin="2" VerticalAlignment="Stretch" Command="{Binding AddCommand}" >
+                <Button x:Name="btnAddRow" IsEnabled="{Binding IsEditable}" Margin="2" VerticalAlignment="Stretch" Command="{Binding AddCommand}" >
                     <StackPanel Orientation="Horizontal" >
                         <Image Source="Resources/images/add_product.png" Width="20" Height="20"></Image>
-                        <TextBlock Text="Добавить ТРУ" VerticalAlignment="Center" Margin="2" Foreground="SteelBlue"></TextBlock>
+                        <TextBlock Text="Добавить новый ТРУ" VerticalAlignment="Center" Margin="2" Foreground="SteelBlue"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnRemoveRow" IsEnabled="{Binding IsEditable}" Margin="2" VerticalAlignment="Stretch" Command="{Binding RemoveCommand}" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Source="Resources/images/delete_product.png" Width="20" Height="20"></Image>
+                        <TextBlock Text="Удалить выделенные ТРУ из списка" VerticalAlignment="Center" Margin="2" Foreground="SteelBlue"></TextBlock>
                     </StackPanel>
                 </Button>
             </ToolBar>
             <StatusBar x:Name="mainStatusBar" Background="Transparent" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
             </StatusBar>
-            <DockPanel x:Name="leftPanel" DockPanel.Dock="Left" VerticalAlignment="Stretch">                
+            <DockPanel x:Name="leftPanel" DockPanel.Dock="Left" VerticalAlignment="Stretch">
+                <uc:SellerForm x:Name="Seller" Padding="5" Height="Auto"/>
             </DockPanel>
             <DockPanel x:Name="rightPanel" DockPanel.Dock="Right" VerticalAlignment="top" LastChildFill="False">
                 <uc:ProductForm x:Name="Product" Padding="5" Height="Auto" />

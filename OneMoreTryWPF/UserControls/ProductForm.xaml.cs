@@ -26,80 +26,80 @@ namespace OneMoreTryWPF.UserControls
 
 		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			/*switch (cbTruOriginCode.Text)
+			switch (cbTruOriginCode.SelectedIndex)
 			{
-				case "1":
-					tbDescription.Visibility = Visibility.Collapsed;
-					tbTnvedName.Visibility = Visibility.Visible;
-					tbUnitCode.Visibility = Visibility.Visible;
-					tbUnitNomenclature.Visibility = Visibility.Visible;
-					tbQuantity.Visibility = Visibility.Visible;
-					tbUnitPrice.Visibility = Visibility.Visible;
-					tbProductDeclaration.Visibility = Visibility.Visible;
-					tbProductNumberInDeclaration.Visibility = Visibility.Visible;
+				case 0:
+					tbDescription.Background = ((SolidColorBrush)this.TryFindResource("ignored"));// Background.Collapsed;
+					tbTnvedName.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitCode.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitNomenclature.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbQuantity.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitPrice.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbProductDeclaration.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbProductNumberInDeclaration.Background = ((SolidColorBrush)this.TryFindResource("required"));
 					break;
-				case "2":
-					tbDescription.Visibility = Visibility.Collapsed;
-					tbTnvedName.Visibility = Visibility.Visible;
-					tbUnitCode.Visibility = Visibility.Visible;
-					tbUnitNomenclature.Visibility = Visibility.Visible;
-					tbQuantity.Visibility = Visibility.Visible;
-					tbUnitPrice.Visibility = Visibility.Visible;
-					tbProductDeclaration.Visibility = Visibility.Visible;
-					tbProductNumberInDeclaration.Visibility = Visibility.Visible;
+				case 1:
+					tbDescription.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbTnvedName.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitCode.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitNomenclature.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbQuantity.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitPrice.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbProductDeclaration.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbProductNumberInDeclaration.Background = ((SolidColorBrush)this.TryFindResource("required"));
 					break;
-				case "3":
-					tbDescription.Visibility = Visibility.Visible;
-					tbTnvedName.Visibility = Visibility.Collapsed;
-					tbUnitCode.Visibility = Visibility.Visible;
-					tbUnitNomenclature.Visibility = Visibility.Visible;
-					tbQuantity.Visibility = Visibility.Visible;
-					tbUnitPrice.Visibility = Visibility.Visible;
-					tbProductDeclaration.Visibility = Visibility.Visible;
-					tbProductNumberInDeclaration.Visibility = Visibility.Collapsed;
+				case 2:
+					tbDescription.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbTnvedName.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbUnitCode.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitNomenclature.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbQuantity.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitPrice.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbProductDeclaration.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbProductNumberInDeclaration.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
 					break;
-				case "4":
-					tbDescription.Visibility = Visibility.Visible;
-					tbTnvedName.Visibility = Visibility.Collapsed;
-					tbUnitCode.Visibility = Visibility.Visible;
-					tbUnitNomenclature.Visibility = Visibility.Visible;
-					tbQuantity.Visibility = Visibility.Visible;
-					tbUnitPrice.Visibility = Visibility.Visible;
-					tbProductDeclaration.Visibility = Visibility.Collapsed;
-					tbProductNumberInDeclaration.Visibility = Visibility.Collapsed;
+				case 3:
+					tbDescription.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbTnvedName.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbUnitCode.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitNomenclature.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbQuantity.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitPrice.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbProductDeclaration.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbProductNumberInDeclaration.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
 					break;
-				case "5":
-					tbDescription.Visibility = Visibility.Visible;
-					tbTnvedName.Visibility = Visibility.Collapsed;
-					tbUnitCode.Visibility = Visibility.Collapsed;
-					tbUnitNomenclature.Visibility = Visibility.Visible;
-					tbQuantity.Visibility = Visibility.Visible;
-					tbUnitPrice.Visibility = Visibility.Visible;
-					tbProductDeclaration.Visibility = Visibility.Collapsed;
-					tbProductNumberInDeclaration.Visibility = Visibility.Collapsed;
+				case 4:
+					tbDescription.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbTnvedName.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbUnitCode.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbUnitNomenclature.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbQuantity.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbUnitPrice.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbProductDeclaration.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbProductNumberInDeclaration.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
 					break;
-				case "6":
-					tbDescription.Visibility = Visibility.Visible;
-					tbTnvedName.Visibility = Visibility.Collapsed;
-					tbUnitCode.Visibility = Visibility.Collapsed;
-					tbUnitNomenclature.Visibility = Visibility.Collapsed;
-					tbQuantity.Visibility = Visibility.Collapsed;
-					tbUnitPrice.Visibility = Visibility.Collapsed;
-					tbProductDeclaration.Visibility = Visibility.Collapsed;
-					tbProductNumberInDeclaration.Visibility = Visibility.Collapsed;
+				case 5:
+					tbDescription.Background = ((SolidColorBrush)this.TryFindResource("required"));
+					tbTnvedName.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbUnitCode.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbUnitNomenclature.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbQuantity.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbUnitPrice.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbProductDeclaration.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
+					tbProductNumberInDeclaration.Background = ((SolidColorBrush)this.TryFindResource("ignored"));
 					break;
 				default:
 					break;
 			}
-			tbPriceWithoutTax.Visibility = Visibility.Visible;
-			tbExciseRate.Visibility = Visibility.Visible;
-			tbExciseAmount.Visibility = Visibility.Visible;
-			tbTurnoverSize.Visibility = Visibility.Visible;
-			tbNdsRate.Visibility = Visibility.Visible;
-			tbNdsAmount.Visibility = Visibility.Visible;
-			tbPriceWithTax.Visibility = Visibility.Visible;
-			tbCatalogTruId.Visibility = Visibility.Visible;
-			tbAdditional.Visibility = Visibility.Visible;*/
+			tbPriceWithoutTax.Background = ((SolidColorBrush)this.TryFindResource("required"));
+			tbExciseRate.Background = ((SolidColorBrush)this.TryFindResource("required"));
+			tbExciseAmount.Background = ((SolidColorBrush)this.TryFindResource("required"));
+			tbTurnoverSize.Background = ((SolidColorBrush)this.TryFindResource("required"));
+			tbNdsRate.Background = ((SolidColorBrush)this.TryFindResource("required"));
+			tbNdsAmount.Background = ((SolidColorBrush)this.TryFindResource("required"));
+			tbPriceWithTax.Background = ((SolidColorBrush)this.TryFindResource("required"));
+			tbCatalogTruId.Background = ((SolidColorBrush)this.TryFindResource("required"));
+			tbAdditional.Background = ((SolidColorBrush)this.TryFindResource("required"));
 		}
 	}
 }

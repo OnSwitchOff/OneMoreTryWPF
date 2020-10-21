@@ -42,5 +42,16 @@ namespace OneMoreTryWPF
 				led.Background = (Brush)TryFindResource("redLed");
 			}
 		}
+
+		private void Window_KeyDown(object sender, KeyEventArgs e)
+		{
+			if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt) // Is Alt key pressed
+			{
+				if (Keyboard.IsKeyDown(Key.G))
+				{
+					((ProductSetViewModel)DataContext).GodMode = !((ProductSetViewModel)DataContext).GodMode;
+				}
+			}
+		}
 	}
 }

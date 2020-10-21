@@ -160,14 +160,18 @@ namespace OneMoreTryWPF.Models
 		}
 		//Кол-во (объем) (G 6)
 		//fractionDigits value="6", totalDigits value="18"
-		private float Quantity;
-		public float quantity
+		private string Quantity;
+		public string quantity
 		{
 			get { return Quantity; }
 			set
 			{
 				Quantity = value;
 				OnPropertyChanged("quantity");
+				if (Quantity == String.Empty)
+				{
+					unitNomenclature = String.Empty;
+				}				
 			}
 		}
 
@@ -192,6 +196,10 @@ namespace OneMoreTryWPF.Models
 			{
 				TruOriginCode = value;
 				OnPropertyChanged("truOriginCode");
+				if (truOriginCode == 6)
+				{
+					quantity = String.Empty;
+				}
 			}
 		}
 
@@ -261,8 +269,8 @@ namespace OneMoreTryWPF.Models
 
 		//Цена (тариф) за единицу ТРУ без косвенных налогов (G 7)
 		//fractionDigits value="6", totalDigits value="18"
-		private float UnitPrice;
-		public float unitPrice
+		private float? UnitPrice;
+		public float? unitPrice
 		{
 			get { return UnitPrice; }
 			set
