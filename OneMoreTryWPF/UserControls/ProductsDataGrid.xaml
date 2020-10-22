@@ -9,10 +9,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converter:BoolInverter x:Key="boolInverter"/>
+        <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
     </UserControl.Resources>
     <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" VerticalAlignment="Stretch">
         <DockPanel>
-            <Grid  x:Name="topBar"  VerticalAlignment="Stretch" Background="LightBlue" DockPanel.Dock="Top" Margin="20">
+            <Grid  x:Name="topBar"  VerticalAlignment="Stretch" Background="LightBlue" DockPanel.Dock="Top" Margin="20" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -29,11 +30,11 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Код валюты" Grid.Row="0" Grid.Column="0" Padding="5"></TextBlock>
                 <TextBlock Text="Курс валюты" Grid.Row="1" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock x:Name="currencyCodeBlock" Text="{Binding ElementName=currencyCodeBox,Path=Text}" Grid.Row="0" Grid.Column="1" Padding="5"></TextBlock>
-                <TextBlock x:Name="currencyRateBlock" Text="{Binding ElementName=currencyRateBox,Path=Text}" Grid.Row="1" Grid.Column="1" Padding="5"></TextBlock>
-                <TextBox x:Name="currencyCodeBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="KZT" Grid.Row="0" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-                <TextBox x:Name="currencyRateBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="" Grid.Row="1" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-                <DataGrid Name="products" IsReadOnly="{Binding IsEditable, Converter={StaticResource boolInverter}}" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
+                <TextBlock x:Name="currencyCodeBlock" Text="{Binding ElementName=currencyCodeBox,Path=Text}" IsEnabled ="{Binding IsEditable, Converter={StaticResource boolInverter}}" Visibility="{Binding IsEnabled, Converter={StaticResource VisibleConverter}}" Grid.Row="0" Grid.Column="1" Padding="5"></TextBlock>
+                <TextBlock x:Name="currencyRateBlock" Text="{Binding ElementName=currencyRateBox,Path=Text}" IsEnabled ="{Binding IsEditable, Converter={StaticResource boolInverter}}" Visibility="{Binding IsEnabled, Converter={StaticResource VisibleConverter}}" Grid.Row="1" Grid.Column="1" Padding="5"></TextBlock>
+                <TextBox x:Name="currencyCodeBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="{Binding  Invoice.productSet.currencyCode}" Grid.Row="0" Grid.Column="1" Padding="5" Visibility ="{Binding IsEditable, Converter={StaticResource VisibleConverter}}"></TextBox>
+                <TextBox x:Name="currencyRateBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="{Binding  Invoice.productSet.currencyRate}" Grid.Row="1" Grid.Column="1" Padding="5" Visibility ="{Binding IsEditable, Converter={StaticResource VisibleConverter}}"></TextBox>
+                <DataGrid Name="products" IsReadOnly="{Binding IsEditable, Converter={StaticResource boolInverter}}" ItemsSource="{Binding Invoice.productSet.products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
                     <DataGrid.Resources>
                         <Style x:Key="WrappedColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="ContentTemplate">
@@ -73,21 +74,19 @@
                 <TextBlock Text="Итоговая НДС-Сумма" Grid.Row="6" Grid.Column="0" Padding="5"></TextBlock>
                 <TextBlock Text="Итоговая стоимость ТРУ с учетом НДС" Grid.Row="7" Grid.Column="0" Padding="5"></TextBlock>
 
-                <TextBlock x:Name="totalPriceWithoutTaxBlock" Text="{Binding ElementName=totalPriceWithoutTaxBox,Path=Text}" Grid.Row="3" Grid.Column="1" Padding="5"></TextBlock>
-                <TextBlock x:Name="totalExciseAmountBlock" Text="{Binding ElementName=totalExciseAmountBox,Path=Text}" Grid.Row="4" Grid.Column="1" Padding="5"></TextBlock>
-                <TextBlock x:Name="totalTurnoverSizeBlock" Text="{Binding ElementName=totalTurnoverSizeBox,Path=Text}" Grid.Row="5" Grid.Column="1" Padding="5"></TextBlock>
-                <TextBlock x:Name="totalNdsAmountBlock" Text="{Binding ElementName=totalNdsAmountBox,Path=Text}" Grid.Row="6" Grid.Column="1" Padding="5"></TextBlock>
-                <TextBlock x:Name="totalPriceWithTaxBlock" Text="{Binding ElementName=totalPriceWithTaxBox,Path=Text}" Grid.Row="7" Grid.Column="1" Padding="5"></TextBlock>
+                <TextBlock x:Name="totalPriceWithoutTaxBlock" Text="{Binding ElementName=totalPriceWithoutTaxBox,Path=Text}" IsEnabled ="{Binding IsEditable, Converter={StaticResource boolInverter}}" Visibility="{Binding IsEnabled, Converter={StaticResource VisibleConverter}}" Grid.Row="3" Grid.Column="1" Padding="5"></TextBlock>
+                <TextBlock x:Name="totalExciseAmountBlock" Text="{Binding ElementName=totalExciseAmountBox,Path=Text}" IsEnabled ="{Binding IsEditable, Converter={StaticResource boolInverter}}" Visibility="{Binding IsEnabled, Converter={StaticResource VisibleConverter}}" Grid.Row="4" Grid.Column="1" Padding="5"></TextBlock>
+                <TextBlock x:Name="totalTurnoverSizeBlock" Text="{Binding ElementName=totalTurnoverSizeBox,Path=Text}" IsEnabled ="{Binding IsEditable, Converter={StaticResource boolInverter}}" Visibility="{Binding IsEnabled, Converter={StaticResource VisibleConverter}}" Grid.Row="5" Grid.Column="1" Padding="5"></TextBlock>
+                <TextBlock x:Name="totalNdsAmountBlock" Text="{Binding ElementName=totalNdsAmountBox,Path=Text}" IsEnabled ="{Binding IsEditable, Converter={StaticResource boolInverter}}" Visibility="{Binding IsEnabled, Converter={StaticResource VisibleConverter}}" Grid.Row="6" Grid.Column="1" Padding="5"></TextBlock>
+                <TextBlock x:Name="totalPriceWithTaxBlock" Text="{Binding ElementName=totalPriceWithTaxBox,Path=Text}" IsEnabled ="{Binding IsEditable, Converter={StaticResource boolInverter}}" Visibility="{Binding IsEnabled, Converter={StaticResource VisibleConverter}}" Grid.Row="7" Grid.Column="1" Padding="5"></TextBlock>
 
 
-                <TextBox x:Name="totalPriceWithoutTaxBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="" Grid.Row="3" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-                <TextBox x:Name="totalExciseAmountBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="" Grid.Row="4" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-                <TextBox x:Name="totalTurnoverSizeBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="" Grid.Row="5" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-                <TextBox x:Name="totalNdsAmountBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="" Grid.Row="6" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-                <TextBox x:Name="totalPriceWithTaxBox" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="" Grid.Row="7" Grid.Column="1" Padding="5" Visibility ="Collapsed"></TextBox>
-
-
-            </Grid>
+                <TextBox x:Name="totalPriceWithoutTaxBox" Text="{Binding Invoice.productSet.totalPriceWithoutTax}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="3" Grid.Column="1" Padding="5" Visibility="{Binding IsEditable, Converter={StaticResource VisibleConverter}}"></TextBox>
+                <TextBox x:Name="totalExciseAmountBox" Text="{Binding  Invoice.productSet.totalExciseAmount}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="4" Grid.Column="1" Padding="5" Visibility ="{Binding IsEditable, Converter={StaticResource VisibleConverter}}"></TextBox>
+                <TextBox x:Name="totalTurnoverSizeBox" Text="{Binding  Invoice.productSet.totalTurnoverSize}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="5" Grid.Column="1" Padding="5" Visibility ="{Binding IsEditable, Converter={StaticResource VisibleConverter}}"></TextBox>
+                <TextBox x:Name="totalNdsAmountBox" Text="{Binding  Invoice.productSet.totalNdsAmount}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="6" Grid.Column="1" Padding="5" Visibility ="{Binding IsEditable, Converter={StaticResource VisibleConverter}}"></TextBox>
+                <TextBox x:Name="totalPriceWithTaxBox" Text="{Binding  Invoice.productSet.totalPriceWithTax}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="7" Grid.Column="1" Padding="5" Visibility ="{Binding IsEditable, Converter={StaticResource VisibleConverter}}"></TextBox>
+          </Grid>
         </DockPanel>
     </Border>
 </UserControl>

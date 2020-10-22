@@ -68,5 +68,43 @@ namespace OneMoreTryWPF.Facades
 			}
 			return statuses;
 		}
+
+		internal static string GetNewInvoiceNum()
+		{
+			return "666";
+		}
+
+		internal static string GetOperatorFullName()
+		{
+			return "Operator Viktotorovich";
+		}
+
+		internal static DateTime GetTurnoverDate()
+		{
+			return DateTime.Now;
+		}
+
+		internal static ObservableCollection<CustomerV2> GetCustomers()
+		{
+			ObservableCollection<CustomerV2> customers = new ObservableCollection<CustomerV2>();
+			CustomerV2 customer = new CustomerV2();
+			customers.Add(customer);
+			return customers;
+		}
+
+		internal static ProductSetV2 GetProductSet()
+		{
+			ProductSetV2 set = new ProductSetV2();
+			set.products = SessionDataManagerFacade.GetRandomProducts();
+			return set;
+		}
+
+		internal static ObservableCollection<SellerV2> GetSellers()
+		{
+			ObservableCollection <SellerV2> sellers = new ObservableCollection<SellerV2>();
+			SellerV2 seller = new SellerV2();
+			sellers.Add(seller);
+			return sellers;
+		}
 	}
 }

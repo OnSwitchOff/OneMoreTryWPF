@@ -57,8 +57,20 @@
     <Compile Include="Converters\CustomerStatusToStringConverter.cs" />
     <Compile Include="Converters\SellerStatusToStringConverter.cs" />
     <Compile Include="ENUMs\CustomerType.cs" />
+    <Compile Include="ENUMs\InvoiceType.cs" />
+    <Compile Include="ENUMs\NdsRateType.cs" />
+    <Compile Include="ENUMs\PaperReasonType.cs" />
     <Compile Include="ENUMs\SellerType.cs" />
+    <Compile Include="Models\ConsigneeV2.cs" />
+    <Compile Include="Models\Consignor.cs" />
     <Compile Include="Models\CustomerV2.cs" />
+    <Compile Include="Models\DeliveryTermV2.cs" />
+    <Compile Include="Models\InvoiceV2.cs" />
+    <Compile Include="Models\ParticipantV2.cs" />
+    <Compile Include="Models\ProductSetV2.cs" />
+    <Compile Include="Models\ProductShare.cs" />
+    <Compile Include="Models\PublicOffice.cs" />
+    <Compile Include="Models\RelatedInvoice.cs" />
     <Compile Include="Models\SellerV2.cs" />
     <Compile Include="Models\UserStatus.cs" />
     <Compile Include="RelayCommand.cs" />
@@ -105,7 +117,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ProductSetViewModel.cs" />
+    <Compile Include="Models\InvoiceViewModel.cs" />
     <Compile Include="Models\ProductV2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

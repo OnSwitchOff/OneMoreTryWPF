@@ -23,7 +23,7 @@ namespace OneMoreTryWPF
 		public MainWindow()
 		{
 			InitializeComponent();
-			DataContext = new ProductSetViewModel();
+			DataContext = new InvoiceViewModel();
 		}
 
 		private void StackPanel_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -49,7 +49,7 @@ namespace OneMoreTryWPF
 			{
 				if (Keyboard.IsKeyDown(Key.G))
 				{
-					((ProductSetViewModel)DataContext).GodMode = !((ProductSetViewModel)DataContext).GodMode;
+					((InvoiceViewModel)DataContext).GodMode = !((InvoiceViewModel)DataContext).GodMode;
 				}
 			}
 		}		

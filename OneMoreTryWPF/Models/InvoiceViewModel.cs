@@ -8,16 +8,38 @@ using System.Text;
 
 namespace OneMoreTryWPF.Models
 {
-	public class ProductSetViewModel: INotifyPropertyChanged
+	public class InvoiceViewModel: INotifyPropertyChanged
 	{
-		public ObservableCollection<ProductV2> Products { get; set; }
+		//public ObservableCollection<ProductV2> Products { get; set; }
 
+		private InvoiceV2 invoice;
+		private ProductSetV2 productSet;
 		private SellerV2 seller;
 		private CustomerV2 customer;
 		private ProductV2 selectedProduct;
 		private bool isEditable;
-		private bool godMode;		
-		
+		private bool godMode;
+
+
+		public InvoiceV2 Invoice
+		{
+			get { return invoice; }
+			set
+			{
+				invoice = value;
+				OnPropertyChanged("Invoice");
+			}
+		}
+
+		public ProductSetV2 ProductSet
+		{
+			get { return productSet; }
+			set
+			{
+				productSet = value;
+				OnPropertyChanged("ProductSet");
+			}
+		}
 
 		public SellerV2 Seller
 		{
@@ -69,11 +91,13 @@ namespace OneMoreTryWPF.Models
 		}
 
 
-		public ProductSetViewModel()
+		public InvoiceViewModel()
 		{
-			Products = SessionDataManagerFacade.GetRandomProducts();
-			Seller = new SellerV2();
-			Customer = new CustomerV2();
+			Invoice = new InvoiceV2();
+			//ProductSet = new ProductSetV2();
+			//ProductSet.products = SessionDataManagerFacade.GetRandomProducts();
+			//Seller = new SellerV2();
+			//Customer = new CustomerV2();
 			IsEditable = false;
 			GodMode = false;
 		}
@@ -94,8 +118,8 @@ namespace OneMoreTryWPF.Models
 				  {
 					  ProductV2 product = new ProductV2();
 					  product.truOriginCode = 3;
-					  product.rowNumber = Products.Count + 1;
-					  Products.Add(product);
+					  product.rowNumber = Invoice.productSet.products.Count + 1;
+					  Invoice.productSet.products.Add(product);
 					  SelectedProduct = product;
 				  }));
 			}
@@ -111,19 +135,19 @@ namespace OneMoreTryWPF.Models
 				  {
 						while(selectedProduct!=null)
 						{
-							Products.Remove(SelectedProduct);
+						  Invoice.productSet.products.Remove(SelectedProduct);
 							ReCalcRowNumbers();
 						}
 				  },
-				  (obj)=>Products.Count>0));
+				  (obj)=> Invoice.productSet.products.Count>0));
 			}
 		}
 
 		private void ReCalcRowNumbers()
 		{
-			for (int i = 0; i < Products.Count; i++)
+			for (int i = 0; i < Invoice.productSet.products.Count; i++)
 			{
-				Products[i].rowNumber = i+1;
+				Invoice.productSet.products[i].rowNumber = i+1;
 			}
 		}
 	}

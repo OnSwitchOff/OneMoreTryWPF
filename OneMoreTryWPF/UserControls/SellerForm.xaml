@@ -21,7 +21,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <CheckBox x:Name="isGodMode" Visibility="Collapsed" IsChecked="{Binding GodMode}"/>
-            <Grid x:Name="sellerGrid" Margin="20" Visibility="Visible" DataContext="{Binding Seller}" Height="Auto" MinWidth="300" >
+            <Grid x:Name="sellerGrid" Margin="20" Visibility="Visible" DataContext="{Binding Invoice.sellers[0]}" Height="Auto" MinWidth="300" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="180"/>
                     <ColumnDefinition Width="*" MinWidth="120"/>
