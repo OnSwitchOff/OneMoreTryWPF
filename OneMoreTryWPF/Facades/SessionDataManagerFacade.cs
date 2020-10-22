@@ -49,7 +49,7 @@ namespace OneMoreTryWPF.Facades
 			{
 				UserStatus tmp = new UserStatus();
 				tmp.type = status;
-				tmp.isChecked = true;
+				tmp.isChecked = false;
 				statuses.Add(tmp);
 			}
 			return statuses;
@@ -63,7 +63,7 @@ namespace OneMoreTryWPF.Facades
 			{
 				UserStatus tmp = new UserStatus();
 				tmp.type = status;
-				tmp.isChecked = true;
+				tmp.isChecked = false;
 				statuses.Add(tmp);
 			}
 			return statuses;

@@ -77,6 +77,9 @@
     <Compile Include="UserControls\CustomerForm.xaml.cs">
       <DependentUpon>CustomerForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\InvoiceSummary.xaml.cs">
+      <DependentUpon>InvoiceSummary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ProductForm.xaml.cs">
       <DependentUpon>ProductForm.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\CustomerForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\InvoiceSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

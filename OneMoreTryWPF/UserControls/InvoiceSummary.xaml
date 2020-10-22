@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="OneMoreTryWPF.UserControls.InvoiceSummary"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OneMoreTryWPF.UserControls"
+             xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="required" Color="Green" Opacity="0.3"/>
+        <SolidColorBrush x:Key="optional" Color="Orange" Opacity="0.3"/>
+        <SolidColorBrush x:Key="ignored"  Color="DarkGray" Opacity="0.5"/>
+        <converter:CustomerStatusToStringConverter x:Key="StatusConverter"/>
+        <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
+    </UserControl.Resources>
+    <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
+        <Grid Margin="20" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <CheckBox x:Name="isGodMode" Visibility="Collapsed" IsChecked="{Binding GodMode}"/>
+            <Grid  Visibility="Visible"  Height="Auto" Width="Auto" Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Дата выписки ЭСФ" Grid.Row="0"></TextBlock>
+                <TextBlock Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Исходящий номер ЭСФ в бухгалтерии отправителя" Grid.Row="1"></TextBlock>
+                <TextBlock Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="ФИО оператора отправившего ЭСФ" Grid.Row="2"></TextBlock>
+                <TextBlock Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Дата совершения оборота" Grid.Row="3"></TextBlock>
+
+                <TextBox Padding="5,0" Margin="2"  TextWrapping="Wrap"  IsEnabled="{Binding IsEditable}"  VerticalAlignment="Center" Text="{Binding Invoice.date}" Grid.Row="0" Grid.Column="1"></TextBox>
+                <TextBox Padding="5,0" Margin="2"  TextWrapping="Wrap"  IsEnabled="{Binding IsEditable}"  VerticalAlignment="Center" Text="{Binding Invoice.num}" Grid.Row="1" Grid.Column="1"></TextBox>
+                <TextBox Padding="5,0" Margin="2"  TextWrapping="Wrap"  IsEnabled="{Binding IsEditable}"  VerticalAlignment="Center" Text="{Binding Invoice.operatorFullname}" Grid.Row="2" Grid.Column="1"></TextBox>
+                <TextBox Padding="5,0" Margin="2"  TextWrapping="Wrap"  IsEnabled="{Binding IsEditable}"  VerticalAlignment="Center" Text="{Binding Invoice.turnoverDate}" Grid.Row="3" Grid.Column="1"></TextBox>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

@@ -72,17 +72,18 @@
             <ScrollViewer>
                 <Grid x:Name="contentPanel" Height="Auto" VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" MinWidth="300"/>
+                        <ColumnDefinition Width="*"  MinWidth="300"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <uc:SellerForm x:Name="Seller" Padding="5" Height="Auto" Grid.Row="0" Grid.Column="0" MinWidth="300"/>
-                    <uc:CustomerForm x:Name="Customer" Padding="5" Height="Auto" Grid.Row="0" Grid.Column="1" MinWidth="300"/>
-                    <uc:ProductsDataGrid x:Name="ProductSet" Padding="5" Height="Auto" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <uc:InvoiceSummary x:Name="InvoiceSummary" Padding="5" Height="Auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" MinWidth ="600"/>
+                    <uc:SellerForm x:Name="Seller" Padding="5" Height="Auto" Grid.Row="1" Grid.Column="0" MinWidth="300"/>
+                    <uc:CustomerForm x:Name="Customer" Padding="5" Height="Auto" Grid.Row="1" Grid.Column="1" MinWidth="300"/>
+                    <uc:ProductsDataGrid x:Name="ProductSet" Padding="5" Height="Auto" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
                 </Grid>
             </ScrollViewer>                     
         </DockPanel>
