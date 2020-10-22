@@ -41,11 +41,25 @@ namespace OneMoreTryWPF.Facades
 			return list;
 		}
 
-		internal static ObservableCollection<UserStatus> GetRandomStatuses()
+		internal static ObservableCollection<UserStatus> GetRandomSellerStatuses()
 		{
 			ObservableCollection<UserStatus> statuses = new ObservableCollection<UserStatus>();
 
 			foreach (SellerType status in (SellerType[])Enum.GetValues(typeof(SellerType)))
+			{
+				UserStatus tmp = new UserStatus();
+				tmp.type = status;
+				tmp.isChecked = true;
+				statuses.Add(tmp);
+			}
+			return statuses;
+		}
+
+		internal static ObservableCollection<UserStatus> GetRandomCustomerStatuses()
+		{
+			ObservableCollection<UserStatus> statuses = new ObservableCollection<UserStatus>();
+
+			foreach (CustomerType status in (CustomerType[])Enum.GetValues(typeof(CustomerType)))
 			{
 				UserStatus tmp = new UserStatus();
 				tmp.type = status;

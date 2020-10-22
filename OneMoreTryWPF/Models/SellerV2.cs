@@ -149,8 +149,8 @@ namespace OneMoreTryWPF.Models
 
 		//Доля участия (B 7.1)-
 		//fractionDigits value="6", totalDigits value="18"
-		private float ShareParticipation;
-		public float shareParticipation
+		private float? ShareParticipation;
+		public float? shareParticipation
 		{
 			get { return ShareParticipation; }
 			set
@@ -199,7 +199,7 @@ namespace OneMoreTryWPF.Models
 
 		public SellerV2()
 		{
-			statuses = SessionDataManagerFacade.GetRandomStatuses();
+			statuses = SessionDataManagerFacade.GetRandomSellerStatuses();
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

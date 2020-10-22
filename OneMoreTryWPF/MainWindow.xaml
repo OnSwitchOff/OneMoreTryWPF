@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
         xmlns:local="clr-namespace:OneMoreTryWPF"
         xmlns:uc="clr-namespace:OneMoreTryWPF.UserControls"
+         xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
+        Title="MainWindow" Height="800" Width="1100" MinWidth="1100" KeyDown="Window_KeyDown">
     <Window.Resources>
         <RadialGradientBrush x:Key="redLed" RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.5">
             <GradientStop Color="PaleGoldenrod" Offset="0"/>
@@ -22,6 +23,7 @@
             <GradientStop Color="Silver" Offset="0.5"/>
             <GradientStop Color="Transparent" Offset="0.5"/>
         </RadialGradientBrush>
+        <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -61,15 +63,28 @@
             </ToolBar>
             <StatusBar x:Name="mainStatusBar" Background="Transparent" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
             </StatusBar>
-            <DockPanel x:Name="leftPanel" DockPanel.Dock="Left" VerticalAlignment="Stretch">
-                <uc:SellerForm x:Name="Seller" Padding="5" Height="Auto"/>
+            <DockPanel x:Name="leftPanel" DockPanel.Dock="Left" VerticalAlignment="top" LastChildFill="False">
+                
             </DockPanel>
             <DockPanel x:Name="rightPanel" DockPanel.Dock="Right" VerticalAlignment="top" LastChildFill="False">
                 <uc:ProductForm x:Name="Product" Padding="5" Height="Auto" />
             </DockPanel>
-            <Grid x:Name="contentPanel" Height="Auto" VerticalAlignment="Top">
-                <uc:ProductsDataGrid x:Name="ProductSet" Padding="5" Height="Auto"/>
-            </Grid>            
+            <ScrollViewer>
+                <Grid x:Name="contentPanel" Height="Auto" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <uc:SellerForm x:Name="Seller" Padding="5" Height="Auto" Grid.Row="0" Grid.Column="0" MinWidth="300"/>
+                    <uc:CustomerForm x:Name="Customer" Padding="5" Height="Auto" Grid.Row="0" Grid.Column="1" MinWidth="300"/>
+                    <uc:ProductsDataGrid x:Name="ProductSet" Padding="5" Height="Auto" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                </Grid>
+            </ScrollViewer>                     
         </DockPanel>
     </Border>
 </Window>

@@ -67,11 +67,11 @@
                         <DataGridTextColumn Header="Дополнительные данные" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="110" Binding="{Binding Path=additional}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBlock Text="totalPriceWithoutTax" Grid.Row="3" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="totalExciseAmount" Grid.Row="4" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="totalTurnoverSize" Grid.Row="5" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="totalNdsAmount" Grid.Row="6" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="totalPriceWithTax" Grid.Row="7" Grid.Column="0" Padding="5"></TextBlock>
+                <TextBlock Text="Итоговая стоимость ТРУ без учета НДС" Grid.Row="3" Grid.Column="0" Padding="5"></TextBlock>
+                <TextBlock Text="Итоговая Акциз-Сумма" Grid.Row="4" Grid.Column="0" Padding="5"></TextBlock>
+                <TextBlock Text="Итоговый размер оборота по реализации" Grid.Row="5" Grid.Column="0" Padding="5"></TextBlock>
+                <TextBlock Text="Итоговая НДС-Сумма" Grid.Row="6" Grid.Column="0" Padding="5"></TextBlock>
+                <TextBlock Text="Итоговая стоимость ТРУ с учетом НДС" Grid.Row="7" Grid.Column="0" Padding="5"></TextBlock>
 
                 <TextBlock x:Name="totalPriceWithoutTaxBlock" Text="{Binding ElementName=totalPriceWithoutTaxBox,Path=Text}" Grid.Row="3" Grid.Column="1" Padding="5"></TextBlock>
                 <TextBlock x:Name="totalExciseAmountBlock" Text="{Binding ElementName=totalExciseAmountBox,Path=Text}" Grid.Row="4" Grid.Column="1" Padding="5"></TextBlock>

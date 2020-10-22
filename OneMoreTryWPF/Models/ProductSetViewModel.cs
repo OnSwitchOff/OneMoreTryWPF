@@ -13,6 +13,7 @@ namespace OneMoreTryWPF.Models
 		public ObservableCollection<ProductV2> Products { get; set; }
 
 		private SellerV2 seller;
+		private CustomerV2 customer;
 		private ProductV2 selectedProduct;
 		private bool isEditable;
 		private bool godMode;		
@@ -25,6 +26,16 @@ namespace OneMoreTryWPF.Models
 			{
 				seller = value;
 				OnPropertyChanged("Seller");
+			}
+		}
+
+		public CustomerV2 Customer
+		{
+			get { return customer; }
+			set
+			{
+				customer = value;
+				OnPropertyChanged("Customer");
 			}
 		}
 
@@ -62,8 +73,9 @@ namespace OneMoreTryWPF.Models
 		{
 			Products = SessionDataManagerFacade.GetRandomProducts();
 			Seller = new SellerV2();
-			isEditable = false;
-			godMode = false;
+			Customer = new CustomerV2();
+			IsEditable = false;
+			GodMode = false;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

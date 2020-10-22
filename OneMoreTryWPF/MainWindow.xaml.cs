@@ -52,6 +52,6 @@ namespace OneMoreTryWPF
 					((ProductSetViewModel)DataContext).GodMode = !((ProductSetViewModel)DataContext).GodMode;
 				}
 			}
-		}
+		}		
 	}
 }

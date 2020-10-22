@@ -9,8 +9,8 @@ namespace OneMoreTryWPF.Models
 {
 	public class UserStatus : INotifyPropertyChanged
 	{
-		private SellerType Type;
-		public SellerType type
+		private object Type;
+		public object type
 		{
 			get { return Type; }
 			set
