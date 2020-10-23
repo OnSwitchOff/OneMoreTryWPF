@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,6 +55,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\InvoiceService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\LocalService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\SessionService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\UploadInvoiceService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BoolConverters.cs" />
     <Compile Include="Converters\CustomerStatusToStringConverter.cs" />
     <Compile Include="Converters\SellerStatusToStringConverter.cs" />
@@ -61,6 +83,12 @@
     <Compile Include="ENUMs\NdsRateType.cs" />
     <Compile Include="ENUMs\PaperReasonType.cs" />
     <Compile Include="ENUMs\SellerType.cs" />
+    <Compile Include="ENUMs\SessionStatusType.cs" />
+    <Compile Include="Facades\ConfigManagerFacade.cs" />
+    <Compile Include="Facades\InvoiceServiceOperationsFacade.cs" />
+    <Compile Include="Facades\LocalServiceOperationFacade.cs" />
+    <Compile Include="Facades\SessionServiceOperationsFacade.cs" />
+    <Compile Include="Facades\UploadInvoiceServiceOperationFacade.cs" />
     <Compile Include="Models\ConsigneeV2.cs" />
     <Compile Include="Models\Consignor.cs" />
     <Compile Include="Models\CustomerV2.cs" />
@@ -143,6 +171,62 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Connected Services\InvoiceService\InvoiceService.wsdl" />
+    <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.DeleteInvoiceByIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.EnterpriseValidationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.InvoiceErrorByIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.InvoiceSummaryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.QueryInvoiceHistoryByIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.QueryInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.QueryInvoiceUpdateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.TryChangeStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LocalService\LocalService.wsdl" />
+    <None Include="Connected Services\LocalService\OneMoreTryWPF.LocalService.DocumentSignatureResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LocalService\OneMoreTryWPF.LocalService.ListSignatureResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LocalService\OneMoreTryWPF.LocalService.SignatureResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SessionService\OneMoreTryWPF.SessionService.closeSessionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SessionService\OneMoreTryWPF.SessionService.createSessionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SessionService\OneMoreTryWPF.SessionService.currentSessionStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SessionService\OneMoreTryWPF.SessionService.currentUserProfilesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SessionService\OneMoreTryWPF.SessionService.currentUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SessionService\SessionService.wsdl" />
+    <None Include="Connected Services\UploadInvoiceService\OneMoreTryWPF.UploadInvoiceService.SyncInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\UploadInvoiceService\UploadInvoiceService.wsdl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -161,6 +245,62 @@
     <Resource Include="Resources\images\purchase-order.png" />
     <Resource Include="Resources\images\unpin.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\InvoiceService\" />
+    <WCFMetadataStorage Include="Connected Services\LocalService\" />
+    <WCFMetadataStorage Include="Connected Services\SessionService\" />
+    <WCFMetadataStorage Include="Connected Services\UploadInvoiceService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\InvoiceService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\InvoiceService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\InvoiceService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LocalService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LocalService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LocalService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\SessionService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\SessionService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\SessionService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\UploadInvoiceService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\UploadInvoiceService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\UploadInvoiceService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

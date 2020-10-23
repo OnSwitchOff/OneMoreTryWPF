@@ -1,5 +1,8 @@
 ﻿using OneMoreTryWPF.ENUMs;
+using OneMoreTryWPF.InvoiceService;
 using OneMoreTryWPF.Models;
+using OneMoreTryWPF.SessionService;
+using OneMoreTryWPF.UploadInvoiceService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,6 +44,46 @@ namespace OneMoreTryWPF.Facades
 			return list;
 		}
 
+		internal static bool setInvoiceSignature(LocalService.SignatureResponse signatureResponse)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string[] getInvoiceBodies()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static LocalService.InvoiceIdWithReason[] getInvoiceIdWithReasonsList_LocalService()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getSignCertificatePin()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static bool setInvoiceSignatureIdWithReason(LocalService.ListSignatureResponse listSignatureResponse)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getSignCertificatePath()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static bool setInvoiceId(SyncInvoiceResponse syncInvoiceResponse)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static invoiceUploadInfo[] getInvoiceUploadInfoList()
+		{
+			throw new NotImplementedException();
+		}
+
 		internal static ObservableCollection<UserStatus> GetRandomSellerStatuses()
 		{
 			ObservableCollection<UserStatus> statuses = new ObservableCollection<UserStatus>();
@@ -55,6 +98,11 @@ namespace OneMoreTryWPF.Facades
 			return statuses;
 		}
 
+		internal static bool setInvoiceSignatureId(LocalService.ListSignatureResponse listSignatureResponse)
+		{
+			throw new NotImplementedException();
+		}
+
 		internal static ObservableCollection<UserStatus> GetRandomCustomerStatuses()
 		{
 			ObservableCollection<UserStatus> statuses = new ObservableCollection<UserStatus>();
@@ -67,6 +115,16 @@ namespace OneMoreTryWPF.Facades
 				statuses.Add(tmp);
 			}
 			return statuses;
+		}
+
+		internal static string getPassword()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getUserName()
+		{
+			throw new NotImplementedException();
 		}
 
 		internal static string GetNewInvoiceNum()
@@ -92,11 +150,41 @@ namespace OneMoreTryWPF.Facades
 			return customers;
 		}
 
+		internal static string getX509AuthCertificate()
+		{
+			throw new NotImplementedException();
+		}
+
 		internal static ProductSetV2 GetProductSet()
 		{
 			ProductSetV2 set = new ProductSetV2();
 			set.products = SessionDataManagerFacade.GetRandomProducts();
 			return set;
+		}
+
+		internal static void setSessionId(string sessionId)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getSessionId()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getSellerTin()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getCertificateNum()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getCertificateSeries()
+		{
+			throw new NotImplementedException();
 		}
 
 		internal static ObservableCollection<SellerV2> GetSellers()
@@ -105,6 +193,86 @@ namespace OneMoreTryWPF.Facades
 			SellerV2 seller = new SellerV2();
 			sellers.Add(seller);
 			return sellers;
+		}
+
+		internal static void clearSessionData()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static long[] getInvoiceIdList()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static InvoiceKey[] getinvoiceKeyList()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static InvoiceDirection getDirection()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static DateTime getlastEventDate()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static long getlastInvoiceId()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static int getlimit()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static bool getfullInfoOnStatusChange()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static QueryInvoiceCriteria getQueryInvoiceCriteria()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getInvoiceSignatureIdWithReason()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static bool isEmptySessionId()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getX509SignCertificate()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static InvoiceIdWithReason[] getInvoiceIdWithReasonsList_InvoiceService()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static string getInvoiceSignatureId()
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static void setCurrentUserData(User user)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal static void setCurrentUserProfilesData(profileInfo[] profileInfoList)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
