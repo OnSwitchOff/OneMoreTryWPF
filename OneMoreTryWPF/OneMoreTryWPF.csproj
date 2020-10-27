@@ -78,7 +78,9 @@
     </Compile>
     <Compile Include="Converters\BoolConverters.cs" />
     <Compile Include="Converters\CustomerStatusToStringConverter.cs" />
+    <Compile Include="Converters\DateToStringConverter.cs" />
     <Compile Include="Converters\InvoiceDirectionToStringConverter.cs" />
+    <Compile Include="Converters\InvoiceIdToStringConverter.cs" />
     <Compile Include="Converters\InvoiceStatusToStringConverter.cs" />
     <Compile Include="Converters\SellerStatusToStringConverter.cs" />
     <Compile Include="ENUMs\CustomerType.cs" />

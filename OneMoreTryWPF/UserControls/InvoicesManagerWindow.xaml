@@ -20,6 +20,8 @@
         <converter:InvoiceStatusToStringConverter x:Key="InvoiceStatusConverter"/>
         <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
         <converter:BoolInverter x:Key="BoolInverter"/>
+        <converter:DateToStringConverter x:Key="DateConverter"/>
+        <converter:InvoiceIdToStringConverter x:Key="InvoiceIdConverter"/>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -189,8 +191,8 @@
                             <DataGridTextColumn Header="Продавец" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding seller}"/>
                             <DataGridTextColumn Header="Покупатель" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding customer}"/>
                             <DataGridTextColumn Header="Сумма" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding totalPriceWithTax}"/>
-                            <DataGridTextColumn Header="Номер ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceId}"/>
-                            <DataGridTextColumn Header="Дата выписки ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding inputDate}"/>
+                            <DataGridTextColumn Header="Номер ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceId , Converter={StaticResource InvoiceIdConverter}}"/>
+                            <DataGridTextColumn Header="Дата выписки ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding inputDate, Converter={StaticResource DateConverter}}"/>
                             <DataGridTextColumn Header="Направление" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding direction , Converter={StaticResource InvoiceDirectionConverter}}"/>
                             <DataGridTextColumn Header="Статус ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceStatus, Converter={StaticResource InvoiceStatusConverter} }"/>
                             <DataGridTextColumn Header="Дополнительная информация" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding cancelReason}"/>

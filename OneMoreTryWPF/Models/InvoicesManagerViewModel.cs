@@ -29,7 +29,7 @@ namespace OneMoreTryWPF.Models
 					isCreated = selectedInvoice.invoiceStatus == InvoiceStatus.CREATED;
 					isFailed = selectedInvoice.invoiceStatus == InvoiceStatus.FAILED;
 					isDeclinable = selectedInvoice.invoice.invoiceType != ENUMs.InvoiceType.ORDINARY_INVOICE;
-					isCreatable = String.IsNullOrEmpty(selectedInvoice.invoiceId.ToString());
+					isCreatable = selectedInvoice.invoiceId == 0;
 				}				
 				OnPropertyChanged("SelectedInvoice");
 			}
@@ -267,13 +267,23 @@ namespace OneMoreTryWPF.Models
 				  {
 					  if(selectedInvoice !=null)
 					  {
+						  int index = InvoiceInfos.IndexOf(selectedInvoice);
+						  bool isDraft = selectedInvoice.invoiceStatus == InvoiceStatus.DRAFT;
 						  MainWindow mainWindow = new MainWindow(selectedInvoice);
 						  mainWindow.ShowDialog();
 						  MyInvoiceInfo invoiceI = new MyInvoiceInfo();
 						  invoiceI.invoice = ((InvoiceViewModel)mainWindow.DataContext).Invoice;
 						  invoiceI.invoiceStatus = InvoiceStatus.DRAFT;
 						  invoiceI.direction = InvoiceDirection.OUTBOUND;
-						  InvoiceInfos.Add(invoiceI);
+						  if (isDraft)
+						  {							  
+							  InvoiceInfos.Insert(index, invoiceI);
+							  InvoiceInfos.RemoveAt(index+1);							 
+						  }
+						  else
+						  {
+							  InvoiceInfos.Add(invoiceI);
+						  }						  
 					  }
 				  }));
 			}
