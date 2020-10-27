@@ -1,5 +1,6 @@
 ﻿using OneMoreTryWPF.ENUMs;
 using OneMoreTryWPF.InvoiceService;
+using OneMoreTryWPF.LocalService;
 using OneMoreTryWPF.Models;
 using OneMoreTryWPF.SessionService;
 using OneMoreTryWPF.UploadInvoiceService;
@@ -7,12 +8,109 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel.Channels;
 using System.Text;
+using System.Windows;
 
 namespace OneMoreTryWPF.Facades
 {
 	static class SessionDataManagerFacade
 	{
+		private static string sessionId;
+
+		private static string userTin = "760816300415";
+		private static string userPassword = "Micr0!nvest";
+		private static string userAuthCertPath = @"C:\Users\viktor.kassov\source\repos\ESF_kz\ESF_kz\bin\Debug\Сертификат\ИП Пинчук ВВ до 17.06.21\ИП Пинчук ВВ до 17.06.21\AUTH_RSA256_12fc440f2049f1b5b61765114f28e58ec67eccff.p12";
+		private static string userAuthCertPin = "Aa123456";
+		private static string userSignCertPath = @"C:\Users\viktor.kassov\source\repos\ESF_kz\ESF_kz\bin\Debug\Сертификат\ИП Пинчук ВВ до 17.06.21\ИП Пинчук ВВ до 17.06.21\RSA256_af8e6f8be023a8cc035198522a70ca7203a7059a.p12";
+		private static string userSignCertPin = "Aa123456";
+		private static User currentUser;
+		private static profileInfo[] profileInfoList;
+
+		private static InvoiceV2 currentInvoice;
+		private static long currentInvoiceId;
+		private static string currentReason;
+
+		private static string invoiceSignature;
+		private static string invoiceSignatureId;
+		private static string invoiceSignatureIdWithReason;
+
+		private static InvoiceDirection invoiceDirection;
+		private static DateTime lastEventDate;
+		private static long lastInvoiceId;
+		private static int limit;
+
+		
+
+		private static bool fullInfoOnStatusChange;
+		private static bool asc;
+		private static DateTime dateTo;
+		private static DateTime dateFrom;
+
+		private static long[] selectedIdList;
+
+
+		//QueryInvoice parameters
+		private static QueryInvoiceCriteria queryInvoiceCriteria;
+
+		internal static void setCriteria(Criteria criteria)
+		{
+			queryInvoiceCriteria = new QueryInvoiceCriteria();
+			queryInvoiceCriteria.dateTo = criteria.dateTo;
+			queryInvoiceCriteria.dateFrom = criteria.dateFrom;
+			queryInvoiceCriteria.direction = criteria.direction;
+
+			List<InvoiceStatus> invoiceStatuses = new List<InvoiceStatus>();
+
+			if (criteria.isCreated)
+			{
+				invoiceStatuses.Add(InvoiceStatus.CREATED);
+			}
+			if(criteria.isDelivered)
+			{
+				invoiceStatuses.Add(InvoiceStatus.DELIVERED);
+			}
+			if (criteria.isCanceled)
+			{
+				invoiceStatuses.Add(InvoiceStatus.CREATED);
+			}
+			if (criteria.isRevoked)
+			{
+				invoiceStatuses.Add(InvoiceStatus.REVOKED);
+			}
+			if (criteria.isImported)
+			{
+				invoiceStatuses.Add(InvoiceStatus.IMPORTED);
+			}
+			if (criteria.isFailed)
+			{
+				invoiceStatuses.Add(InvoiceStatus.FAILED);
+			}
+			if (criteria.isDeleted)
+			{
+				invoiceStatuses.Add(InvoiceStatus.DELETED);
+			}
+			if (criteria.isDeclined)
+			{
+				invoiceStatuses.Add(InvoiceStatus.DECLINED);
+			}
+			if (criteria.isDraft)
+			{
+				invoiceStatuses.Add(InvoiceStatus.DRAFT);
+			}
+			if (criteria.isCanceledByOGD)
+			{
+				invoiceStatuses.Add(InvoiceStatus.CANCELED_BY_OGD);
+			}
+
+			queryInvoiceCriteria.invoiceStatusList = invoiceStatuses.ToArray();
+
+			queryInvoiceCriteria.invoiceType = criteria.isOrdinary ? InvoiceService.InvoiceType.ORDINARY_INVOICE : criteria.isFixed ? InvoiceService.InvoiceType.FIXED_INVOICE : InvoiceService.InvoiceType.ADDITIONAL_INVOICE;
+		}
+
+
+
 		internal static ObservableCollection<ProductV2> GetRandomProducts()
 		{
 			ObservableCollection<ProductV2> list = new ObservableCollection<ProductV2>();
@@ -44,44 +142,122 @@ namespace OneMoreTryWPF.Facades
 			return list;
 		}
 
-		internal static bool setInvoiceSignature(LocalService.SignatureResponse signatureResponse)
+		internal static bool setInvoiceSignature(SignatureResponse signatureResponse)
 		{
-			throw new NotImplementedException();
+			invoiceSignature = signatureResponse.invoiceHashList[0].signature;
+			return true;
 		}
 
 		internal static string[] getInvoiceBodies()
 		{
-			throw new NotImplementedException();
+			string[] invoiceBodies = { getInvoiceBodyString()};
+			return invoiceBodies;
+		}
+
+		private static string getInvoiceBodyString()
+		{
+			return ParsingManager.getInvoiceBodyString(getCurrentInvoice());
+		}
+
+		private static InvoiceV2 getCurrentInvoice()
+		{
+			return currentInvoice;
+		}
+
+		private static void setCurrentInvoice(InvoiceV2 invoice)
+		{
+			currentInvoice = invoice;
 		}
 
 		internal static LocalService.InvoiceIdWithReason[] getInvoiceIdWithReasonsList_LocalService()
 		{
-			throw new NotImplementedException();
+			LocalService.InvoiceIdWithReason invoiceIdWithReason = new LocalService.InvoiceIdWithReason();
+			invoiceIdWithReason.id = getInvoiceId();
+			invoiceIdWithReason.reason = getReason();
+			LocalService.InvoiceIdWithReason[] invoiceIdWithReasonsList = { invoiceIdWithReason };
+			return invoiceIdWithReasonsList;
+		}
+
+		private static string getReason()
+		{
+			return currentReason;
+		}
+
+		internal static bool setReason(string reason)
+		{
+			currentReason = reason;
+			return true;
+		}
+
+		private static long getInvoiceId()
+		{
+			return currentInvoiceId;
 		}
 
 		internal static string getSignCertificatePin()
 		{
-			throw new NotImplementedException();
+			return userSignCertPin;
 		}
 
-		internal static bool setInvoiceSignatureIdWithReason(LocalService.ListSignatureResponse listSignatureResponse)
+		internal static bool setInvoiceSignatureIdWithReason(ListSignatureResponse listSignatureResponse)
 		{
-			throw new NotImplementedException();
+			invoiceSignatureIdWithReason = listSignatureResponse.signature;
+			return true;
 		}
 
 		internal static string getSignCertificatePath()
 		{
-			throw new NotImplementedException();
+			return userSignCertPath;
 		}
 
-		internal static bool setInvoiceId(SyncInvoiceResponse syncInvoiceResponse)
+		internal static bool setCurrentInvoiceId(long id)
 		{
-			throw new NotImplementedException();
+			currentInvoiceId = id;
+			return true;
+		}
+
+		internal static bool setCurrentInvoiceId(SyncInvoiceResponse syncInvoiceResponse)
+		{
+			if (syncInvoiceResponse.acceptedSet.Length > 0)
+			{
+				currentInvoiceId = syncInvoiceResponse.acceptedSet[0].id;
+				return true;
+			}
+			else
+			{
+				string str = "";
+				for (int i = 0; i < syncInvoiceResponse.declinedSet.Length; i++)
+				{
+					for (int j = 0; j < syncInvoiceResponse.declinedSet[i].errors.Length; j++)
+					{
+						str += syncInvoiceResponse.declinedSet[i].errors[j].text + "\n";
+					}
+					str += "\n";
+				}
+				MessageBox.Show(str);
+				return false;
+			}
 		}
 
 		internal static invoiceUploadInfo[] getInvoiceUploadInfoList()
 		{
-			throw new NotImplementedException();
+			invoiceUploadInfo InvoiceUploadInfo = new invoiceUploadInfo();
+			InvoiceUploadInfo.invoiceBody = getInvoiceBodyString();
+			InvoiceUploadInfo.version = ConfigManagerFacade.getESFVersion();
+			InvoiceUploadInfo.signature = getInvoiceSignature();
+			InvoiceUploadInfo.signatureType = getSignatureType();
+			invoiceUploadInfo[] invoiceUploadInfoList = { InvoiceUploadInfo };
+			return invoiceUploadInfoList;
+		}
+
+		private static UploadInvoiceService.SignatureType getSignatureType()
+		{
+			return UploadInvoiceService.SignatureType.COMPANY;
+		}
+
+		private static string getInvoiceSignature()
+		{
+			return invoiceSignature;
 		}
 
 		internal static ObservableCollection<UserStatus> GetRandomSellerStatuses()
@@ -98,9 +274,10 @@ namespace OneMoreTryWPF.Facades
 			return statuses;
 		}
 
-		internal static bool setInvoiceSignatureId(LocalService.ListSignatureResponse listSignatureResponse)
+		internal static bool setInvoiceSignatureId(ListSignatureResponse listSignatureResponse)
 		{
-			throw new NotImplementedException();
+			invoiceSignatureId = listSignatureResponse.signature;
+			return true;
 		}
 
 		internal static ObservableCollection<UserStatus> GetRandomCustomerStatuses()
@@ -119,12 +296,12 @@ namespace OneMoreTryWPF.Facades
 
 		internal static string getPassword()
 		{
-			throw new NotImplementedException();
+			return userPassword;
 		}
 
 		internal static string getUserName()
 		{
-			throw new NotImplementedException();
+			return userTin;
 		}
 
 		internal static string GetNewInvoiceNum()
@@ -152,7 +329,10 @@ namespace OneMoreTryWPF.Facades
 
 		internal static string getX509AuthCertificate()
 		{
-			throw new NotImplementedException();
+			X509Certificate2 userAuthCertX509 = new X509Certificate2();
+			userAuthCertX509.Import(System.IO.File.ReadAllBytes(userAuthCertPath), userAuthCertPin, X509KeyStorageFlags.MachineKeySet);
+			string userAuthCertString = System.Convert.ToBase64String(userAuthCertX509.GetRawCertData());
+			return userAuthCertString;
 		}
 
 		internal static ProductSetV2 GetProductSet()
@@ -162,29 +342,29 @@ namespace OneMoreTryWPF.Facades
 			return set;
 		}
 
-		internal static void setSessionId(string sessionId)
+		internal static void setSessionId(string id)
 		{
-			throw new NotImplementedException();
+			sessionId = id;
 		}
 
 		internal static string getSessionId()
-		{
-			throw new NotImplementedException();
+		{			
+			return sessionId;
 		}
 
-		internal static string getSellerTin()
+		internal static string getUserTin()
 		{
-			throw new NotImplementedException();
+			return userTin;
 		}
 
 		internal static string getCertificateNum()
 		{
-			throw new NotImplementedException();
+			return currentUser.taxpayer.certificateNum;
 		}
 
 		internal static string getCertificateSeries()
 		{
-			throw new NotImplementedException();
+			return currentUser.taxpayer.certificateSeries;
 		}
 
 		internal static ObservableCollection<SellerV2> GetSellers()
@@ -202,77 +382,126 @@ namespace OneMoreTryWPF.Facades
 
 		internal static long[] getInvoiceIdList()
 		{
-			throw new NotImplementedException();
+			long[] idList = getSelectedIdList();
+			return idList;
+		}
+
+		private static long[] getSelectedIdList()
+		{
+			return selectedIdList;
+		}
+
+		internal static void setSelectedIdList(long[] list)
+		{
+			selectedIdList = list;
 		}
 
 		internal static InvoiceKey[] getinvoiceKeyList()
 		{
-			throw new NotImplementedException();
+			InvoiceKey invoiceKey = new InvoiceKey();
+			invoiceKey.date = currentInvoice.date;
+			invoiceKey.num = currentInvoice.num;
+			InvoiceKey[] keyList = { invoiceKey };
+			return keyList;
 		}
 
 		internal static InvoiceDirection getDirection()
 		{
-			throw new NotImplementedException();
+			return invoiceDirection;
+		}
+
+		internal static void SetDirection(InvoiceDirection direction)
+		{
+			invoiceDirection = direction;
 		}
 
 		internal static DateTime getlastEventDate()
 		{
-			throw new NotImplementedException();
+			return lastEventDate;
 		}
 
 		internal static long getlastInvoiceId()
 		{
-			throw new NotImplementedException();
+			return lastInvoiceId;
 		}
 
 		internal static int getlimit()
 		{
-			throw new NotImplementedException();
+			return limit;
 		}
 
 		internal static bool getfullInfoOnStatusChange()
 		{
-			throw new NotImplementedException();
+			return fullInfoOnStatusChange;
 		}
 
 		internal static QueryInvoiceCriteria getQueryInvoiceCriteria()
 		{
+			return queryInvoiceCriteria;
+		}
+
+		private static InvoiceService.InvoiceStatus[] getInvoiceStatusList()
+		{
 			throw new NotImplementedException();
+		}
+
+		private static bool getAsc()
+		{
+			return asc;
+		}
+
+		private static DateTime getDateTo()
+		{
+			return dateTo;
+		}
+
+		private static DateTime getDateFrom()
+		{
+			return dateFrom;
 		}
 
 		internal static string getInvoiceSignatureIdWithReason()
 		{
-			throw new NotImplementedException();
+			return invoiceSignatureIdWithReason;
 		}
 
 		internal static bool isEmptySessionId()
 		{
-			throw new NotImplementedException();
+			return String.IsNullOrEmpty(sessionId);
 		}
 
 		internal static string getX509SignCertificate()
 		{
-			throw new NotImplementedException();
+			X509Certificate2 userSignCertX509 = new X509Certificate2();
+			userSignCertX509.Import(System.IO.File.ReadAllBytes(userSignCertPath), userSignCertPin, X509KeyStorageFlags.MachineKeySet);
+			string userSignCertString = Convert.ToBase64String(userSignCertX509.GetRawCertData());
+			return userSignCertString;
 		}
 
-		internal static InvoiceIdWithReason[] getInvoiceIdWithReasonsList_InvoiceService()
+		internal static InvoiceService.InvoiceIdWithReason[] getInvoiceIdWithReasonsList_InvoiceService()
 		{
-			throw new NotImplementedException();
+			InvoiceService.InvoiceIdWithReason invoiceIdWithReason = new InvoiceService.InvoiceIdWithReason();
+			invoiceIdWithReason.id = getInvoiceId();
+			invoiceIdWithReason.reason = getReason();
+			InvoiceService.InvoiceIdWithReason[] invoiceIdWithReasonsList = { invoiceIdWithReason };
+			return invoiceIdWithReasonsList;
 		}
 
 		internal static string getInvoiceSignatureId()
 		{
-			throw new NotImplementedException();
+			return invoiceSignatureId;
 		}
 
 		internal static void setCurrentUserData(User user)
 		{
-			throw new NotImplementedException();
+			currentUser = user;
 		}
 
-		internal static void setCurrentUserProfilesData(profileInfo[] profileInfoList)
+		internal static void setCurrentUserProfilesData(profileInfo[] profileInfo)
 		{
-			throw new NotImplementedException();
+			profileInfoList = profileInfo;
 		}
+
+		
 	}
 }

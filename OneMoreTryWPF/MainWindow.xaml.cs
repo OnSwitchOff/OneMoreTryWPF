@@ -26,6 +26,14 @@ namespace OneMoreTryWPF
 			DataContext = new InvoiceViewModel();
 		}
 
+		public MainWindow(MyInvoiceInfo myInvoiceInfo)
+		{
+			InitializeComponent();
+			InvoiceViewModel viewModel = new InvoiceViewModel();
+			viewModel.Invoice = myInvoiceInfo.invoice;
+			DataContext = viewModel;
+		}
+
 		private void StackPanel_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 

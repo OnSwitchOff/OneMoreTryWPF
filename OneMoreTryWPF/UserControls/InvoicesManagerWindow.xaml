@@ -1,0 +1,203 @@
+﻿<Window x:Class="OneMoreTryWPF.UserControls.InvoicesManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:InvoiceService="clr-namespace:OneMoreTryWPF.InvoiceService"
+        xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:OneMoreTryWPF.UserControls"
+        mc:Ignorable="d"
+        Title="InvoicesManagerWindow" Height="900" Width="1200">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="InvoiceService:InvoiceDirection"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <converter:InvoiceDirectionToStringConverter x:Key="InvoiceDirectionConverter"/>
+        <converter:InvoiceStatusToStringConverter x:Key="InvoiceStatusConverter"/>
+        <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
+        <converter:BoolInverter x:Key="BoolInverter"/>
+    </Window.Resources>
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="SteelBlue" Offset="0"/>
+            <GradientStop Color="White" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Border BorderThickness="2" VerticalAlignment="Stretch">
+        <Border.BorderBrush>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="SteelBlue" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <DockPanel x:Name="mainPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
+            <Grid Name="mainToolbar" DockPanel.Dock="Top"  VerticalAlignment="Top" Height="30" Background="#FFEEF5FD">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="btnConfirmInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreated}" Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="0" Command="{Binding ConfirmCommand}" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Source="/OneMoreTryWPF;component/Resources/images/confirm.png" Width="20" Height="20"></Image>
+                        <TextBlock Text="Подтвердить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnDeclineInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isDeclinable}"  Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="1" Command="{Binding DeclineCommand}" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Source="/OneMoreTryWPF;component/Resources/images/decline.png" Width="20" Height="20"></Image>
+                        <TextBlock Text="Отклонить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnCreateInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreatable}"  Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="2" Command="{Binding CreateCommand}" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Source="/OneMoreTryWPF;component/Resources/images/create.png" Width="20" Height="20"></Image>
+                        <TextBlock Text="Создать ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnRevokeInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreated}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="3" Command="{Binding RevokeCommand}" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Source="/OneMoreTryWPF;component/Resources/images/revoke.png" Width="20" Height="20"></Image>
+                        <TextBlock Text="Отозвать созданный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnDeleteInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isFailed}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="4" Command="{Binding DeleteCommand}" >
+                    <StackPanel Orientation="Horizontal" >
+                        <Image Source="/OneMoreTryWPF;component/Resources/images/delete.png" Width="20" Height="20"></Image>
+                        <TextBlock Text="Удалить ошибочный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+            <StatusBar x:Name="mainStatusBar" Background="Transparent" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+            </StatusBar>
+            <DockPanel x:Name="leftPanel" DockPanel.Dock="Left" VerticalAlignment="top" LastChildFill="False">
+
+            </DockPanel>
+            <DockPanel x:Name="rightPanel" Background="#FFEEF5FD" DockPanel.Dock="Right" VerticalAlignment="Stretch" LastChildFill="False">
+                <Grid x:Name="criteria" VerticalAlignment="Top" Margin="20" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition  Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Text="Дата от" Grid.Row="0" Padding="5" TextWrapping="Wrap"  VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <DatePicker Margin="0,5" Grid.Column="1" Grid.Row="0" SelectedDate="{Binding Criteria.dateFrom}">
+                    </DatePicker>
+
+                    <TextBlock Text="Дата до" Grid.Row="1" Padding="5" TextWrapping="Wrap"  VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <DatePicker Margin="0,5" Grid.Column="1" Grid.Row="1" SelectedDate="{Binding Criteria.dateTo}">
+                    </DatePicker>
+
+                    <Button x:Name="btnGetOperationByDates" Content="Загрузить продажи" Margin="5" Padding="4" Background="#FFEEF5FD" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding GetInvoicesByCriteriaCommand}"/>
+
+                    <TextBlock Text="Направление" Padding="5"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="3"/>
+                    <ComboBox  Margin="0,5" x:Name="direction" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="3" SelectedItem="{Binding Criteria.direction, Converter={StaticResource InvoiceDirectionConverter}, Mode=TwoWay}">
+                        <System:String>Входящие</System:String>
+                        <System:String>Исходящие</System:String>
+                    </ComboBox>
+
+                    <GroupBox Header="Тип ЭСФ" Grid.Row="4" Padding="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                        <UniformGrid Rows="3" Grid.Column="1" Grid.Row="4" >
+                            <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isOrdinary}" Content="Основной"/>
+                            <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isFixed}" Content="Исправленный"/>
+                            <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isAdditional}" Content="Дополнительный"/>
+                        </UniformGrid>
+                    </GroupBox>
+
+
+                    <GroupBox Header="Статус ЭСФ" Grid.Row="5" Padding="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                        <Grid  Grid.Column="1" Grid.Row="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isCreated}" Content="Созданный" Grid.Row="0"/>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isDelivered}" Content="Доставленный" Grid.Row="1"/>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isCanceled}" Content="Аннулированный" Grid.Row="2"/>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isCanceledByOGD}" Grid.Row="3">
+                                <TextBlock Text="Аннулирован ИС ЭСФ для отнесения в зачет и на вычеты" TextWrapping="Wrap"/>
+                            </CheckBox>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isRevoked}" Content="Отозванный" Grid.Row="4"/>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isImported}" Content="Импортированный" Grid.Row="5"/>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isDraft}" Content="Черновик" Grid.Row="6"/>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isFailed}" Content="Ошибочный" Grid.Row="7"/>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isDeleted}" Content="Удаленный" Grid.Row="8"/>
+                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isDeclined}" Content="Отклоненный" Grid.Row="9"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <Button x:Name="btnGetInvoices" Content="Загрузить ЭСФ" Margin="5" Padding="4" Background="#FFEEF5FD" Grid.Column="0" Grid.Row="6" Command="{Binding GetInvoicesByCriteriaCommand}"/>
+                </Grid>
+                    
+                
+            </DockPanel>
+            <ScrollViewer HorizontalAlignment="Stretch" Width="Auto">
+                <Grid x:Name="contentPanel" Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="Invoices" ItemsSource="{Binding InvoiceInfos}" IsReadOnly="True" SelectedItem="{Binding SelectedInvoice}" Grid.Row="0" Grid.ColumnSpan="2" Height="Auto" SelectionMode="Single" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding SelectedItemDoubleClickCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <DataGrid.Resources>
+                            <Style x:Key="WrappedColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Center" ></TextBlock>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Дата продажи" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding turnoverDate}"/>
+                            <DataGridTextColumn Header="Номер продажи" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding turnoverNum}"/>
+                            <DataGridTextColumn Header="Продавец" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding seller}"/>
+                            <DataGridTextColumn Header="Покупатель" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding customer}"/>
+                            <DataGridTextColumn Header="Сумма" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding totalPriceWithTax}"/>
+                            <DataGridTextColumn Header="Номер ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceId}"/>
+                            <DataGridTextColumn Header="Дата выписки ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding inputDate}"/>
+                            <DataGridTextColumn Header="Направление" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding direction , Converter={StaticResource InvoiceDirectionConverter}}"/>
+                            <DataGridTextColumn Header="Статус ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceStatus, Converter={StaticResource InvoiceStatusConverter} }"/>
+                            <DataGridTextColumn Header="Дополнительная информация" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding cancelReason}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>                
+            </ScrollViewer>
+        </DockPanel>
+    </Border>
+</Window>

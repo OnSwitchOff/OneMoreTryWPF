@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace OneMoreTryWPF.Converters
 {
-	class CustomerStatusToStringConverter : IValueConverter
+	public class CustomerStatusToStringConverter : IValueConverter
 	{
 		public object Convert(object status, Type targetType, object parameter, CultureInfo culture)
 		{

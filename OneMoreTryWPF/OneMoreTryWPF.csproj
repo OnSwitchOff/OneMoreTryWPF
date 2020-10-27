@@ -38,6 +38,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,6 +78,8 @@
     </Compile>
     <Compile Include="Converters\BoolConverters.cs" />
     <Compile Include="Converters\CustomerStatusToStringConverter.cs" />
+    <Compile Include="Converters\InvoiceDirectionToStringConverter.cs" />
+    <Compile Include="Converters\InvoiceStatusToStringConverter.cs" />
     <Compile Include="Converters\SellerStatusToStringConverter.cs" />
     <Compile Include="ENUMs\CustomerType.cs" />
     <Compile Include="ENUMs\InvoiceType.cs" />
@@ -87,13 +90,18 @@
     <Compile Include="Facades\ConfigManagerFacade.cs" />
     <Compile Include="Facades\InvoiceServiceOperationsFacade.cs" />
     <Compile Include="Facades\LocalServiceOperationFacade.cs" />
+    <Compile Include="Facades\ParsingManager.cs" />
     <Compile Include="Facades\SessionServiceOperationsFacade.cs" />
     <Compile Include="Facades\UploadInvoiceServiceOperationFacade.cs" />
     <Compile Include="Models\ConsigneeV2.cs" />
     <Compile Include="Models\Consignor.cs" />
+    <Compile Include="Models\Criteria.cs" />
     <Compile Include="Models\CustomerV2.cs" />
     <Compile Include="Models\DeliveryTermV2.cs" />
+    <Compile Include="Models\InvoiceContainerV2.cs" />
+    <Compile Include="Models\InvoicesManagerViewModel.cs" />
     <Compile Include="Models\InvoiceV2.cs" />
+    <Compile Include="Models\MyInvoiceInfo.cs" />
     <Compile Include="Models\ParticipantV2.cs" />
     <Compile Include="Models\ProductSetV2.cs" />
     <Compile Include="Models\ProductShare.cs" />
@@ -105,6 +113,9 @@
     <Compile Include="UserControls\CustomerForm.xaml.cs">
       <DependentUpon>CustomerForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\InvoicesManagerWindow.xaml.cs">
+      <DependentUpon>InvoicesManagerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\InvoiceSummary.xaml.cs">
       <DependentUpon>InvoiceSummary.xaml</DependentUpon>
     </Compile>
@@ -113,6 +124,9 @@
     </Compile>
     <Compile Include="UserControls\ProductsDataGrid.xaml.cs">
       <DependentUpon>ProductsDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ReasonWindow.xaml.cs">
+      <DependentUpon>ReasonWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SellerForm.xaml.cs">
       <DependentUpon>SellerForm.xaml</DependentUpon>
@@ -134,6 +148,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\InvoicesManagerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\InvoiceSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ProductsDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ReasonWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -301,6 +323,21 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\decline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\confirm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\create.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\revoke.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

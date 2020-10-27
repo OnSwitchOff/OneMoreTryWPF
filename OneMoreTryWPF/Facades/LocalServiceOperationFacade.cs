@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace OneMoreTryWPF.Facades
 {
@@ -32,8 +33,9 @@ namespace OneMoreTryWPF.Facades
 				SignatureResponse signatureResponse = getServiceClient().generateSignature(signatureRequest);
 				return SessionDataManagerFacade.setInvoiceSignature(signatureResponse); ;
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
+				MessageBox.Show(e.Message);
 				return false;
 			}
 		}
@@ -51,8 +53,9 @@ namespace OneMoreTryWPF.Facades
 				listSignatureResponse = getServiceClient().signIdWithReasonList(listSignatureRequest);
 				return SessionDataManagerFacade.setInvoiceSignatureIdWithReason(listSignatureResponse);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
+				MessageBox.Show(e.Message);
 				return false;
 			}
 		}
@@ -64,15 +67,15 @@ namespace OneMoreTryWPF.Facades
 			listSignatureRequest.certificatePin = SessionDataManagerFacade.getSignCertificatePin();
 			listSignatureRequest.ids = SessionDataManagerFacade.getInvoiceIdList();
 
-
 			ListSignatureResponse listSignatureResponse;
 			try
 			{
 				listSignatureResponse = getServiceClient().signIdList(listSignatureRequest);
 				return SessionDataManagerFacade.setInvoiceSignatureId(listSignatureResponse);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
+				MessageBox.Show(e.Message);
 				return false;
 			}
 		}

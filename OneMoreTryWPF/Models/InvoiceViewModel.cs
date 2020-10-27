@@ -13,9 +13,9 @@ namespace OneMoreTryWPF.Models
 		//public ObservableCollection<ProductV2> Products { get; set; }
 
 		private InvoiceV2 invoice;
-		private ProductSetV2 productSet;
+		/*private ProductSetV2 productSet;
 		private SellerV2 seller;
-		private CustomerV2 customer;
+		private CustomerV2 customer;*/
 		private ProductV2 selectedProduct;
 		private bool isEditable;
 		private bool godMode;
@@ -31,7 +31,7 @@ namespace OneMoreTryWPF.Models
 			}
 		}
 
-		public ProductSetV2 ProductSet
+		/*public ProductSetV2 ProductSet
 		{
 			get { return productSet; }
 			set
@@ -39,9 +39,9 @@ namespace OneMoreTryWPF.Models
 				productSet = value;
 				OnPropertyChanged("ProductSet");
 			}
-		}
+		}*/
 
-		public SellerV2 Seller
+		/*public SellerV2 Seller
 		{
 			get { return seller; }
 			set
@@ -49,9 +49,9 @@ namespace OneMoreTryWPF.Models
 				seller = value;
 				OnPropertyChanged("Seller");
 			}
-		}
+		}*/
 
-		public CustomerV2 Customer
+		/*public CustomerV2 Customer
 		{
 			get { return customer; }
 			set
@@ -59,7 +59,7 @@ namespace OneMoreTryWPF.Models
 				customer = value;
 				OnPropertyChanged("Customer");
 			}
-		}
+		}*/
 
 		public ProductV2 SelectedProduct
 		{

@@ -60,7 +60,7 @@ namespace OneMoreTryWPF.Facades
 			enterpriseValidationRequest.sessionId = SessionDataManagerFacade.getSessionId();
 
 			EnterpriseKey enterpriseKey = new EnterpriseKey();
-			enterpriseKey.tin = SessionDataManagerFacade.getSellerTin();
+			enterpriseKey.tin = SessionDataManagerFacade.getUserTin();
 			enterpriseKey.certificateNum = SessionDataManagerFacade.getCertificateNum();
 			enterpriseKey.certificateSeries = SessionDataManagerFacade.getCertificateSeries();
 			EnterpriseKey[] enterpriseKeyList = { enterpriseKey };
@@ -193,21 +193,22 @@ namespace OneMoreTryWPF.Facades
 			}
 		}
 
-		static public bool QueryInvoice()
+		static public bool QueryInvoice(out QueryInvoiceResponse queryInvoiceResponse)
 		{
 			QueryInvoiceRequest queryInvoiceRequest = new QueryInvoiceRequest();
 			queryInvoiceRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			queryInvoiceRequest.criteria = SessionDataManagerFacade.getQueryInvoiceCriteria();
 
-			QueryInvoiceResponse queryInvoiceResponse1;
+
 			try
 			{
-				queryInvoiceResponse1 = getServiceClient().queryInvoice(queryInvoiceRequest);
+				queryInvoiceResponse = getServiceClient().queryInvoice(queryInvoiceRequest);
 				return true;
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message);
+				queryInvoiceResponse = null;
 				return true;
 			}
 		}

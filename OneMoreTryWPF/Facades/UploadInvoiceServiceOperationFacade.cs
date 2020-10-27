@@ -32,7 +32,7 @@ namespace OneMoreTryWPF.Facades
 			try
 			{
 				syncInvoiceResponse = getServiceClient().syncInvoice(syncInvoiceRequest);
-				return SessionDataManagerFacade.setInvoiceId((SyncInvoiceResponse)syncInvoiceResponse);
+				return SessionDataManagerFacade.setCurrentInvoiceId((SyncInvoiceResponse)syncInvoiceResponse);
 
 			}
 			catch (Exception e)
