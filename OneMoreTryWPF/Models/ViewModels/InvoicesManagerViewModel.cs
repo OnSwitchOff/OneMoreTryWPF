@@ -1,4 +1,8 @@
-﻿using OneMoreTryWPF.Facades;
+﻿using Microinvest.Common;
+using MicroinvestUtilityCenter;
+using MicroinvestUtilityCenter.Managers;
+using MicroinvestUtilityCenter.Operations;
+using OneMoreTryWPF.Facades;
 using OneMoreTryWPF.InvoiceService;
 using OneMoreTryWPF.LocalService;
 using OneMoreTryWPF.UserControls;
@@ -8,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace OneMoreTryWPF.Models
 {
@@ -26,7 +31,7 @@ namespace OneMoreTryWPF.Models
 				{
 					isInbound = selectedInvoice.direction == InvoiceDirection.INBOUND;
 					isOutbound = selectedInvoice.direction == InvoiceDirection.OUTBOUND;
-					isCreated = selectedInvoice.invoiceStatus == InvoiceStatus.CREATED;
+					isCreated = true;// selectedInvoice.invoiceStatus == InvoiceStatus.CREATED;
 					isFailed = selectedInvoice.invoiceStatus == InvoiceStatus.FAILED;
 					isDeclinable = selectedInvoice.invoice.invoiceType != ENUMs.InvoiceType.ORDINARY_INVOICE;
 					isCreatable = selectedInvoice.invoiceId == 0;
@@ -179,12 +184,22 @@ namespace OneMoreTryWPF.Models
 				return confirmCommand ??
 				  (confirmCommand = new RelayCommand(obj =>
 				  {
+
 					  long[] selectedIdList = { selectedInvoice.invoiceId };
 					  SessionDataManagerFacade.setSelectedIdList(selectedIdList);
 					  selectedInvoice.invoiceStatus = InvoiceServiceOperationsFacade.confirmInvoiceById() ? InvoiceStatus.DELIVERED:selectedInvoice.invoiceStatus;
+
+					  SessionDataManagerFacade.AddDeliveryToDB(SelectedInvoice);
+
 				  }));
 			}
 		}
+
+		
+
+
+
+
 
 		private RelayCommand declineCommand;
 		public RelayCommand DeclineCommand
@@ -288,6 +303,52 @@ namespace OneMoreTryWPF.Models
 				  }));
 			}
 		}
+
+
+		private RelayCommand createCommand;
+		public RelayCommand CreateCommand
+		{
+			get
+			{
+				return createCommand ??
+				  (createCommand = new RelayCommand(obj =>
+				  {
+					  if (selectedInvoice != null)
+					  {
+						  SessionDataManagerFacade.setCurrentInvoice(selectedInvoice.invoice);
+						  if (LocalServiceOperationFacade.GenerateInvoiceSignature())
+						  {
+							 if (UploadInvoiceServiceOperationFacade.SendInvoice())
+							 {
+								  selectedInvoice.invoiceStatus = InvoiceStatus.CREATED;
+								  isCreated = true;
+							 }
+						  }
+					  }
+				  }));
+			}
+		}
+
+		
+
+		private RelayCommand getOperationsByDatesCommand;
+		public RelayCommand GetOperationsByDatesCommand
+		{
+			get
+			{
+				return getOperationsByDatesCommand ??
+				  (getOperationsByDatesCommand = new RelayCommand(obj =>
+				  {
+					  InvoiceInfos.Clear();
+					  foreach (MyInvoiceInfo invoiceInfo in SessionDataManagerFacade.GetOperationsInfoList())
+					  {
+						  InvoiceInfos.Add(invoiceInfo);
+					  }				
+				  }));
+			}
+		}
+
+
 
 		public void ClearFlags()
 		{

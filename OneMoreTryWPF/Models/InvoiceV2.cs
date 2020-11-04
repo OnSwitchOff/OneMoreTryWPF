@@ -63,7 +63,7 @@ namespace OneMoreTryWPF.Models
 		}
 
 		//Служит для связки исправленного/дополнительного ЭСФ с основным
-		public RelatedInvoice RelatedInvoice;
+		private RelatedInvoice RelatedInvoice;
 		public RelatedInvoice relatedInvoice
 		{
 			get{ return RelatedInvoice; }
@@ -76,7 +76,7 @@ namespace OneMoreTryWPF.Models
 
 
 		//Дата совершения оборота (A 3)
-		public DateTime TurnoverDate;
+		private DateTime TurnoverDate;
 		[XmlElement("turnoverDate")]
 		public string turnoverDate
 		{
@@ -161,7 +161,7 @@ namespace OneMoreTryWPF.Models
 		}
 
 		//Реквизиты поверенного(оператора) покупателя.Поверенный(J 40)-
-		public string CustomerAgentName;
+		private string CustomerAgentName;
 		public string customerAgentName
 		{
 			get { return this.CustomerAgentName; }
@@ -173,7 +173,7 @@ namespace OneMoreTryWPF.Models
 		}
 
 		//Реквизиты поверенного (оператора) покупателя. БИН (J 39)-
-		public string CustomerAgentTin;
+		private string CustomerAgentTin;
 		public string customerAgentTin
 		{
 			get { return this.CustomerAgentTin; }
@@ -290,7 +290,7 @@ namespace OneMoreTryWPF.Models
 		}
 
 		//Документ-Дата (I 38.2)-
-		public DateTime SellerAgentDocDate;
+		private DateTime SellerAgentDocDate;
 		public string sellerAgentDocDate
 		{
 			get { return this.SellerAgentDocDate.ToString("dd.MM.yyyy"); }
@@ -327,7 +327,7 @@ namespace OneMoreTryWPF.Models
 		}
 
 		//БИН (I 35)-
-		public string SellerAgentTin;
+		private string SellerAgentTin;
 		public string sellerAgentTin
 		{
 			get { return SellerAgentTin; }

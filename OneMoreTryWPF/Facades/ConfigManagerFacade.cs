@@ -9,7 +9,14 @@ namespace OneMoreTryWPF.Facades
 	{
 		private static string InvoiceService_EndpointAddress = "https://test3.esf.kgd.gov.kz:8443/esf-web/ws/api1/InvoiceService?wsdl";
 		private static string SessionService_EndpointAddress = "https://test3.esf.kgd.gov.kz:8443/esf-web/ws/api1/SessionService?wsdl";
+		private static string LocalService_EndpointAddress = "http://localhost:6666/LocalService";
 		private static long InvoiceService_MaxReceivedMessageSize = 20000000;
+
+		internal static string getLocalService_EndpointAddress()
+		{
+			return LocalService_EndpointAddress;
+		}
+
 		private static int InvoiceService_MaxBufferSize = 20000000;
 		private static bool IsSessionServiceConfigChanged = false;
 		private static bool IsInvoiceServiceConfigChanged = false;

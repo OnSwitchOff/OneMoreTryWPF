@@ -14,14 +14,15 @@
         <converter:CustomerStatusToStringConverter x:Key="StatusConverter"/>
         <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
     </UserControl.Resources>
-    <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
-        <Grid Margin="20" >
+    <Border CornerRadius="0" Background="#FFEEF5FD"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             <CheckBox x:Name="isGodMode" Visibility="Collapsed" IsChecked="{Binding GodMode}"/>
-            <Grid x:Name="CustomerGrid" Visibility="Visible" DataContext="{Binding Invoice.customers[0]}" Height="Auto" MinWidth="300" Grid.Row="1" >
+            <TextBlock Text="Покупатель" Padding="25,5" FontSize="16" Background="#FF8AA7D1" />
+            <Grid x:Name="CustomerGrid"  Margin="20" Visibility="Visible" DataContext="{Binding Invoice.customers[0]}" Height="Auto" MinWidth="300" Grid.Row="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="180"/>
                 <ColumnDefinition Width="*" MinWidth="120"/>

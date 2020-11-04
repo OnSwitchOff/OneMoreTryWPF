@@ -12,7 +12,7 @@
         <SolidColorBrush x:Key="optional" Color="Orange" Opacity="0.3"/>
         <SolidColorBrush x:Key="ignored"  Color="DarkGray" Opacity="0.5"/>
     </UserControl.Resources>
-    <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
+    <Border CornerRadius="0" Background="#FFEEF5FD"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
         <Grid x:Name="productGrid" Margin="20" Visibility="Visible" DataContext="{Binding SelectedProduct}" Height="Auto" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="180"/>

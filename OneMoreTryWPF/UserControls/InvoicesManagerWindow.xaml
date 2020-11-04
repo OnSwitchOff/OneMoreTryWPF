@@ -22,6 +22,62 @@
         <converter:BoolInverter x:Key="BoolInverter"/>
         <converter:DateToStringConverter x:Key="DateConverter"/>
         <converter:InvoiceIdToStringConverter x:Key="InvoiceIdConverter"/>
+        <LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFEEF5FD" Offset="0.0"/>
+                    <GradientStop Color="#FFEEF5FD" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="borderBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFA3AEB9" Offset="0.0"/>
+                    <GradientStop Color="#FF718597" Offset="0.375"/>
+                    <GradientStop Color="#FF617584" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFEEF5FD" />
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2"  Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource borderBrush}" BorderThickness="1" />
+                <Border Grid.Column="0" CornerRadius="2,0,0,2"  Margin="1" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource borderBrush}" BorderThickness="0,0,1,0" />
+                <Path  x:Name="Arrow" Grid.Column="1"   Fill="{StaticResource borderBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+            </Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
+            <Border x:Name="PART_ContentHost" Focusable="True" Background="{TemplateBinding Background}" />
+        </ControlTemplate>
+        <Style x:Key="{x:Type ComboBox}" TargetType="ComboBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press">
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}"  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"  Margin="3,3,23,3" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,3,23,3" Focusable="True" Background="Transparent" Visibility="Visible" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                                <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}"  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource borderBrush}" CornerRadius="2"  BorderThickness="1"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -46,31 +102,31 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="btnConfirmInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreated}" Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="0" Command="{Binding ConfirmCommand}" >
+                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnConfirmInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreated}" Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="0" Command="{Binding ConfirmCommand}" >
                     <StackPanel Orientation="Horizontal" >
                         <Image Source="/OneMoreTryWPF;component/Resources/images/confirm.png" Width="20" Height="20"></Image>
                         <TextBlock Text="Подтвердить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnDeclineInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isDeclinable}"  Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="1" Command="{Binding DeclineCommand}" >
+                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnDeclineInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isDeclinable}"  Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="1" Command="{Binding DeclineCommand}" >
                     <StackPanel Orientation="Horizontal" >
                         <Image Source="/OneMoreTryWPF;component/Resources/images/decline.png" Width="20" Height="20"></Image>
                         <TextBlock Text="Отклонить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnCreateInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreatable}"  Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="2" Command="{Binding CreateCommand}" >
+                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnCreateInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreatable}"  Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="2" Command="{Binding CreateCommand}" >
                     <StackPanel Orientation="Horizontal" >
                         <Image Source="/OneMoreTryWPF;component/Resources/images/create.png" Width="20" Height="20"></Image>
                         <TextBlock Text="Создать ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnRevokeInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreated}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="3" Command="{Binding RevokeCommand}" >
+                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnRevokeInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isFailed, Converter={StaticResource BoolInverter}}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="3" Command="{Binding RevokeCommand}" >
                     <StackPanel Orientation="Horizontal" >
                         <Image Source="/OneMoreTryWPF;component/Resources/images/revoke.png" Width="20" Height="20"></Image>
                         <TextBlock Text="Отозвать созданный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnDeleteInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isFailed}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="4" Command="{Binding DeleteCommand}" >
+                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnDeleteInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isFailed}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="4" Command="{Binding DeleteCommand}" >
                     <StackPanel Orientation="Horizontal" >
                         <Image Source="/OneMoreTryWPF;component/Resources/images/delete.png" Width="20" Height="20"></Image>
                         <TextBlock Text="Удалить ошибочный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
@@ -104,9 +160,10 @@
 
                     <TextBlock Text="Дата до" Grid.Row="1" Padding="5" TextWrapping="Wrap"  VerticalAlignment="Center" HorizontalAlignment="Left" />
                     <DatePicker Margin="0,5" Grid.Column="1" Grid.Row="1" SelectedDate="{Binding Criteria.dateTo}">
+                        
                     </DatePicker>
 
-                    <Button x:Name="btnGetOperationByDates" Content="Загрузить продажи" Margin="5" Padding="4" Background="#FFEEF5FD" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding GetInvoicesByCriteriaCommand}"/>
+                    <Button x:Name="btnGetOperationByDates" Content="Загрузить продажи" Margin="5" Padding="4" BorderBrush="{StaticResource borderBrush}" Background="#FFEEF5FD" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding GetOperationsByDatesCommand}"/>
 
                     <TextBlock Text="Направление" Padding="5"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="3"/>
                     <ComboBox  Margin="0,5" x:Name="direction" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="3" SelectedItem="{Binding Criteria.direction, Converter={StaticResource InvoiceDirectionConverter}, Mode=TwoWay}">
@@ -114,7 +171,7 @@
                         <System:String>Исходящие</System:String>
                     </ComboBox>
 
-                    <GroupBox Header="Тип ЭСФ" Grid.Row="4" Padding="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                    <GroupBox BorderBrush="{StaticResource borderBrush}"  Header="Тип ЭСФ" Grid.Row="4" Padding="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
                         <UniformGrid Rows="3" Grid.Column="1" Grid.Row="4" >
                             <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isOrdinary}" Content="Основной"/>
                             <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isFixed}" Content="Исправленный"/>
@@ -123,7 +180,7 @@
                     </GroupBox>
 
 
-                    <GroupBox Header="Статус ЭСФ" Grid.Row="5" Padding="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                    <GroupBox BorderBrush="{StaticResource borderBrush}"  Header="Статус ЭСФ" Grid.Row="5" Padding="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
                         <Grid  Grid.Column="1" Grid.Row="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -152,12 +209,12 @@
                         </Grid>
                     </GroupBox>
 
-                    <Button x:Name="btnGetInvoices" Content="Загрузить ЭСФ" Margin="5" Padding="4" Background="#FFEEF5FD" Grid.Column="0" Grid.Row="6" Command="{Binding GetInvoicesByCriteriaCommand}"/>
+                    <Button x:Name="btnGetInvoices" Content="Загрузить ЭСФ" Margin="5" Padding="4" BorderBrush="{StaticResource borderBrush}" Background="#FFEEF5FD" Grid.Column="0" Grid.Row="6" Command="{Binding GetInvoicesByCriteriaCommand}"/>
                 </Grid>
                     
                 
             </DockPanel>
-            <ScrollViewer HorizontalAlignment="Stretch" Width="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Width="Auto">
                 <Grid x:Name="contentPanel" Height="Auto">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -191,7 +248,7 @@
                             <DataGridTextColumn Header="Продавец" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding seller}"/>
                             <DataGridTextColumn Header="Покупатель" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding customer}"/>
                             <DataGridTextColumn Header="Сумма" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding totalPriceWithTax}"/>
-                            <DataGridTextColumn Header="Номер ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceId , Converter={StaticResource InvoiceIdConverter}}"/>
+                            <DataGridTextColumn Header="Номер ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceNumber}"/>
                             <DataGridTextColumn Header="Дата выписки ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding inputDate, Converter={StaticResource DateConverter}}"/>
                             <DataGridTextColumn Header="Направление" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding direction , Converter={StaticResource InvoiceDirectionConverter}}"/>
                             <DataGridTextColumn Header="Статус ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceStatus, Converter={StaticResource InvoiceStatusConverter} }"/>

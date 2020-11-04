@@ -13,15 +13,17 @@
         <SolidColorBrush x:Key="ignored"  Color="DarkGray" Opacity="0.5"/>
         <converter:CustomerStatusToStringConverter x:Key="StatusConverter"/>
         <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
+        
     </UserControl.Resources>
-    <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
-        <Grid Margin="20" >
+    <Border CornerRadius="0" Background="#FFEEF5FD"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <CheckBox x:Name="isGodMode" Visibility="Collapsed" IsChecked="{Binding GodMode}"/>
-            <Grid  Visibility="Visible"  Height="Auto" Width="Auto" Grid.Row="1" >
+            <TextBlock Text="Общая информация" Padding="25,5" FontSize="16" Background="#FF8AA7D1" />
+            <Grid  Visibility="Visible"  Height="Auto" Margin="20" Width="Auto" Grid.Row="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>

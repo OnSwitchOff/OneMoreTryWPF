@@ -1,4 +1,7 @@
-﻿using OneMoreTryWPF.ENUMs;
+﻿using Microinvest.Common;
+using MicroinvestUtilityCenter;
+using MicroinvestUtilityCenter.Operations;
+using OneMoreTryWPF.ENUMs;
 using OneMoreTryWPF.InvoiceService;
 using OneMoreTryWPF.LocalService;
 using OneMoreTryWPF.Models;
@@ -7,21 +10,26 @@ using OneMoreTryWPF.UploadInvoiceService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Channels;
 using System.Text;
 using System.Windows;
+using static Microinvest.Common.CommonModule;
 
 namespace OneMoreTryWPF.Facades
 {
-	static class SessionDataManagerFacade
+	public static class SessionDataManagerFacade
 	{
 		private static string sessionId;
 
 		private static string userTin = "760816300415";
 		private static string userPassword = "Micr0!nvest";
 		private static string userAuthCertPath = @"C:\Users\viktor.kassov\source\repos\ESF_kz\ESF_kz\bin\Debug\Сертификат\ИП Пинчук ВВ до 17.06.21\ИП Пинчук ВВ до 17.06.21\AUTH_RSA256_12fc440f2049f1b5b61765114f28e58ec67eccff.p12";
+
+		
+
 		private static string userAuthCertPin = "Aa123456";
 		private static string userSignCertPath = @"C:\Users\viktor.kassov\source\repos\ESF_kz\ESF_kz\bin\Debug\Сертификат\ИП Пинчук ВВ до 17.06.21\ИП Пинчук ВВ до 17.06.21\RSA256_af8e6f8be023a8cc035198522a70ca7203a7059a.p12";
 		private static string userSignCertPin = "Aa123456";
@@ -43,12 +51,19 @@ namespace OneMoreTryWPF.Facades
 
 		
 
-		private static bool fullInfoOnStatusChange;
+		private static bool fullInfoOnStatusChange;		
+
 		private static bool asc;
 		private static DateTime dateTo;
 		private static DateTime dateFrom;
 
 		private static long[] selectedIdList;
+
+
+		private static DataTable Goods;
+		private static DataTable Partners;
+		private static DataTable Objects;
+
 
 
 		//QueryInvoice parameters
@@ -109,7 +124,33 @@ namespace OneMoreTryWPF.Facades
 			queryInvoiceCriteria.invoiceType = criteria.isOrdinary ? InvoiceService.InvoiceType.ORDINARY_INVOICE : criteria.isFixed ? InvoiceService.InvoiceType.FIXED_INVOICE : InvoiceService.InvoiceType.ADDITIONAL_INVOICE;
 		}
 
+		internal static void FillObjectsByGroup(ObjectGroup selectedGroup, ref ObservableCollection<Models.Object> result)
+		{
+			if (selectedGroup == null) return;
+			foreach (Models.Object item in selectedGroup.Objects)
+			{
+				result.Add(item);
+			}
+			if (selectedGroup.ObjectGr == null) return;
+			foreach (ObjectGroup item in selectedGroup.ObjectGr)
+			{
+				FillObjectsByGroup(item, ref result);
+			}
+		}
 
+		internal static void FillPartnersByGroup(PartnerGroup selectedGroup, ref ObservableCollection<Partner> result)
+		{
+			if (selectedGroup == null)	return;
+			foreach (Partner item in selectedGroup.Partners)
+			{
+				result.Add(item);
+			}
+			if (selectedGroup.PartnerGr == null) return;
+			foreach(PartnerGroup item in selectedGroup.PartnerGr)
+			{
+				FillPartnersByGroup(item, ref result);
+			}
+		}
 
 		internal static ObservableCollection<ProductV2> GetRandomProducts()
 		{
@@ -142,6 +183,8 @@ namespace OneMoreTryWPF.Facades
 			return list;
 		}
 
+		
+
 		internal static bool setInvoiceSignature(SignatureResponse signatureResponse)
 		{
 			invoiceSignature = signatureResponse.invoiceHashList[0].signature;
@@ -164,7 +207,7 @@ namespace OneMoreTryWPF.Facades
 			return currentInvoice;
 		}
 
-		private static void setCurrentInvoice(InvoiceV2 invoice)
+		internal static void setCurrentInvoice(InvoiceV2 invoice)
 		{
 			currentInvoice = invoice;
 		}
@@ -339,6 +382,7 @@ namespace OneMoreTryWPF.Facades
 		{
 			ProductSetV2 set = new ProductSetV2();
 			set.products = SessionDataManagerFacade.GetRandomProducts();
+			set.products = new ObservableCollection<ProductV2>();//SessionDataManagerFacade.GetRandomProducts();
 			return set;
 		}
 
@@ -502,6 +546,326 @@ namespace OneMoreTryWPF.Facades
 			profileInfoList = profileInfo;
 		}
 
+
+		internal static ObservableCollection<MyInvoiceInfo> GetOperationsInfoList()
+		{
+			ObservableCollection<MyInvoiceInfo> resultlist = new ObservableCollection<MyInvoiceInfo>();
+
+			var data = GlobalData.WHPro.dbApp.ExecuteDataset(
+				@"SELECT ot.RU as [operType] , FORMAT(o.Date,'dd.MM.yyyy') as [turnoverDate],  o.Acct as [num], 
+					u.Name2 as [operatorFullName],
+					p.Company2 as [customerName],  p.Address2 as [customerAddress], p.BankVATName as [bin],
+					d.InvoiceNumber as [invoiceNumber],d.Provider as [sellerName],
+					ROUND(SUM(o.Qtty*o.PriceOut),2) as [totalPriceWithoutTax],
+					ROUND(SUM(o.Qtty*o.VATOut),2) as [totalNdsAmount],
+					ROUND(SUM(o.Qtty*(o.PriceOut + o.VATOut)),2) as [totalPriceWithTax]
+				FROM Operations o
+					LEFT JOIN Documents d ON o.Acct = d.Acct
+					INNER JOIN OperationType ot ON o.OperType = ot.ID
+					INNER JOIN Users u ON o.OperatorID = u.ID 
+					INNER JOIN Partners p ON o.PartnerID = p.ID
+				WHERE o.Sign = -1 and o.Date > DATEADD(day,-30, GETDATE())
+				GROUP BY ot.RU,o.Date,o.Acct,u.Name2,p.Company2,p.Address2,p.BankVATName, d.InvoiceNumber,d.Provider"
+				);
+
+			foreach (DataRow row in data.Tables[0].Rows)
+			{
+				MyInvoiceInfo info = new MyInvoiceInfo();
+				InvoiceV2 invoice = new InvoiceV2();
+				info.invoice = invoice;
+				info.invoice.num = row["num"].ToString();
+				info.cancelReason = row["operType"].ToString();
+				/*object inv = row["invoiceNumber"];
+				info.invoiceId = inv == System.DBNull.Value ? 0 : long.Parse(inv.ToString());*/
+				info.invoiceNumber = row["invoiceNumber"].ToString();
+				info.turnoverDate = row["turnoverDate"].ToString();
+				info.totalPriceWithTax = float.Parse(row["totalPriceWithTax"].ToString());
+
+				info.customer = row["customerName"].ToString();
+				//info.customerTin = row["bin"].ToString();
+				//info.customerAddress = row["customerAddress"].ToString();
+				info.seller = row["sellerName"].ToString();
+
+				resultlist.Add(info);
+			}
+			return resultlist;
+		}
+
+
+		public static MIOperation SelectedOperType { get; set; } = MIOperation.NoOperation;
+
+		internal static WarehouseProOperation InitializeWHOperation()
+		{
+			WarehouseProOperation warehouseProOperation = null;
+
+
+			if (SelectedOperType == MIOperation.Purchase)
+			{
+				warehouseProOperation = new DeliveryOperation(GlobalData.WHPro);
+				((DeliveryOperation)warehouseProOperation).Init(GlobalData.WHPro.partners.Partner, GlobalData.WHPro.objects.Object);
+			}
+
+			if (SelectedOperType == MIOperation.Order)
+			{
+				warehouseProOperation = new OrderOperation(GlobalData.WHPro);
+				((OrderOperation)warehouseProOperation).Init(GlobalData.WHPro.partners.Partner, GlobalData.WHPro.objects.Object);
+			}
+
+			if (warehouseProOperation == null)
+			{
+				warehouseProOperation = new DeliveryOperation(GlobalData.WHPro);
+				((DeliveryOperation)warehouseProOperation).Init(GlobalData.WHPro.partners.Partner, GlobalData.WHPro.objects.Object);
+			}
+
+			return warehouseProOperation;
+		}
+
+		internal static int AddRetailerToDB(InvoiceV2 invoice)
+		{
+			SellerV2 seller = invoice.sellers[0];
+			CommonModule.TPartner partner = new CommonModule.TPartner();
+			partner.Address = seller.address;
+			partner.DisplayAddress = partner.Address;
+			partner.Company = seller.name;
+			partner.DisplayCompany = partner.Company;
+			partner.BankAcct = seller.iik;
+			partner.BankCode = seller.bik;
+			partner.BankName = seller.bank;
+			partner.Bulstat = seller.tin;
+			partner.Type = PartnerType.Supplier;
+			partner.PriceGroup = GoodPriceGroup.RetailPrice;
+			partner.GroupID = -1;
+			partner.Phone = string.Empty;
+			partner.DisplayPhone = partner.Phone;
+			partner.City = string.Empty;
+			partner.DisplayCity = partner.City;
+			partner.IsVeryUsed = false;
+			partner.Code = " ";
+			partner.MOL = " ";
+			partner.DisplayMOL = partner.MOL;
+			partner.TaxNo = " ";
+
+			GlobalData.WHPro.partners.Partner = partner;
+			GlobalData.WHPro.partners.Validate();
+			GlobalData.WHPro.partners.Add(true);
+			return GlobalData.WHPro.partners.Partner.ID;			
+		}
+
+
+		internal static bool AddDeliveryToDB(MyInvoiceInfo selectedInvoice)
+		{
+			WarehouseProOperation operation = SessionDataManagerFacade.InitializeWHOperation();
+			int addedGoodsCount = 0;
+			long acct = 0;
+
+			Goods = GlobalData.WHPro.goods.NomenclatureDataSet.Tables[0];
+			GlobalData.WHPro.partners.Load();
+			Partners = GlobalData.WHPro.partners.NomenclatureDataSet.Tables[0];
+			Objects = GlobalData.WHPro.objects.NomenclatureDataSet.Tables[0];
+
+			int PartnerID = getPartnerIdByName(selectedInvoice.seller);
+			if(PartnerID == 0)
+			{
+				SellerV2 seller = selectedInvoice.invoice.sellers[0];
+				CommonModule.TPartner partner = new CommonModule.TPartner();
+				partner.Address = seller.address;
+				partner.DisplayAddress = partner.Address;
+				partner.Company = seller.name;
+				partner.DisplayCompany = partner.Company;
+				partner.BankAcct = seller.iik;
+				partner.BankCode = seller.bik;
+				partner.BankName = seller.bank;
+				partner.Bulstat = seller.tin;	
+				partner.Type = PartnerType.Supplier ;
+				partner.PriceGroup = GoodPriceGroup.RetailPrice;
+				partner.GroupID = -1;
+				partner.Phone = string.Empty;
+				partner.DisplayPhone = partner.Phone;
+				partner.City = string.Empty;
+				partner.DisplayCity = partner.City;
+				partner.IsVeryUsed = false;
+				partner.Code = " ";
+				partner.MOL = " ";
+				partner.DisplayMOL = partner.MOL;
+				partner.TaxNo = " ";
+
+				GlobalData.WHPro.partners.Partner = partner;
+			    GlobalData.WHPro.partners.Validate();
+				GlobalData.WHPro.partners.Add(true);
+				PartnerID = GlobalData.WHPro.partners.Partner.ID;			
+			}
+
+			GlobalData.WHPro.objects.Find(1);
+			
+
+			operation.baseOperation.DocDate = DateTime.Now;
+			operation.baseOperation.OperatorID = 1;
+			operation.baseOperation.ObjectID = GlobalData.WHPro.objects.Object.ID;
+			operation.baseOperation.PartnerID = PartnerID;
+			//operation.Note = "declNumber";
+
+			int currentRow = 0;
+			foreach (ProductV2 product in selectedInvoice.invoice.productSet.products)
+			{
+				currentRow++;
+				bool needUpdate = false;
+				string excise = string.Empty;
+
+				int GoodID = product.truOriginCode>2?getGoodIdByName(product.description):getGoodIdByName(product.tnvedName);
+
+				CommonModule.TGood item = new CommonModule.TGood();
+
+				if (GoodID > 0)
+				{
+					GlobalData.WHPro.goods.Find(GoodID);
+					item = GlobalData.WHPro.goods.Good;
+				}
+
+				item.BarCode1 = string.Empty;
+
+				item.Measure1 = product.unitNomenclature;
+				item.Measure2 = string.Empty;
+				item.Ratio = 1;
+				item.Catalog3 = string.Empty;
+				item.Type = CommonModule.GoodType.Standard;
+				item.PriceIn = (double)product.unitPrice;
+
+				needUpdate = true;
+
+
+
+				if (GoodID == 0)
+				{
+					item.GroupID = -1;
+					item.Name = "GoodName";
+					item.DisplayName = item.Name;
+					item.Code = (GlobalData.WHPro.goods.GetMaxCode() + 1).ToString();
+
+					item.BarCode3 = " ";
+					item.Catalog1 = " ";
+					item.Catalog2 = " ";
+					item.Description = " ";
+
+
+
+					//Debug.Print("Barcode1 = " + item.BarCode1 + ", Barcode2 = " + item.BarCode2);
+
+
+					item.PriceIn = 20.5d;
+
+					item.VATGroupID = 1;
+					GlobalData.WHPro.goods.Good = item;
+					GlobalData.WHPro.goods.Validate();
+					GlobalData.WHPro.goods.Add(true);
+					GoodID = GlobalData.WHPro.goods.Good.ID;
+					needUpdate = false;
+					addedGoodsCount++;
+				}
+
+				if (needUpdate)
+				{
+					GlobalData.WHPro.goods.Good = item;
+					GlobalData.WHPro.goods.Edit();
+					needUpdate = false;
+				}
+				operation.AddByID(id: GoodID, qtty: 2, priceOut: 12.5, discount: 0, priceIn: 20);
+			}
+
+			if (operation.baseOperation.Validate())
+			{
+				//GlobalData.WHPro.dbApp.BeginTransaction();
+				if (operation.Save())
+				{
+					acct = operation.DocNumber;
+
+					foreach (ProductV2 product in selectedInvoice.invoice.productSet.products)
+					{
+						//GlobalData.WHPro.dbApp.ExecuteNonQuery()
+					}
+				}
+
+			}
+			return false;
+		}
+
+		public static int getPartnerIdByName(string seller)
+		{
+
+			DataRow[] rows = getPartners().Select(String.Format("Company = '{0}' OR Company2 = '{0}'", seller));
+			return rows.Length == 0? 0: (int)rows[0]["ID"];
+		}
+
+		public static int getGoodIdByName(string productName)
+		{
+			GlobalData.WHPro.dbApp.ExecuteDataset(@"SELECT * Good");
+			return 0;
+		}
+
+		internal static int SearchInPartners(SellerV2 seller)
+		{
+			if (seller.tin == null) return 0;
+			int id = getPartnerIdByTin(seller.tin);
+			if (id !=0)
+			{
+				return id;
+			}
+			return getPartnerIdByName(seller.name);
+		}
+
+		public static int getPartnerIdByTin(string tin)
+		{
+			DataRow[] rows = getPartners().Select(String.Format("Bulstat = '{0}' OR TaxNo = '{0}'  OR BankVATName = '{0}'", tin));
+			return rows.Length == 0 ? 0 : (int)rows[0]["ID"];
+		}
+
+		
+
+		public static DataTable getPartners()
+		{
+			if(Partners == null)
+			{
+				Partners = GlobalData.WHPro.partners.NomenclatureDataSet.Tables[0];
+			}
+			return Partners;			
+		}
+		public static DataTable getObjects()
+		{
+			if (Objects == null)
+			{
+				Objects = GlobalData.WHPro.objects.NomenclatureDataSet.Tables[0];
+			}
+			return Objects;
+		}
+
+		public static ObservableCollection<Partner> getPartnersByGroupId(int id)
+		{
+			ObservableCollection<Partner> result = new ObservableCollection<Partner>();
+			DataRow[] rows = getPartners().Select(String.Format("iif(GroupID<0,GroupID*-1,GroupID)={0} ", id));
+			foreach(DataRow row in rows)
+			{
+				Partner tmp = new Partner();
+				tmp.Id = (int)row["ID"];
+				tmp.Name = row["Company"].ToString();
+				result.Add(tmp);
+			}
+			return result;
+		}
+		internal static ObservableCollection<Models.Object> getObjectsByGroupId(int id)
+		{
+			ObservableCollection<Models.Object> result = new ObservableCollection<Models.Object>();
+			DataRow[] rows = getObjects().Select(String.Format("iif(GroupID<0,GroupID*-1,GroupID)={0} ", id));
+			foreach (DataRow row in rows)
+			{
+				Models.Object tmp = new Models.Object();
+				tmp.Id = (int)row["ID"];
+				tmp.Name = row["Name"].ToString();
+				result.Add(tmp);
+			}
+			return result;
+		}
+
 		
 	}
+
+	
 }

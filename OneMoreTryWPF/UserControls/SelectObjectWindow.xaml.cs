@@ -1,5 +1,4 @@
-﻿using OneMoreTryWPF.Facades;
-using OneMoreTryWPF.Models;
+﻿using OneMoreTryWPF.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,21 +15,19 @@ using System.Windows.Shapes;
 namespace OneMoreTryWPF.UserControls
 {
 	/// <summary>
-	/// Interaction logic for InvoicesManagerWindow.xaml
+	/// Interaction logic for SelectObjectWindow.xaml
 	/// </summary>
-	public partial class InvoicesManagerWindow : Window
+	public partial class SelectObjectWindow : Window
 	{
-		public InvoicesManagerWindow()
+		public SelectObjectWindow()
 		{
 			InitializeComponent();
-			DataContext = new InvoicesManagerViewModel();
-			SessionServiceOperationsFacade.StartSession();
+			DataContext = new SelectObjectViewModel();
 		}
 
-		private void Invoices_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			
+			this.DialogResult = true;
 		}
-		
 	}
 }

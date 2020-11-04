@@ -36,6 +36,18 @@ namespace OneMoreTryWPF.Models
 			}
 		}
 
+		private string InvoiceNumber;
+		public string invoiceNumber
+		{
+			get { return InvoiceNumber; }
+			set
+			{
+				InvoiceNumber = value;
+				OnPropertyChanged("InvoiceNumber");
+			}
+		}
+
+
 		private string TurnoverDate;
 		public string turnoverDate
 		{

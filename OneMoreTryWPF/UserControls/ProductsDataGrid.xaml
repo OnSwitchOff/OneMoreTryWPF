@@ -11,9 +11,10 @@
         <converter:BoolInverter x:Key="boolInverter"/>
         <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
     </UserControl.Resources>
-    <Border CornerRadius="20" Background="LightBlue"  BorderBrush="SteelBlue" BorderThickness="2" VerticalAlignment="Stretch">
+    <Border CornerRadius="0" Background="#FFEEF5FD" BorderBrush="SteelBlue" BorderThickness="2" VerticalAlignment="Stretch">
         <DockPanel>
-            <Grid  x:Name="topBar"  VerticalAlignment="Stretch" Background="LightBlue" DockPanel.Dock="Top" Margin="20" >
+            <TextBlock Text="Информация о товарах" Padding="25,5" FontSize="16" Background="#FF8AA7D1" DockPanel.Dock="Top" />
+            <Grid  x:Name="topBar"  VerticalAlignment="Stretch"  DockPanel.Dock="Top" Margin="20" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -32,7 +33,7 @@
                 <TextBlock Text="Курс валюты" Grid.Row="1" Grid.Column="0" Padding="5"></TextBlock>
                 <TextBox x:Name="currencyCodeBox" MinWidth="50" Width="Auto" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="{Binding  Invoice.productSet.currencyCode}" Grid.Row="0" Grid.Column="1" Padding="5" IsEnabled ="{Binding IsEditable}"></TextBox>
                 <TextBox x:Name="currencyRateBox" MinWidth="50" Width="Auto"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="{Binding  Invoice.productSet.currencyRate}" Grid.Row="1" Grid.Column="1" Padding="5" IsEnabled ="{Binding IsEditable}"></TextBox>
-                <DataGrid Name="products" IsReadOnly="{Binding IsEditable, Converter={StaticResource boolInverter}}" ItemsSource="{Binding Invoice.productSet.products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
+                <DataGrid Margin="0,20" Name="products" IsReadOnly="{Binding IsEditable, Converter={StaticResource boolInverter}}" ItemsSource="{Binding Invoice.productSet.products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
                     <DataGrid.Resources>
                         <Style x:Key="WrappedColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="ContentTemplate">

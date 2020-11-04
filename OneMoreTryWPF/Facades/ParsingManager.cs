@@ -21,6 +21,8 @@ namespace OneMoreTryWPF.Facades
 			return float.Parse(str);
 		}
 
+
+
 		internal static T ParseStringToEnum<T>(string str) where T : Enum
 		{
 			return (T)Enum.Parse(typeof(T), str);
@@ -35,13 +37,225 @@ namespace OneMoreTryWPF.Facades
 			XAttribute xV2 = new XAttribute(XNamespace.Xmlns + "v2", v2.NamespaceName);
 			XElement xInvoice = new XElement(v2 + "invoice", xA, xV2);
 
+			if (invoice.date != "01.01.0001")
+			{
+				XElement date = new XElement("date", invoice.date);
+				xInvoice.Add(date);
+			}
+
+			XElement invoiceType = new XElement("invoiceType", invoice.invoiceType);
+			xInvoice.Add(invoiceType);
+
+			if(!String.IsNullOrEmpty(invoice.num))
+			{
+				XElement num = new XElement("num", invoice.num);
+				xInvoice.Add(num);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.operatorFullname))
+			{
+				XElement operatorFullname = new XElement("operatorFullname", invoice.operatorFullname);
+				xInvoice.Add(operatorFullname);
+			}
+
+			if (invoice.relatedInvoice != null)
+			{
+				XElement relatedInvoice = GetRelatedInvoiceXElement(invoice.relatedInvoice);
+				xInvoice.Add(relatedInvoice);
+			}
+
+			if (invoice.turnoverDate != "01.01.0001")
+			{
+				XElement turnoverDate = new XElement("turnoverDate", invoice.turnoverDate);
+				xInvoice.Add(turnoverDate);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.addInf))
+			{
+				XElement addInf = new XElement("addInf", invoice.addInf);
+				xInvoice.Add(addInf);
+			}
+
+			if(invoice.consignee != null)
+			{
+				XElement consignee = GetConsigneeXElement(invoice.consignee);
+				xInvoice.Add(consignee);
+			}
+
+			if (invoice.consignor != null)
+			{
+				XElement consignor = GetConsignorXElement(invoice.consignor);
+				xInvoice.Add(consignor);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.customerAgentAddress))
+			{
+				XElement customerAgentAddress = new XElement("customerAgentAddress", invoice.customerAgentAddress);
+				xInvoice.Add(customerAgentAddress);
+			}
+
+			if (invoice.customerAgentDocDate != "01.01.0001")
+			{
+				XElement customerAgentDocDate = new XElement("customerAgentDocDate", invoice.customerAgentDocDate);
+				xInvoice.Add(customerAgentDocDate);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.customerAgentDocNum))
+			{
+				XElement customerAgentDocNum = new XElement("customerAgentDocNum", invoice.customerAgentDocNum);
+				xInvoice.Add(customerAgentDocNum);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.customerAgentName))
+			{
+				XElement customerAgentName = new XElement("customerAgentName", invoice.customerAgentName);
+				xInvoice.Add(customerAgentName);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.customerAgentTin))
+			{
+				XElement customerAgentTin = new XElement("customerAgentName", invoice.customerAgentTin);
+				xInvoice.Add(customerAgentTin);
+			}
+
+			if(invoice.customerParticipants != null)
+			{
+				if (invoice.customerParticipants.Count>0)
+				{
+					XElement customerParticipants = new XElement("customerParticipants");
+					foreach (ParticipantV2 participant  in invoice.customerParticipants)
+					{
+						XElement XParticipant = GetParticipantXElement(participant);
+						customerParticipants.Add(participant);
+					}
+					xInvoice.Add(customerParticipants);
+				}				
+			}
+
+			if (invoice.customers != null)
+			{
+				if (invoice.customers.Count > 0)
+				{
+					XElement customers = new XElement("customers");
+					foreach (CustomerV2 customer in invoice.customers)
+					{
+						XElement XCustomer = GetCustomerXElement(customer);
+						customers.Add(XCustomer);
+					}
+					xInvoice.Add(customers);
+				}
+			}
+
+			if (invoice.datePaper != "01.01.0001")
+			{
+				XElement datePaper = new XElement("datePaper", invoice.datePaper);
+				xInvoice.Add(datePaper);
+			}
+
+			if (invoice.deliveryDocDate != "01.01.0001")
+			{
+				XElement deliveryDocDate = new XElement("deliveryDocDate", invoice.deliveryDocDate);
+				xInvoice.Add(deliveryDocDate);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.deliveryDocNum))
+			{
+				XElement deliveryDocNum = new XElement("deliveryDocNum", invoice.deliveryDocNum);
+				xInvoice.Add(deliveryDocNum);
+			}
+
+			if(invoice.deliveryTerm != null)
+			{
+				XElement deliveryTerm = GetDeliveryTermXElement(invoice.deliveryTerm);
+				xInvoice.Add(deliveryTerm);
+			}
+
+			if(invoice.productSet != null)
+			{
+				XElement productSet = GetProductSetXElement(invoice.productSet);
+				xInvoice.Add(productSet);
+			}
+
+			if (invoice.publicOffice != null)
+			{
+				XElement publicOffice = GetPublicOfficeXElement(invoice.publicOffice);
+				xInvoice.Add(publicOffice);
+			}
+
+			if (invoice.reasonPaper !=null)
+			{
+				XElement reasonPaper = new XElement("reasonPaper", invoice.reasonPaper);
+				xInvoice.Add(reasonPaper);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.sellerAgentAddress))
+			{
+				XElement sellerAgentAddress = new XElement("sellerAgentAddress", invoice.sellerAgentAddress);
+				xInvoice.Add(sellerAgentAddress);
+			}
+
+			if (invoice.sellerAgentDocDate != "01.01.0001")
+			{
+				XElement sellerAgentDocDate = new XElement("sellerAgentDocDate", invoice.sellerAgentDocDate);
+				xInvoice.Add(sellerAgentDocDate);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.sellerAgentDocNum))
+			{
+				XElement sellerAgentDocNum = new XElement("sellerAgentDocNum", invoice.sellerAgentDocNum);
+				xInvoice.Add(sellerAgentDocNum);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.sellerAgentName))
+			{
+				XElement sellerAgentName = new XElement("sellerAgentName", invoice.sellerAgentName);
+				xInvoice.Add(sellerAgentName);
+			}
+
+			if (!String.IsNullOrEmpty(invoice.sellerAgentTin))
+			{
+				XElement sellerAgentTin = new XElement("sellerAgentTin", invoice.sellerAgentTin);
+				xInvoice.Add(sellerAgentTin);
+			}
+
+			if (invoice.sellerParticipants != null)
+			{
+				if (invoice.sellerParticipants.Count > 0)
+				{
+					XElement sellerParticipants = new XElement("sellerParticipants");
+					foreach (ParticipantV2 participant in invoice.sellerParticipants)
+					{
+						XElement XParticipant = GetParticipantXElement(participant);
+						sellerParticipants.Add(participant);
+					}
+					xInvoice.Add(sellerParticipants);
+				}
+			}
+
+			if (invoice.sellers != null)
+			{
+				if (invoice.sellers.Count > 0)
+				{
+					XElement sellers = new XElement("sellers");
+					foreach (SellerV2 seller in invoice.sellers)
+					{
+						XElement XSeller = GetSellerXElement(seller);
+						sellers.Add(XSeller);
+					}
+					xInvoice.Add(sellers);
+				}
+			}
+
 			//XElement num = new XElement("num", "123");
 			//xInvoice.Add(num);
 
-			foreach (FieldInfo fi in typeof(InvoiceV2).GetFields())
+			/*foreach (PropertyInfo pi in typeof(InvoiceV2).GetProperties())
 			{
-				object value = invoice.GetType().GetField(fi.Name).GetValue(invoice);
-				if (value != null)
+				object value = pi.GetValue(invoice,null);
+				XElement stringEl1 = new XElement(pi.Name, value);
+				xInvoice.Add(stringEl1);				
+
+				/*if (value != null)
 				{
 					switch (fi.FieldType.ToString())
 					{
@@ -104,13 +318,552 @@ namespace OneMoreTryWPF.Facades
 							break;
 					}
 				}
-			}
+			}*/
 
 			result = xInvoice.ToString();
 			return result;
 		}
 
-		
+		private static XElement GetSellerXElement(SellerV2 seller)
+		{
+			XElement XSeller = new XElement("seller");
+
+			if (!String.IsNullOrEmpty(seller.address))
+			{
+				XElement address = new XElement("address", seller.address);
+				XSeller.Add(address);
+			}
+
+			if (!String.IsNullOrEmpty(seller.bank))
+			{
+				XElement bank = new XElement("bank", seller.bank);
+				XSeller.Add(bank);
+			}
+
+			if (!String.IsNullOrEmpty(seller.bik))
+			{
+				XElement bik = new XElement("bik", seller.bik);
+				XSeller.Add(bik);
+			}
+
+			if (!String.IsNullOrEmpty(seller.branchTin))
+			{
+				XElement branchTin = new XElement("branchTin", seller.branchTin);
+				XSeller.Add(branchTin);
+			}
+
+			if (!String.IsNullOrEmpty(seller.certificateNum))
+			{
+				XElement certificateNum = new XElement("certificateNum", seller.certificateNum);
+				XSeller.Add(certificateNum);
+			}
+
+			if (!String.IsNullOrEmpty(seller.certificateSeries))
+			{
+				XElement certificateSeries = new XElement("certificateSeries", seller.certificateSeries);
+				XSeller.Add(certificateSeries);
+			}
+
+			if (!String.IsNullOrEmpty(seller.iik))
+			{
+				XElement iik = new XElement("iik", seller.iik);
+				XSeller.Add(iik);
+			}
+
+			if (seller.isBranchNonResident)
+			{
+				XElement isBranchNonResident = new XElement("isBranchNonResident", seller.isBranchNonResident);
+				XSeller.Add(isBranchNonResident);
+			}
+
+			if (!String.IsNullOrEmpty(seller.kbe))
+			{
+				XElement kbe = new XElement("kbe", seller.kbe);
+				XSeller.Add(kbe);
+			}
+
+			if (!String.IsNullOrEmpty(seller.name))
+			{
+				XElement name = new XElement("name", seller.name);
+				XSeller.Add(name);
+			}
+
+			if (!String.IsNullOrEmpty(seller.reorganizedTin))
+			{
+				XElement reorganizedTin = new XElement("reorganizedTin", seller.reorganizedTin);
+				XSeller.Add(reorganizedTin);
+			}
+
+			if (seller.shareParticipation > 0 && seller.shareParticipation < 1)
+			{
+				XElement shareParticipation = new XElement("shareParticipation", seller.shareParticipation);
+				XSeller.Add(shareParticipation);
+			}
+
+			if (seller.statuses != null)
+			{
+				if (seller.statuses.Count > 0)
+				{
+					XElement statuses = new XElement("statuses");
+					bool flag = false;
+					foreach (UserStatus status in seller.statuses)
+					{
+						object XStatus = GetStatusXElement(status);
+						if (XStatus != null)
+						{
+							statuses.Add((XElement)XStatus);
+							flag = true;
+						}
+					}
+					if (flag)
+					{
+						XSeller.Add(statuses);
+					}
+				}
+			}
+
+			if (!String.IsNullOrEmpty(seller.tin))
+			{
+				XElement tin = new XElement("tin", seller.tin);
+				XSeller.Add(tin);
+			}
+
+			if (!String.IsNullOrEmpty(seller.trailer))
+			{
+				XElement trailer = new XElement("trailer", seller.trailer);
+				XSeller.Add(trailer);
+			}
+
+			return XSeller;
+		}
+
+		private static XElement GetPublicOfficeXElement(PublicOffice publicOffice)
+		{
+			XElement XPublicOffice = new XElement("publicOffice");
+			if (!String.IsNullOrEmpty(publicOffice.bik))
+			{
+				XElement bik = new XElement("bik", publicOffice.bik);
+				XPublicOffice.Add(bik);
+			}
+			if (!String.IsNullOrEmpty(publicOffice.iik))
+			{
+				XElement iik = new XElement("iik", publicOffice.iik);
+				XPublicOffice.Add(iik);
+			}
+			if (!String.IsNullOrEmpty(publicOffice.payPurpose))
+			{
+				XElement payPurpose = new XElement("payPurpose", publicOffice.payPurpose);
+				XPublicOffice.Add(payPurpose);
+			}
+			if (!String.IsNullOrEmpty(publicOffice.productCode))
+			{
+				XElement productCode = new XElement("productCode", publicOffice.productCode);
+				XPublicOffice.Add(productCode);
+			}
+			return XPublicOffice;
+		}
+
+		private static XElement GetProductSetXElement(ProductSetV2 productSet)
+		{
+			XElement XProductSet = new XElement("productSet");
+			if (!String.IsNullOrEmpty(productSet.currencyCode))
+			{
+				XElement currencyCode = new XElement("currencyCode", productSet.currencyCode);
+				XProductSet.Add(currencyCode);
+			}
+			if (productSet.currencyRate != null)
+			{
+				XElement currencyRate = new XElement("currencyRate ", productSet.currencyRate);
+				XProductSet.Add(currencyRate);
+			}
+			if (productSet.ndsRateType == NdsRateType.WITHOUT_NDS_NOT_KZ)
+			{
+				XElement ndsRateType = new XElement("ndsRateType", NdsRateType.WITHOUT_NDS_NOT_KZ);
+				XProductSet.Add(ndsRateType);
+			}
+			if(productSet.products != null)
+			{
+				if(productSet.products.Count >0)
+				{
+					XElement products = new XElement("products");
+					foreach (ProductV2 prod in productSet.products)
+					{
+						XElement product = GetProductXElement(prod);
+						products.Add(product);
+					}
+					XProductSet.Add(products);
+				}
+			}
+			XElement totalExciseAmount = new XElement("totalExciseAmount", productSet.totalExciseAmount);
+			XProductSet.Add(totalExciseAmount);
+			XElement totalNdsAmount = new XElement("totalNdsAmount", productSet.totalNdsAmount);
+			XProductSet.Add(totalNdsAmount);
+			XElement totalPriceWithTax = new XElement("totalPriceWithTax", productSet.totalPriceWithTax);
+			XProductSet.Add(totalPriceWithTax);
+			XElement totalPriceWithoutTax = new XElement("totalPriceWithoutTax", productSet.totalPriceWithoutTax);
+			XProductSet.Add(totalPriceWithoutTax);
+			XElement totalTurnoverSize = new XElement("totalTurnoverSize", productSet.totalTurnoverSize);
+			XProductSet.Add(totalTurnoverSize);
+
+			return XProductSet;
+		}
+
+		private static XElement GetProductXElement(ProductV2 prod)
+		{
+			XElement product = new XElement("product");
+			if (!String.IsNullOrEmpty(prod.additional))
+			{
+				XElement additional = new XElement("additional", prod.additional);
+				product.Add(additional);
+			}
+
+
+			XElement catalogTruId = String.IsNullOrEmpty(prod.catalogTruId) ? new XElement("catalogTruId", 1) : new XElement("catalogTruId", prod.catalogTruId);
+			product.Add(catalogTruId);
+			
+			if (!String.IsNullOrEmpty(prod.description))
+			{
+				XElement description = new XElement("description", prod.description);
+				product.Add(description);
+			}
+			if (prod.exciseAmount != 0)
+			{ 
+				XElement exciseAmount = new XElement("exciseAmount", prod.exciseAmount);
+				product.Add(exciseAmount);
+			}
+			if(prod.exciseRate != 0)
+			{
+				XElement exciseRate = new XElement("exciseRate", prod.exciseRate);
+				product.Add(exciseRate);
+			}
+
+			if (!String.IsNullOrEmpty(prod.kpvedCode))
+			{
+				XElement kpvedCode = new XElement("kpvedCode", prod.kpvedCode);
+				product.Add(kpvedCode);
+			}
+
+			XElement ndsAmount = new XElement("ndsAmount", prod.ndsAmount);
+			product.Add(ndsAmount);
+			if (prod.ndsRate != 0)
+			{
+				XElement ndsRate = new XElement("ndsRate", prod.ndsRate);
+				product.Add(ndsRate);
+			}
+			XElement priceWithTax = new XElement("priceWithTax", prod.priceWithTax);
+			product.Add(priceWithTax);
+			XElement priceWithoutTax = new XElement("priceWithoutTax", prod.priceWithoutTax);
+			product.Add(priceWithoutTax);
+
+			if (!String.IsNullOrEmpty(prod.productDeclaration))
+			{
+				XElement productDeclaration = new XElement("productDeclaration", prod.productDeclaration);
+				product.Add(productDeclaration);
+			}
+			if (!String.IsNullOrEmpty(prod.productNumberInDeclaration))
+			{
+				XElement productNumberInDeclaration = new XElement("productNumberInDeclaration", prod.productNumberInDeclaration);
+				product.Add(productNumberInDeclaration);
+			}
+			if (!String.IsNullOrEmpty(prod.quantity))
+			{
+				XElement quantity = new XElement("quantity", prod.quantity);
+				product.Add(quantity);
+			}
+			if (!String.IsNullOrEmpty(prod.tnvedName))
+			{
+				XElement tnvedName = new XElement("tnvedName", prod.tnvedName);
+				product.Add(tnvedName);
+			}
+			XElement truOriginCode = new XElement("truOriginCode", prod.truOriginCode);
+			product.Add(truOriginCode);
+			XElement turnoverSize = new XElement("turnoverSize", prod.turnoverSize);
+			product.Add(turnoverSize);
+			if (!String.IsNullOrEmpty(prod.unitCode))
+			{
+				XElement unitCode = new XElement("unitCode", prod.unitCode);
+				product.Add(unitCode);
+			}
+			if (!String.IsNullOrEmpty(prod.unitNomenclature))
+			{
+				XElement unitNomenclature = new XElement("unitNomenclature", prod.unitNomenclature);
+				product.Add(unitNomenclature);
+			}
+			if (prod.unitPrice != null)
+			{
+				XElement unitPrice = new XElement("unitPrice", prod.unitPrice);
+				product.Add(unitPrice);
+			}
+			return product;
+		}
+
+		private static XElement GetDeliveryTermXElement(DeliveryTermV2 deliveryTerm)
+		{
+			XElement XDeliveryTerm = new XElement("deliveryTerm");
+			if (deliveryTerm.contractDate != "01.01.0001")
+			{
+				XElement contractDate = new XElement("contractDate", deliveryTerm.contractDate);
+				XDeliveryTerm.Add(contractDate);
+			}
+			if(!String.IsNullOrEmpty(deliveryTerm.contractNum))
+			{
+				XElement contractNum = new XElement("contractNum", deliveryTerm.contractNum);
+				XDeliveryTerm.Add(contractNum);
+			}
+			if (!String.IsNullOrEmpty(deliveryTerm.deliveryConditionCode))
+			{
+				XElement deliveryConditionCode = new XElement("deliveryConditionCode", deliveryTerm.deliveryConditionCode);
+				XDeliveryTerm.Add(deliveryConditionCode);
+			}
+			if (!String.IsNullOrEmpty(deliveryTerm.destination))
+			{
+				XElement destination = new XElement("destination", deliveryTerm.destination);
+				XDeliveryTerm.Add(destination);
+			}
+			XElement hasContract = new XElement("hasContract", deliveryTerm.hasContract);
+			XDeliveryTerm.Add(hasContract);
+
+			if (!String.IsNullOrEmpty(deliveryTerm.term))
+			{
+				XElement term = new XElement("term", deliveryTerm.term);
+				XDeliveryTerm.Add(term);
+			}
+
+			if (!String.IsNullOrEmpty(deliveryTerm.transportTypeCode))
+			{
+				XElement transportTypeCode = new XElement("transportTypeCode", deliveryTerm.transportTypeCode);
+				XDeliveryTerm.Add(transportTypeCode);
+			}
+			if (!String.IsNullOrEmpty(deliveryTerm.warrant))
+			{
+				XElement warrant = new XElement("warrant", deliveryTerm.warrant);
+				XDeliveryTerm.Add(warrant);
+			}
+			if (deliveryTerm.warrantDate != "01.01.0001")
+			{
+				XElement warrantDate = new XElement("warrantDate", deliveryTerm.warrantDate);
+				XDeliveryTerm.Add(warrantDate);
+			}
+			return XDeliveryTerm;
+		}
+
+		private static XElement GetCustomerXElement(CustomerV2 customer)
+		{
+			XElement XCustomer = new XElement("customer");
+
+			if (!String.IsNullOrEmpty(customer.address))
+			{
+				XElement address = new XElement("address", customer.address);
+				XCustomer.Add(address);
+			}
+
+			if (!String.IsNullOrEmpty(customer.branchTin))
+			{
+				XElement branchTin = new XElement("branchTin", customer.branchTin);
+				XCustomer.Add(branchTin);
+			}
+
+			if (!String.IsNullOrEmpty(customer.countryCode))
+			{
+				XElement countryCode = new XElement("countryCode", customer.countryCode);
+				XCustomer.Add(countryCode);
+			}
+
+			if (!String.IsNullOrEmpty(customer.name))
+			{
+				XElement name = new XElement("name", customer.name);
+				XCustomer.Add(name);
+			}
+
+			if (!String.IsNullOrEmpty(customer.reorganizedTin))
+			{
+				XElement reorganizedTin = new XElement("reorganizedTin", customer.reorganizedTin);
+				XCustomer.Add(reorganizedTin);
+			}
+
+			if (customer.shareParticipation > 0 && customer.shareParticipation<1)
+			{
+				XElement shareParticipation = new XElement("shareParticipation", customer.shareParticipation);
+				XCustomer.Add(shareParticipation);
+			}
+
+			if (customer.statuses != null)
+			{
+				if (customer.statuses.Count>0)
+				{
+					XElement statuses = new XElement("statuses");
+					bool flag = false;
+					foreach (UserStatus status in customer.statuses)
+					{
+						object XStatus = GetStatusXElement(status);
+						if(XStatus != null)
+						{
+							statuses.Add((XElement)XStatus);
+							flag = true;
+						}
+					}
+					if(flag)
+					{
+						XCustomer.Add(statuses);
+					}					
+				}
+			}
+
+			if (!String.IsNullOrEmpty(customer.tin))
+			{
+				XElement tin = new XElement("tin", customer.tin);
+				XCustomer.Add(tin);
+			}
+
+			if (!String.IsNullOrEmpty(customer.trailer))
+			{
+				XElement trailer = new XElement("trailer", customer.trailer);
+				XCustomer.Add(trailer);
+			}
+
+			return XCustomer;
+		}
+
+		private static object GetStatusXElement(UserStatus status)
+		{
+			object XStatus = status.isChecked? new XElement("status", status.type) : null;
+			return XStatus;
+		}
+
+		private static XElement GetParticipantXElement(ParticipantV2 participant)
+		{
+			XElement XParticipant = new XElement("Participant");
+			if(participant.productShares !=null)
+			{
+				if(participant.productShares.Count>0)
+				{
+					XElement productShares = new XElement("productShares");
+					foreach (ProductShare productShare in participant.productShares)
+					{
+						XElement share = GetShareXElement(productShare);
+						productShares.Add(share);
+					}
+					XParticipant.Add(productShares);
+				}
+			}
+			if (!String.IsNullOrEmpty(participant.reorganizedTin))
+			{
+				XElement reorganizedTin = new XElement("reorganizedTin", participant.reorganizedTin);
+				XParticipant.Add(reorganizedTin);
+			}
+			if (!String.IsNullOrEmpty(participant.tin))
+			{
+				XElement tin = new XElement("tin", participant.tin);
+				XParticipant.Add(tin);
+			}
+			return XParticipant;
+		}
+
+		private static XElement GetShareXElement(ProductShare productShare)
+		{
+			XElement share = new XElement("share");
+
+			if (!String.IsNullOrEmpty(productShare.additional))
+			{
+				XElement additional = new XElement("additional", productShare.additional);
+				share.Add(additional);
+			}
+
+			XElement exciseAmount = new XElement("exciseAmount", productShare.exciseAmount);
+			share.Add(exciseAmount);
+
+			XElement ndsAmount = new XElement("ndsAmount", productShare.ndsAmount);
+			share.Add(ndsAmount);
+
+			XElement priceWithTax = new XElement("priceWithTax", productShare.priceWithTax);
+			share.Add(priceWithTax);
+
+			XElement priceWithoutTax = new XElement("priceWithoutTax", productShare.priceWithoutTax);
+			share.Add(priceWithoutTax);
+
+			XElement productNumber = new XElement("productNumber", productShare.productNumber);
+			share.Add(productNumber);
+
+			if (!String.IsNullOrEmpty(productShare.quantity))
+			{
+				XElement quantity = new XElement("quantity", productShare.quantity);
+				share.Add(quantity);
+			}				
+
+			XElement turnoverSize = new XElement("turnoverSize", productShare.turnoverSize);
+			share.Add(turnoverSize);
+
+			return share;
+		}
+
+		private static XElement GetConsigneeXElement(ConsigneeV2 consignee)
+		{
+			XElement XConsignee = new XElement("consignee");
+			if (!String.IsNullOrEmpty(consignee.address))
+			{
+				XElement address = new XElement("address", consignee.address);
+				XConsignee.Add(address);
+			}
+			if (!String.IsNullOrEmpty(consignee.countryCode))
+			{
+				XElement countryCode = new XElement("countryCode", consignee.countryCode);
+				XConsignee.Add(countryCode);
+			}
+			if (!String.IsNullOrEmpty(consignee.name))
+			{
+				XElement name = new XElement("name", consignee.name);
+				XConsignee.Add(name);
+			}
+			if (!String.IsNullOrEmpty(consignee.tin))
+			{
+				XElement tin = new XElement("tin", consignee.tin);
+				XConsignee.Add(tin);
+			}
+			return XConsignee;
+		}
+
+		private static XElement GetConsignorXElement(Consignor consignor)
+		{
+			XElement XConsignee = new XElement("consignor");
+			if (!String.IsNullOrEmpty(consignor.address))
+			{
+				XElement address = new XElement("address", consignor.address);
+				XConsignee.Add(address);
+			}
+			if (!String.IsNullOrEmpty(consignor.name))
+			{
+				XElement name = new XElement("name", consignor.name);
+				XConsignee.Add(name);
+			}
+			if (!String.IsNullOrEmpty(consignor.tin))
+			{
+				XElement tin = new XElement("tin", consignor.tin);
+				XConsignee.Add(tin);
+			}
+			return XConsignee;
+		}
+
+		private static XElement GetRelatedInvoiceXElement(RelatedInvoice relatedInvoice)
+		{
+
+			XElement XRelatedInvoice =  new XElement("relatedInvoice");
+			if (relatedInvoice.date != "01.01.0001")
+			{
+				XElement relatedInvoiceDate = new XElement("date", relatedInvoice.date);
+				XRelatedInvoice.Add(relatedInvoiceDate);
+			}
+			if (!String.IsNullOrEmpty(relatedInvoice.num))
+			{
+				XElement relatedInvoiceNum = new XElement("num", relatedInvoice.num);
+				XRelatedInvoice.Add(relatedInvoiceNum);
+			}
+			if (!String.IsNullOrEmpty(relatedInvoice.registrationNumber))
+			{
+				XElement relatedInvoiceRegistrationNumber = new XElement("registrationNumber", relatedInvoice.registrationNumber);
+				XRelatedInvoice.Add(relatedInvoiceRegistrationNumber);
+			}				
+			return XRelatedInvoice;
+		}
 
 		private static object getXmlStringByList(object value, string tagName, string itemTagName)
 		{
