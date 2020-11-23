@@ -7,176 +7,74 @@
         xmlns:uc="clr-namespace:OneMoreTryWPF.UserControls"
         xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200" MinWidth="1200" KeyDown="Window_KeyDown">
+        Title="{Binding Title}" Height="800" Width="1200" MinWidth="1024" KeyDown="Window_KeyDown">
     <Window.Resources>
-        <Color x:Key="WindowColor">#FFE8EDF9</Color>
-        <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
-        <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
-
-        <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
-        <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
-        <Color x:Key="DisabledForegroundColor">#FF888888</Color>
-
-        <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
-        <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
-
-        <Color x:Key="ControlLightColor">White</Color>
-        <Color x:Key="ControlMediumColor">#FF7381F9</Color>
-        <Color x:Key="ControlDarkColor">#FF211AA9</Color>
-
-        <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
-        <Color x:Key="ControlPressedColor">#FF211AA9</Color>
-
-
-        <Color x:Key="GlyphColor">#FF444444</Color>
-        <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
-
-        <!--Border colors-->
-        <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
-        <Color x:Key="BorderMediumColor">#FF888888</Color>
-        <Color x:Key="BorderDarkColor">#FF444444</Color>
-
-        <Color x:Key="PressedBorderLightColor">#FF888888</Color>
-        <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
-
-        <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
-        <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
-
-        <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
-
-        <!--Control-specific resources.-->
-        <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
-        <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
-        <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
-
-        <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
-
-        <LinearGradientBrush x:Key="MenuPopupBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="{DynamicResource ControlLightColor}" Offset="0" />
-            <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="0.5" />
-            <GradientStop Color="{DynamicResource ControlLightColor}" Offset="1" />
-        </LinearGradientBrush>
-
-        <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
-            <LinearGradientBrush.GradientStops>
-                <GradientStopCollection>
-                    <GradientStop Color="#000000FF" Offset="0" />
-                    <GradientStop Color="#600000FF" Offset="0.4" />
-                    <GradientStop Color="#600000FF" Offset="0.6" />
-                    <GradientStop Color="#000000FF" Offset="1" />
-                </GradientStopCollection>
-            </LinearGradientBrush.GradientStops>
-        </LinearGradientBrush>
-        <Style x:Key="myCheckBoxStyle" TargetType="{x:Type CheckBox}">
-            <Setter Property="SnapsToDevicePixels" Value="true" />
-            <Setter Property="OverridesDefaultStyle" Value="true" />
-            <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
+        <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>        
+        <!-- Button -->
+        <Style x:Key="myBtn" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type CheckBox}">
-                        <BulletDecorator Background="Transparent">
-                            <BulletDecorator.Bullet>
-                                <Border x:Name="Border" Width="0" Height="0" CornerRadius="0" BorderThickness="0">
-                                    <Border.BorderBrush>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="btnBorder" BorderBrush="White" Background="#eef5fd" BorderThickness="2,0"  CornerRadius="0" Margin="0"  >
+                            <ContentPresenter x:Name="btnContent" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="true">
+                                <Setter TargetName="btnBorder" Property="Background">
+                                    <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <LinearGradientBrush.GradientStops>
-                                                <GradientStopCollection>
-                                                    <GradientStop Color="{DynamicResource BorderLightColor}" Offset="0.0" />
-                                                    <GradientStop Color="{DynamicResource BorderDarkColor}"  Offset="1.0" />
-                                                </GradientStopCollection>
-                                            </LinearGradientBrush.GradientStops>
+                                            <GradientStop Offset="0" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#bbcadd"/>
                                         </LinearGradientBrush>
-                                    </Border.BorderBrush>
-                                    <Border.Background>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="btnBorder" Property="BorderBrush">
+                                    <Setter.Value>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <LinearGradientBrush.GradientStops>
-                                                <GradientStopCollection>
-                                                    <GradientStop Color="{DynamicResource ControlLightColor}" />
-                                                    <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="1.0" />
-                                                </GradientStopCollection>
-                                            </LinearGradientBrush.GradientStops>
+                                            <GradientStop Offset="0" Color="LightGray"/>
+                                            <GradientStop Offset="0.5" Color="White"/>
+                                            <GradientStop Offset="1" Color="LightGray"/>
                                         </LinearGradientBrush>
-                                    </Border.Background>
-                                    <Grid>
-                                        <Path Visibility="Collapsed" Width="7" Height="7" x:Name="CheckMark" SnapsToDevicePixels="False" StrokeThickness="2"  Data="M 0 0 L 7 7 M 0 7 L 7 0">
-                                            <Path.Stroke>
-                                                <SolidColorBrush Color="{DynamicResource GlyphColor}" />
-                                            </Path.Stroke>
-                                        </Path>
-                                        <Path Visibility="Collapsed" Width="7" Height="7" x:Name="InderminateMark" SnapsToDevicePixels="False" StrokeThickness="2" Data="M 0 7 L 7 0">
-                                            <Path.Stroke>
-                                                <SolidColorBrush Color="{DynamicResource GlyphColor}" />
-                                            </Path.Stroke>
-                                        </Path>
-                                    </Grid>
-                                </Border>
-                            </BulletDecorator.Bullet>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
-                                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource ControlMouseOverColor}" />
-                                            </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
-                                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource ControlPressedColor}" />
-                                            </ColorAnimationUsingKeyFrames>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                Storyboard.TargetProperty="(Border.BorderBrush).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
-                                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource PressedBorderDarkColor}" />
-                                            </ColorAnimationUsingKeyFrames>
-                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
-                                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource PressedBorderLightColor}" />
-                                            </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled" />
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="CheckStates">
-                                    <VisualState x:Name="Checked">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"  Storyboard.TargetName="CheckMark">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Unchecked" />
-                                    <VisualState x:Name="Indeterminate">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="InderminateMark">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter Margin="4,0,0,0"  VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True" />
-                        </BulletDecorator>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="btnBorder" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#b0e4fc"/>
+                                            <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#b0e4fc"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="btnBorder" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#dfe7f1"/>
+                                            <GradientStop Offset="0.5" Color="#bbcadd"/>
+                                            <GradientStop Offset="1" Color="#dfe7f1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="btnBorder" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#dfe7f1"/>
+                                            <GradientStop Offset="0.5" Color="Gray"/>
+                                            <GradientStop Offset="1" Color="#dfe7f1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <RadialGradientBrush x:Key="redLed" RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.5">
-            <GradientStop Color="PaleGoldenrod" Offset="0"/>
-            <GradientStop Color="Red" Offset="0.4"/>
-            <GradientStop Color="Silver" Offset="0.4"/>
-            <GradientStop Color="Silver" Offset="0.5"/>
-            <GradientStop Color="Transparent" Offset="0.5"/>
-        </RadialGradientBrush>
-        <RadialGradientBrush x:Key="greenLed" RadiusX="0.5" RadiusY="0.5" GradientOrigin="0.5,0.5">
-            <GradientStop Color="PaleGoldenrod" Offset="0"/>
-            <GradientStop Color="Green" Offset="0.4"/>
-            <GradientStop Color="Silver" Offset="0.4"/>
-            <GradientStop Color="Silver" Offset="0.5"/>
-            <GradientStop Color="Transparent" Offset="0.5"/>
-        </RadialGradientBrush>
-        <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
     </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -192,41 +90,96 @@
             </LinearGradientBrush>
         </Border.BorderBrush>
         <DockPanel x:Name="mainPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="False">
-            <Grid Name="mainToolbar" DockPanel.Dock="Top"  VerticalAlignment="Top" Height="30" Background="#FFEEF5FD">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <CheckBox x:Name="isEditable" Style="{StaticResource myCheckBoxStyle}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Grid.Column="0" Height="Auto" IsThreeState="False" Margin="2" IsChecked="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}"  Foreground="SteelBlue" Click="isEditable_Click">
-                    <StackPanel Orientation="Horizontal" >
-                        <TextBlock x:Name="led" Width="20" Height="20" Background="{StaticResource redLed}" >
-                        </TextBlock>
-                        <TextBlock Text="Режим редакции" VerticalAlignment="Center" Margin="2" Foreground="SteelBlue"></TextBlock>
+            <Border  DockPanel.Dock="Top"  VerticalAlignment="Top" Margin="0" BorderBrush="white" Background="#eef5fd" BorderThickness="2" CornerRadius="0,0,0,10" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                <Border.Effect>
+                    <DropShadowEffect Color="Gray" Opacity="0.5" />
+                </Border.Effect>               
+                <Grid Name="mainToolbar" Height="Auto" Background="Transparent" Margin="0">                   
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment ="Center" Margin="35,4,5,2" Grid.Row="0">
+                        <TextBlock Text="Партнёр" Padding="5" VerticalAlignment="Center" Width="60" FontWeight="Bold"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Partner.Name}" Padding="10,2" Margin="5,0,0,0" Grid.Column="1" VerticalAlignment="Center"  Width="300" BorderThickness="1,1,0,1" BorderBrush="#FF8AA7D1"/>
+                        <Button IsEnabled="{Binding ElementName=imgValidSeller, Path=IsEnabled}" Grid.Column="2" Background="White"  Padding="3" BorderThickness="0,1,1,1" BorderBrush="#FF8AA7D1" Margin="0,5" VerticalAlignment="Center" Command="{Binding Path=SelectPartnerCommand}">
+                            <Image Source="/OneMoreTryWPF;component/Resources/images/search.png" Width="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
                     </StackPanel>
-                </CheckBox>
-                <Button x:Name="btnAddRow" Visibility="{Binding IsEditable, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Margin="2" Grid.Column="2"  VerticalAlignment="Stretch" Command="{Binding AddCommand}" >
-                    <StackPanel Orientation="Horizontal" >
-                        <Image Source="Resources/images/add_product.png" Width="20" Height="20"></Image>
-                        <TextBlock Text="Добавить новый ТРУ" VerticalAlignment="Center" Margin="2" Foreground="SteelBlue"></TextBlock>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment ="Center" Margin="35,2,5,5" Grid.Row="1">
+                        <TextBlock Text="Объект" Padding="5" VerticalAlignment="Center" Width="60" Grid.Row="1" FontWeight="Bold"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Object.Name}" Padding="10,2" Margin="5,0,0,0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" BorderThickness="1,1,0,1" Width="300" BorderBrush="#FF8AA7D1"/>
+                        <Button  Grid.Column="2"  Padding="3"  Grid.Row="1" BorderBrush="#FF8AA7D1" Background="White" Margin="0,5" VerticalAlignment="Center" BorderThickness="0,1,1,1" Command="{Binding Path=SelectObjectCommand}">
+                            <Image Source="/OneMoreTryWPF;component/Resources/images/search.png" Width="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
                     </StackPanel>
-                </Button>
-                <Button x:Name="btnRemoveRow" Visibility="{Binding IsEditable, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Margin="2" Grid.Column="3"  VerticalAlignment="Stretch" Command="{Binding RemoveCommand}" >
-                    <StackPanel Orientation="Horizontal" >
-                        <Image Source="Resources/images/delete_product.png" Width="20" Height="20"></Image>
-                        <TextBlock Text="Удалить выделенные ТРУ из списка" VerticalAlignment="Center" Margin="2" Foreground="SteelBlue"></TextBlock>
-                    </StackPanel>
-                </Button>
-            </Grid>
+                    <Border BorderBrush="White"  BorderThickness="2,0,0,0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3"  CornerRadius="0,0,0,100" Margin="0" >
+                        <Border.Background>             
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Offset="0" Color="#bbcadd"/>
+                                    <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                    <GradientStop Offset="1" Color="#bbcadd"/>
+                                </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect Color="Gray" Opacity="0.5" />
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right"  Height="80">                            
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}" BorderThickness="1" x:Name="btnConfirmInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreated}" Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="0" Command="{Binding ConfirmCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/confirm.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Подтвердить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>                              
+                            </Button>
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}" BorderThickness="1" x:Name="btnDeclineInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isDeclinable}"  Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="1" Command="{Binding DeclineCommand}" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/decline.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Отклонить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}"  x:Name="btnCreateInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreatable}"  Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="2" Command="{Binding CreateCommand}" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/create.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Создать ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}" x:Name="btnRevokeInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isRevokable}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="3" Command="{Binding RevokeCommand}" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/revoke.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Отозвать созданный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}" x:Name="btnDeleteInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isFailed}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="4" Command="{Binding DeleteCommand}" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/delete.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Удалить ошибочный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
             <StatusBar x:Name="mainStatusBar" Background="Transparent" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
             </StatusBar>
             <DockPanel x:Name="leftPanel" DockPanel.Dock="Left" VerticalAlignment="top" LastChildFill="False">
                 
             </DockPanel>
-            <DockPanel x:Name="rightPanel" DockPanel.Dock="Right" VerticalAlignment="Stretch" LastChildFill="False">
-                <Grid  Background="#FFEEF5FD">
+            <DockPanel x:Name="rightPanel" DockPanel.Dock="Right" VerticalAlignment="Stretch" LastChildFill="False" MaxWidth="300">
+                <!--<Grid  Background="#FFEEF5FD">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -247,13 +200,13 @@
                         <Image Source="/OneMoreTryWPF;component/Resources/images/search.png" Width="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
                     <uc:ProductForm x:Name="Product" Padding="5" Height="Auto" Grid.Row="2" Grid.ColumnSpan="3"/>
-                </Grid>                
+                </Grid>-->
             </DockPanel>
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <Grid x:Name="contentPanel" Height="Auto" VerticalAlignment="Top">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">               
+                <Grid x:Name="contentPanel" Height="Auto" VerticalAlignment="Top" ShowGridLines="False">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MinWidth="300"/>
-                        <ColumnDefinition Width="*"  MinWidth="300"/>
+                        <ColumnDefinition Width="Auto" MinWidth="600"/>
+                        <ColumnDefinition Width="*"  MinWidth="400"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -261,11 +214,27 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <uc:InvoiceSummary x:Name="InvoiceSummary" Padding="5" Height="Auto" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" MinWidth ="600"/>
-                    <uc:SellerForm x:Name="Seller" Padding="5" Height="Auto" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" MinWidth="400"/>
-                    <uc:CustomerForm x:Name="Customer" Padding="5" Height="Auto" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" MinWidth="300"/>
-                    <uc:ProductsDataGrid x:Name="ProductSet" Padding="5" Height="Auto" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
-                </Grid>
+                    <Border BorderBrush="White" Background="#eef5fd" BorderThickness="2" CornerRadius="10,10,10,10" Margin="10,10,10,0"  Grid.ColumnSpan="2">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Gray" Opacity="0.5" />
+                        </Border.Effect>
+                        <Grid Height="Auto"  Margin="10,10,10,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="300"/>
+                                <ColumnDefinition Width="*"  MinWidth="300"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <uc:InvoiceSummary x:Name="InvoiceSummary" Padding="0" Height="Auto" MinWidth = "300"/>
+                            <uc:ProductSetSummary x:Name="ProductSetSummary"  Padding="0" Height="Auto" MinWidth ="300" Grid.Row="1" Grid.Column="0"/>
+                            <uc:SellerForm x:Name="Seller" HorizontalAlignment="Left" Padding="0" Height="Auto" Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="1" MinWidth="400"/>
+                            <uc:CustomerForm x:Name="Customer" HorizontalAlignment="Left" Padding="0" Height="Auto" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" MinWidth="400"/>
+                        </Grid>
+                    </Border>
+                    <uc:ProductsDataGrid_SupperDesign x:Name="ProductSet" Padding="5" Height="Auto" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+                </Grid>                
             </ScrollViewer>                     
         </DockPanel>
     </Border>

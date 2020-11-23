@@ -72,8 +72,9 @@ namespace OneMoreTryWPF.Facades
 		static public bool CreateSession()
 		{
 			createSessionRequest CreateSessionRequest = new createSessionRequest();
-			CreateSessionRequest.tin = getServiceClient().ClientCredentials.UserName.UserName;
 			CreateSessionRequest.x509Certificate = SessionDataManagerFacade.getX509AuthCertificate();
+			CreateSessionRequest.tin = SessionDataManagerFacade.getUserTin();
+
 
 			createSessionResponse CreateSessionResponse;
 			try
@@ -85,6 +86,7 @@ namespace OneMoreTryWPF.Facades
 			catch (Exception)
 			{
 				CloseSessionByCredentials();
+				serviceClient = null;
 				return false;
 			}
 		}

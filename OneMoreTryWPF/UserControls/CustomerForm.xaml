@@ -6,64 +6,83 @@
              xmlns:local="clr-namespace:OneMoreTryWPF.UserControls"
              xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" IsEnabled="{Binding IsEditable}">
+             d:DesignHeight="450" d:DesignWidth="400">
     <UserControl.Resources>
-        <SolidColorBrush x:Key="required" Color="Green" Opacity="0.3"/>
-        <SolidColorBrush x:Key="optional" Color="Orange" Opacity="0.3"/>
-        <SolidColorBrush x:Key="ignored"  Color="DarkGray" Opacity="0.5"/>
         <converter:CustomerStatusToStringConverter x:Key="StatusConverter"/>
         <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
+        <converter:BoolInverter x:Key="BoolInverter"/>
     </UserControl.Resources>
-    <Border CornerRadius="0" Background="#FFEEF5FD"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
+    <Border CornerRadius="0" Background="Transparent"  BorderBrush="SteelBlue" BorderThickness="0" Height="Auto">
         <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-            <CheckBox x:Name="isGodMode" Visibility="Collapsed" IsChecked="{Binding GodMode}"/>
-            <TextBlock Text="Покупатель" Padding="25,5" FontSize="16" Background="#FF8AA7D1" />
-            <Grid x:Name="CustomerGrid"  Margin="20" Visibility="Visible" DataContext="{Binding Invoice.customers[0]}" Height="Auto" MinWidth="300" Grid.Row="1" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180"/>
-                <ColumnDefinition Width="*" MinWidth="120"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock x:Name="l_tin" Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="ИИН/БИН" Grid.Row="0"></TextBlock>
-            <TextBlock x:Name="l_name" Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Наименование получателя" Grid.Row="1"></TextBlock>
-            <TextBlock x:Name="l_address" Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Адрес" Grid.Row="2"></TextBlock>
-                <TextBlock x:Name="l_branchTin" Padding="5,0"  TextWrapping="Wrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="БИН филиала, выписавшего ЭСФ за голову" Grid.Row="3"></TextBlock>
-                <TextBlock x:Name="l_reorganizedTin" Padding="5,0"  TextWrapping="Wrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="БИН реорганизованного лица" Grid.Row="4"></TextBlock>
-                <TextBlock x:Name="l_shareParticipation" Padding="5,0"  TextWrapping="Wrap"  Visibility="Collapsed"  VerticalAlignment="Center" Text="Доля участия" Grid.Row="5"></TextBlock>
-                <TextBlock x:Name="l_statuses" Padding="5,0"  TextWrapping="Wrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"   VerticalAlignment="Center" Text="Категория получателя" Grid.Row="6"></TextBlock>
-            <TextBlock x:Name="l_trailer" Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Дополнительные сведения" Grid.Row="8"></TextBlock>
-            <TextBlock x:Name="l_countryCode" Padding="5,0"  TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Center" Text="Код страны получателя" Grid.Row="7"></TextBlock>
+            <CheckBox x:Name="isGodMode" Visibility="Collapsed" IsChecked="{Binding GodMode}"  IsEnabled="{Binding IsEditable}"/>
+            <Button  x:Name="btnAddPartnerContext" Visibility="Collapsed" Command="{Binding AddPartnerCommand}"/>
 
-            <TextBox x:Name="tbTin" Padding="5,0" Margin="2" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding tin, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"></TextBox>
-            <TextBox x:Name="tbName" Padding="5,0" Margin="2" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding name, Mode=TwoWay}" Grid.Column="1" Grid.Row="1"></TextBox>
-            <TextBox x:Name="tbAddress" Padding="5,0" Margin="2" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding address, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"></TextBox>
-                <TextBox x:Name="tbBranchTin" Padding="5,0" Margin="2" TextWrapping="Wrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding branchTin, Mode=TwoWay}" Grid.Column="1" Grid.Row="3"></TextBox>
-                <TextBox x:Name="tbReorganizedTin" Padding="5,0" Margin="2" TextWrapping="Wrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding reorganizedTin, Mode=TwoWay}" Grid.Column="1" Grid.Row="4"></TextBox>
-                <TextBox x:Name="tbShareParticipation" Padding="5,0" Margin="2" TextWrapping="Wrap"  Visibility="Collapsed"  VerticalAlignment="Center" Text="{Binding shareParticipation, Mode=TwoWay}" Grid.Column="1" Grid.Row="5"></TextBox>
-                <ListView x:Name="statusesList" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  Margin="2" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" ItemsSource="{Binding statuses, Mode=TwoWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox IsChecked="{Binding Path=isChecked, Mode=TwoWay}" Content="{Binding Path=type , Converter={StaticResource StatusConverter}}"></CheckBox>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <TextBox x:Name="tbTrailer" Padding="5,0" Margin="2" TextWrapping="Wrap"  VerticalAlignment="Center" Text="{Binding additional, Mode=TwoWay}" Grid.Column="1" Grid.Row="8"></TextBox>
-            <TextBox x:Name="tbCountryCode" Padding="5,0" Margin="2" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding countryCode, Mode=TwoWay}" Grid.Column="1" Grid.Row="7"></TextBox>
-        </Grid>
-    </Grid>       
+            <Grid Background="Transparent" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Покупатель" FontWeight="Bold"  FontSize="16"  Padding="20,20,0,6"/>
+                <Image x:Name="imgValidCustomer" Margin="5,14,0,6" Source="/OneMoreTryWPF;component/Resources/images/confirm.png" IsEnabled="{Binding IsValidCustomer, Converter={StaticResource BoolInverter}}" Visibility="{Binding IsValidCustomer, Converter={StaticResource VisibleConverter}}" Height="12" Width="12"  Grid.Column="1"/>
+                <Image  Margin="5,14,0,6" Source="/OneMoreTryWPF;component/Resources/images/question.png" Visibility="{Binding ElementName=imgValidCustomer, Path=IsEnabled, Converter={StaticResource VisibleConverter}}"  Height="12" Width="12"  Grid.Column="2"/>
+            </Grid>
+
+            <Grid x:Name="сustomerGrid"  Margin="15,0" Visibility="Visible" DataContext="{Binding Invoice.customers[0]}" Height="Auto" MinWidth="300" Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*" MinWidth="120"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="l_tin" Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="ИИН/БИН" Grid.Row="0"></TextBlock>
+                <TextBlock x:Name="l_name" Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Наименование получателя" Grid.Row="1"></TextBlock>
+                <TextBlock x:Name="l_address" Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Адрес" Grid.Row="2"></TextBlock>
+                <TextBlock x:Name="l_branchTin" Padding="5,0"  TextWrapping="NoWrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="БИН филиала, выписавшего ЭСФ за голову" Grid.Row="3"></TextBlock>
+                <TextBlock x:Name="l_reorganizedTin" Padding="5,0"  TextWrapping="NoWrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="БИН реорганизованного лица" Grid.Row="4"></TextBlock>
+                <TextBlock x:Name="l_shareParticipation" Padding="5,0"  TextWrapping="NoWrap"  Visibility="Collapsed"  VerticalAlignment="Center" Text="Доля участия" Grid.Row="5"></TextBlock>
+                <TextBlock x:Name="l_statuses" Padding="5,0"  TextWrapping="NoWrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"   VerticalAlignment="Center" Text="Категория получателя" Grid.Row="6"></TextBlock>
+                <TextBlock x:Name="l_trailer" Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Дополнительные сведения" Grid.Row="8"></TextBlock>
+                <TextBlock x:Name="l_countryCode" Padding="5,0"  TextWrapping="NoWrap" Visibility="Visible"  VerticalAlignment="Center" Text="Код страны получателя" Grid.Row="7"></TextBlock>
+
+                <TextBox x:Name="tbTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding tin, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1"></TextBox>
+                <TextBox x:Name="tbName" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding name, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbAddress" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding address, Mode=TwoWay}" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbBranchTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding branchTin, Mode=TwoWay}" Grid.Column="1" Grid.Row="3"></TextBox>
+                <TextBox x:Name="tbReorganizedTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap"  Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding reorganizedTin, Mode=TwoWay}" Grid.Column="1" Grid.Row="4"></TextBox>
+                <TextBox x:Name="tbShareParticipation" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap"  Visibility="Collapsed"  VerticalAlignment="Center" Text="{Binding shareParticipation, Mode=TwoWay}" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2"></TextBox>
+                <ListView x:Name="statusesList" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  Margin="2" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" ItemsSource="{Binding statuses, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsEnabled="{Binding ElementName=isGodMode,Path=IsEnabled}"  IsChecked="{Binding Path=isChecked, Mode=TwoWay}" Content="{Binding Path=type , Converter={StaticResource StatusConverter}}"></CheckBox>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <TextBox x:Name="tbTrailer" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Padding="5,0" Margin="2" TextWrapping="NoWrap"  VerticalAlignment="Center" Text="{Binding additional, Mode=TwoWay}" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbCountryCode" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Padding="5,0" Margin="2" TextWrapping="NoWrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding countryCode, Mode=TwoWay}" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2"></TextBox>
+
+                <Button IsEnabled="{Binding ElementName=imgValidCustomer, Path=IsEnabled}" Grid.Column="2" Background="Transparent"  Padding="1" BorderThickness="1" BorderBrush="#FF8AA7D1" Margin="2" VerticalAlignment="Center" Command="{Binding ElementName=btnAddPartnerContext, Path=Command}">
+                    <Image Source="/OneMoreTryWPF;component/Resources/images/create.png" Width="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+
+            </Grid>
+        </Grid>       
     </Border>
 </UserControl>

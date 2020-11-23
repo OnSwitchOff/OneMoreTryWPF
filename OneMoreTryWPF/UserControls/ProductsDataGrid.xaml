@@ -10,11 +10,24 @@
     <UserControl.Resources>
         <converter:BoolInverter x:Key="boolInverter"/>
         <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
+        <converter:CodeToMeasureConverter x:Key="MeasureConverter"/>
     </UserControl.Resources>
     <Border CornerRadius="0" Background="#FFEEF5FD" BorderBrush="SteelBlue" BorderThickness="2" VerticalAlignment="Stretch">
-        <DockPanel>
-            <TextBlock Text="Информация о товарах" Padding="25,5" FontSize="16" Background="#FF8AA7D1" DockPanel.Dock="Top" />
-            <Grid  x:Name="topBar"  VerticalAlignment="Stretch"  DockPanel.Dock="Top" Margin="20" >
+        <DockPanel>            
+            <Grid Background="#FF8AA7D1"  DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition  Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Информация о товарах"  FontSize="16"  Padding="25,5,5,5"/>
+                <Image Name="imgValidProductSet" Source="/OneMoreTryWPF;component/Resources/images/confirm.png" IsEnabled="{Binding IsValidProductSet, Converter={StaticResource boolInverter}}" Visibility="{Binding IsValidProductSet, Converter={StaticResource VisibleConverter}}" Height="20" Width="20"  Grid.Column="1"/>
+                <Image Source="/OneMoreTryWPF;component/Resources/images/question.png" Visibility="{Binding ElementName=imgValidProductSet, Path=IsEnabled, Converter={StaticResource VisibleConverter}}"  Height="20" Width="20"  Grid.Column="2"/>
+            </Grid>
+            <Grid  x:Name="topBar"  VerticalAlignment="Stretch"  DockPanel.Dock="Top" Margin="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -29,13 +42,56 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Код валюты" Grid.Row="0" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="Курс валюты" Grid.Row="1" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBox x:Name="currencyCodeBox" MinWidth="50" Width="Auto" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="{Binding  Invoice.productSet.currencyCode}" Grid.Row="0" Grid.Column="1" Padding="5" IsEnabled ="{Binding IsEditable}"></TextBox>
-                <TextBox x:Name="currencyRateBox" MinWidth="50" Width="Auto"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2" Text="{Binding  Invoice.productSet.currencyRate}" Grid.Row="1" Grid.Column="1" Padding="5" IsEnabled ="{Binding IsEditable}"></TextBox>
-                <DataGrid Margin="0,20" Name="products" IsReadOnly="{Binding IsEditable, Converter={StaticResource boolInverter}}" ItemsSource="{Binding Invoice.productSet.products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
+                <DataGrid Margin="0" Name="products" IsReadOnly="{Binding IsEditable, Converter={StaticResource boolInverter}}" ItemsSource="{Binding Invoice.productSet.products}" SelectedItem="{Binding SelectedProduct}" Grid.Row="2" Grid.ColumnSpan="2" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible">
                     <DataGrid.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="Transparent" Offset="0" />
+                                        <GradientStop Color="Transparent" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="BorderThickness" Value="0"></Setter>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                            </Style.Triggers>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="{x:Type DataGrid}">
+                            <Style.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="2"/>
+                                </Style>
+                                <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#ddf5ff" Offset="0" />
+                                    <GradientStop Color="#b0e4fc" Offset="1" />
+                                </LinearGradientBrush>
+                                <LinearGradientBrush x:Key="{x:Static SystemColors.ControlBrushKey}" StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#ddf5ff" Offset="0" />
+                                    <GradientStop Color="#b0e4fc" Offset="1" />
+                                </LinearGradientBrush>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>                       
+                            </Style.Resources>                            
+                            <!-- Style for the selected item -->
+                            <Setter Property="BorderThickness" Value="1"/>                           
+                        </Style>
+                       
                         <Style x:Key="WrappedColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
@@ -46,12 +102,40 @@
                         </Style>                        
                     </DataGrid.Resources>
                     <DataGrid.Columns >
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="btnAddGoodToDb" Background="Transparent" IsEnabled="{Binding IsContained, Converter={StaticResource boolInverter}}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl},Mode=FindAncestor},Path=DataContext.AddProductCommand}">
+                                            <Image Source="/OneMoreTryWPF;component/Resources/images/create.png" Width="20" Height="20"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/OneMoreTryWPF;component/Resources/images/confirm.png" Visibility="{Binding IsContained, Converter={StaticResource VisibleConverter}}" Width="20" Height="20"/>
+                                        <Image Source="/OneMoreTryWPF;component/Resources/images/question.png" Visibility="{Binding IsNotContained,Converter={StaticResource VisibleConverter}}"  Width="20" Height="20"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="№ п/п" Width="30" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding Path=rowNumber}"/>
                         <DataGridTextColumn Header="Признак происхождения товара, работ, услуг" Width="100" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding Path=truOriginCode}"/>
                         <DataGridTextColumn Header="Наименование товаров, работ, услуг" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="150" Binding="{Binding Path=description}"/>
                         <DataGridTextColumn Header="Наименование товаров в соответствии с Декларацией на товары или заявлением о ввозе товаров и уплате косвенных налогов" Binding="{Binding Path=tnvedName}" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="150"/>
                         <DataGridTextColumn Header="Код товара (ТН ВЭД ЕАЭС)" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="80" Binding="{Binding Path=unitCode}"/>
-                        <DataGridTextColumn Header="Единица измерения" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="80" Binding="{Binding Path=unitNomenclature}"/>
+                        <DataGridTextColumn Header="Единица измерения" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="80" Binding="{Binding Path=unitNomenclature, Converter={StaticResource MeasureConverter}}"/>
                         <DataGridTextColumn Header="Количество (объем)" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="80" Binding="{Binding Path=quantity}"/>
                         <DataGridTextColumn Header="Цена (тариф) за единицу товара, работы, услуги без косвенных налогов" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="120" Binding="{Binding Path=unitPrice}"/>
                         <DataGridTextColumn Header="Стоимость товаров, работ, услуг без косвенных налогов" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="120" Binding="{Binding Path=priceWithoutTax}"/>
@@ -67,19 +151,7 @@
                         <DataGridTextColumn Header="Дополнительные данные" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Width="110" Binding="{Binding Path=additional}"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBlock Text="Итоговая стоимость ТРУ без учета НДС" Grid.Row="3" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="Итоговая Акциз-Сумма" Grid.Row="4" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="Итоговый размер оборота по реализации" Grid.Row="5" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="Итоговая НДС-Сумма" Grid.Row="6" Grid.Column="0" Padding="5"></TextBlock>
-                <TextBlock Text="Итоговая стоимость ТРУ с учетом НДС" Grid.Row="7" Grid.Column="0" Padding="5"></TextBlock>
-
-
-                <TextBox x:Name="totalPriceWithoutTaxBox" Text="{Binding Invoice.productSet.totalPriceWithoutTax}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="3" Grid.Column="1" Padding="5"  IsEnabled ="{Binding IsEditable}"></TextBox>
-                <TextBox x:Name="totalExciseAmountBox" Text="{Binding  Invoice.productSet.totalExciseAmount}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="4" Grid.Column="1" Padding="5"  IsEnabled ="{Binding IsEditable}"></TextBox>
-                <TextBox x:Name="totalTurnoverSizeBox" Text="{Binding  Invoice.productSet.totalTurnoverSize}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="5" Grid.Column="1" Padding="5"  IsEnabled ="{Binding IsEditable}"></TextBox>
-                <TextBox x:Name="totalNdsAmountBox" Text="{Binding  Invoice.productSet.totalNdsAmount}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="6" Grid.Column="1" Padding="5"  IsEnabled ="{Binding IsEditable}"></TextBox>
-                <TextBox x:Name="totalPriceWithTaxBox" Text="{Binding  Invoice.productSet.totalPriceWithTax}" Width="Auto" MinWidth="50" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2"  Grid.Row="7" Grid.Column="1" Padding="5" IsEnabled ="{Binding IsEditable}"></TextBox>
-          </Grid>
+            </Grid>
         </DockPanel>
     </Border>
 </UserControl>

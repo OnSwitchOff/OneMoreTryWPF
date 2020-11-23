@@ -8,41 +8,45 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <SolidColorBrush x:Key="required" Color="Green" Opacity="0.3"/>
-        <SolidColorBrush x:Key="optional" Color="Orange" Opacity="0.3"/>
-        <SolidColorBrush x:Key="ignored"  Color="DarkGray" Opacity="0.5"/>
         <converter:CustomerStatusToStringConverter x:Key="StatusConverter"/>
         <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
-        
+        <converter:BoolInverter x:Key="BoolInverter"/>        
     </UserControl.Resources>
-    <Border CornerRadius="0" Background="#FFEEF5FD"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
+    <Border CornerRadius="0" Background="Transparent"  BorderBrush="Transparent" BorderThickness="0" Height="Auto">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <CheckBox x:Name="isGodMode" Visibility="Collapsed" IsChecked="{Binding GodMode}"/>
-            <TextBlock Text="Общая информация" Padding="25,5" FontSize="16" Background="#FF8AA7D1" />
-            <Grid  Visibility="Visible"  Height="Auto" Margin="20" Width="Auto" Grid.Row="1" >
+            <TextBlock Text="Общая информация" Padding="20,20,0,10" FontSize="16" FontWeight="Bold" Background="Transparent" />
+            <Grid  Visibility="Visible"  Height="Auto" Margin="15,0" Width="Auto" Grid.Row="1" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition MinWidth="250" Width="Auto"/>
+                    <ColumnDefinition MinWidth="200" Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Дата выписки ЭСФ" Grid.Row="0"></TextBlock>
-                <TextBlock Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Исходящий номер ЭСФ в бухгалтерии отправителя" Grid.Row="1"></TextBlock>
-                <TextBlock Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="ФИО оператора отправившего ЭСФ" Grid.Row="2"></TextBlock>
-                <TextBlock Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Дата совершения оборота" Grid.Row="3"></TextBlock>
+                <TextBlock Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Дата выписки ЭСФ" Grid.Row="0"></TextBlock>
+                <TextBlock Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Исходящий номер ЭСФ в бухгалтерии" Grid.Row="1"></TextBlock>
+                <TextBlock Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="ФИО оператора отправившего ЭСФ" Grid.Row="2"></TextBlock>
+                <TextBlock Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Дата совершения оборота" Grid.Row="3"></TextBlock>
+                <!--<TextBlock Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Код валюты" Grid.Row="4"></TextBlock>
+                <TextBlock Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Курс валюты" Grid.Row="5"></TextBlock>-->
 
-                <TextBox Padding="5,0" Margin="2"  TextWrapping="Wrap"  IsEnabled="{Binding IsEditable}"  VerticalAlignment="Center" Text="{Binding Invoice.date}" Grid.Row="0" Grid.Column="1"></TextBox>
-                <TextBox Padding="5,0" Margin="2"  TextWrapping="Wrap"  IsEnabled="{Binding IsEditable}"  VerticalAlignment="Center" Text="{Binding Invoice.num}" Grid.Row="1" Grid.Column="1"></TextBox>
-                <TextBox Padding="5,0" Margin="2"  TextWrapping="Wrap"  IsEnabled="{Binding IsEditable}"  VerticalAlignment="Center" Text="{Binding Invoice.operatorFullname}" Grid.Row="2" Grid.Column="1"></TextBox>
-                <TextBox Padding="5,0" Margin="2"  TextWrapping="Wrap"  IsEnabled="{Binding IsEditable}"  VerticalAlignment="Center" Text="{Binding Invoice.turnoverDate}" Grid.Row="3" Grid.Column="1"></TextBox>
+                <TextBox Padding="5,0" Margin="2" Width="200" HorizontalAlignment="Left"  TextWrapping="NoWrap"  IsReadOnly="{Binding IsEditable, Converter={StaticResource BoolInverter}}"  VerticalAlignment="Center" Text="{Binding Invoice.date}" Grid.Row="0" Grid.Column="1"></TextBox>
+                <TextBox Padding="5,0" Margin="2" Width="200" HorizontalAlignment="Left"  TextWrapping="NoWrap"  IsReadOnly="{Binding IsEditable, Converter={StaticResource BoolInverter}}"  VerticalAlignment="Center" Text="{Binding Invoice.num}" Grid.Row="1" Grid.Column="1"></TextBox>
+                <TextBox Padding="5,0" Margin="2" Width="200" HorizontalAlignment="Left"  TextWrapping="NoWrap"  IsReadOnly="{Binding IsEditable, Converter={StaticResource BoolInverter}}"  VerticalAlignment="Center" Text="{Binding Invoice.operatorFullname}" Grid.Row="2" Grid.Column="1"></TextBox>
+                <TextBox Padding="5,0" Margin="2" Width="200" HorizontalAlignment="Left"  TextWrapping="NoWrap"  IsReadOnly="{Binding IsEditable, Converter={StaticResource BoolInverter}}"  VerticalAlignment="Center" Text="{Binding Invoice.turnoverDate}" Grid.Row="3" Grid.Column="1"></TextBox>
+                <!--<TextBox Padding="5,0" Margin="2"  TextWrapping="NoWrap"  IsReadOnly="{Binding IsEditable, Converter={StaticResource BoolInverter}}"  VerticalAlignment="Center" Text="{Binding Invoice.productSet.currencyCode}" Grid.Row="4" Grid.Column="1"></TextBox>
+                <TextBox Padding="5,0" Margin="2"  TextWrapping="NoWrap"  IsReadOnly="{Binding IsEditable, Converter={StaticResource BoolInverter}}"  VerticalAlignment="Center" Text="{Binding Invoice.productSet.currencyRate}" Grid.Row="5" Grid.Column="1"></TextBox>-->
+
             </Grid>
         </Grid>
     </Border>

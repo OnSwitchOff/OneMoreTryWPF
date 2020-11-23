@@ -20,17 +20,10 @@ namespace OneMoreTryWPF
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public MainWindow()
-		{
-			InitializeComponent();
-			DataContext = new InvoiceViewModel();
-		}
-
 		public MainWindow(MyInvoiceInfo myInvoiceInfo)
 		{
 			InitializeComponent();
-			InvoiceViewModel viewModel = new InvoiceViewModel();
-			viewModel.Invoice = myInvoiceInfo.invoice;
+			InvoiceViewModel viewModel = new InvoiceViewModel(myInvoiceInfo);
 			DataContext = viewModel;
 		}
 
@@ -39,17 +32,17 @@ namespace OneMoreTryWPF
 
 		}
 
-		private void isEditable_Click(object sender, RoutedEventArgs e)
-		{
-			if (isEditable.IsChecked == true)
-			{
-				led.Background = (Brush)TryFindResource("greenLed");
-			}
-			else
-			{
-				led.Background = (Brush)TryFindResource("redLed");
-			}
-		}
+		//private void isEditable_Click(object sender, RoutedEventArgs e)
+		//{
+		//	if (isEditable.IsChecked == true)
+		//	{
+		//		led.Background = (Brush)TryFindResource("greenLed");
+		//	}
+		//	else
+		//	{
+		//		led.Background = (Brush)TryFindResource("redLed");
+		//	}
+		//}
 
 		private void Window_KeyDown(object sender, KeyEventArgs e)
 		{

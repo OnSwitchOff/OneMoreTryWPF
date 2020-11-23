@@ -349,9 +349,9 @@ namespace OneMoreTryWPF.Models
 		public InvoiceV2()
 		{
 			Date = DateTime.Now;
-			num = SessionDataManagerFacade.GetNewInvoiceNum();
+			//num = SessionDataManagerFacade.GetNewInvoiceNum();
 			operatorFullname = SessionDataManagerFacade.GetOperatorFullName();
-			TurnoverDate = SessionDataManagerFacade.GetTurnoverDate();
+			//TurnoverDate
 			consignee = new ConsigneeV2();
 			customers = SessionDataManagerFacade.GetCustomers();
 			deliveryTerm = new DeliveryTermV2();

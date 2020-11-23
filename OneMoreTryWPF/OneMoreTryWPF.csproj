@@ -38,7 +38,8 @@
     <Reference Include="Database">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microinvest\Utility Center\Database.dll</HintPath>
     </Reference>
-    <Reference Include="DeviceServer">
+    <Reference Include="DeviceServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microinvest\Utility Center\DeviceServer.dll</HintPath>
     </Reference>
     <Reference Include="Nomenclatures, Version=3.7.46.32622, Culture=neutral, PublicKeyToken=908429bc4525e66d, processorArchitecture=MSIL">
@@ -77,12 +78,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\LocalService\Reference.cs">
+    <Compile Include="Connected Services\SessionService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\SessionService\Reference.cs">
+    <Compile Include="Connected Services\SignatureService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -93,6 +94,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Converters\BoolConverters.cs" />
+    <Compile Include="Converters\CodeToMeasureConverter.cs" />
     <Compile Include="Converters\CustomerStatusToStringConverter.cs" />
     <Compile Include="Converters\DateToStringConverter.cs" />
     <Compile Include="Converters\InvoiceDirectionToStringConverter.cs" />
@@ -129,6 +131,8 @@
     <Compile Include="Models\ProductShare.cs" />
     <Compile Include="Models\PublicOffice.cs" />
     <Compile Include="Models\RelatedInvoice.cs" />
+    <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProductDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\SelectObjectViewModel.cs" />
     <Compile Include="Models\ViewModels\SelectPartnerViewModel.cs" />
     <Compile Include="Models\SellerV2.cs" />
@@ -136,6 +140,18 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="UserControls\CustomerForm.xaml.cs">
       <DependentUpon>CustomerForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProductDetailsWindow.xaml.cs">
+      <DependentUpon>ProductDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProductsDataGrid_SupperDesign.xaml.cs">
+      <DependentUpon>ProductsDataGrid_SupperDesign.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProductSetSummary.xaml.cs">
+      <DependentUpon>ProductSetSummary.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SelectObjectWindow.xaml.cs">
       <DependentUpon>SelectObjectWindow.xaml</DependentUpon>
@@ -161,6 +177,9 @@
     <Compile Include="UserControls\SellerForm.xaml.cs">
       <DependentUpon>SellerForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\test geometry.xaml.cs">
+      <DependentUpon>test geometry.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -175,6 +194,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\CustomerForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProductDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProductsDataGrid_SupperDesign.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProductSetSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SellerForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\test geometry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -257,16 +296,6 @@
     <None Include="Connected Services\InvoiceService\OneMoreTryWPF.InvoiceService.TryChangeStatusResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LocalService\LocalService.wsdl" />
-    <None Include="Connected Services\LocalService\OneMoreTryWPF.LocalService.DocumentSignatureResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LocalService\OneMoreTryWPF.LocalService.ListSignatureResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\LocalService\OneMoreTryWPF.LocalService.SignatureResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Connected Services\SessionService\OneMoreTryWPF.SessionService.closeSessionResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -283,6 +312,16 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\SessionService\SessionService.wsdl" />
+    <None Include="Connected Services\SignatureService\LocalService.wsdl" />
+    <None Include="Connected Services\SignatureService\OneMoreTryWPF.SignatureService.DocumentSignatureResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SignatureService\OneMoreTryWPF.SignatureService.ListSignatureResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SignatureService\OneMoreTryWPF.SignatureService.SignatureResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\UploadInvoiceService\OneMoreTryWPF.UploadInvoiceService.SyncInvoiceResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -311,8 +350,8 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\InvoiceService\" />
-    <WCFMetadataStorage Include="Connected Services\LocalService\" />
     <WCFMetadataStorage Include="Connected Services\SessionService\" />
+    <WCFMetadataStorage Include="Connected Services\SignatureService\" />
     <WCFMetadataStorage Include="Connected Services\UploadInvoiceService\" />
   </ItemGroup>
   <ItemGroup>
@@ -370,16 +409,19 @@
     <Resource Include="Resources\images\search.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\LocalService\configuration91.svcinfo" />
+    <None Include="Connected Services\SignatureService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\LocalService\configuration.svcinfo" />
+    <None Include="Connected Services\SignatureService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\LocalService\Reference.svcmap">
+    <None Include="Connected Services\SignatureService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\images\login.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

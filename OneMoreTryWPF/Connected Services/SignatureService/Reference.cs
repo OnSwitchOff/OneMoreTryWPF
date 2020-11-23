@@ -8,36 +8,36 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OneMoreTryWPF.LocalService {
+namespace OneMoreTryWPF.SignatureService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="esf", ConfigurationName="LocalService.LocalService")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="esf", ConfigurationName="SignatureService.LocalService")]
     public interface LocalService {
         
         // CODEGEN: Generating message contract since the operation signIdWithReasonList is neither RPC nor document wrapped.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(invoiceHash[]))]
-        OneMoreTryWPF.LocalService.signIdWithReasonListResponse signIdWithReasonList(OneMoreTryWPF.LocalService.signIdWithReasonList request);
+        OneMoreTryWPF.SignatureService.signIdWithReasonListResponse signIdWithReasonList(OneMoreTryWPF.SignatureService.signIdWithReasonList request);
         
         // CODEGEN: Generating message contract since the operation generateDocumentSignature is neither RPC nor document wrapped.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(invoiceHash[]))]
-        OneMoreTryWPF.LocalService.generateDocumentSignatureResponse generateDocumentSignature(OneMoreTryWPF.LocalService.generateDocumentSignature request);
+        OneMoreTryWPF.SignatureService.generateDocumentSignatureResponse generateDocumentSignature(OneMoreTryWPF.SignatureService.generateDocumentSignature request);
         
         // CODEGEN: Generating message contract since the operation signIdList is neither RPC nor document wrapped.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(invoiceHash[]))]
-        OneMoreTryWPF.LocalService.signIdListResponse signIdList(OneMoreTryWPF.LocalService.signIdList request);
+        OneMoreTryWPF.SignatureService.signIdListResponse signIdList(OneMoreTryWPF.SignatureService.signIdList request);
         
         // CODEGEN: Generating message contract since the operation generateSignature is neither RPC nor document wrapped.
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(invoiceHash[]))]
-        OneMoreTryWPF.LocalService.generateSignatureResponse generateSignature(OneMoreTryWPF.LocalService.generateSignature request);
+        OneMoreTryWPF.SignatureService.generateSignatureResponse generateSignature(OneMoreTryWPF.SignatureService.generateSignature request);
     }
     
     /// <remarks/>
@@ -550,12 +550,12 @@ namespace OneMoreTryWPF.LocalService {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="esf", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public OneMoreTryWPF.LocalService.ListWithReasonSignatureRequest idWithReasonListRequest;
+        public OneMoreTryWPF.SignatureService.ListWithReasonSignatureRequest idWithReasonListRequest;
         
         public signIdWithReasonList() {
         }
         
-        public signIdWithReasonList(OneMoreTryWPF.LocalService.ListWithReasonSignatureRequest idWithReasonListRequest) {
+        public signIdWithReasonList(OneMoreTryWPF.SignatureService.ListWithReasonSignatureRequest idWithReasonListRequest) {
             this.idWithReasonListRequest = idWithReasonListRequest;
         }
     }
@@ -568,12 +568,12 @@ namespace OneMoreTryWPF.LocalService {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="esf", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public OneMoreTryWPF.LocalService.ListSignatureResponse listSignatureResponse;
+        public OneMoreTryWPF.SignatureService.ListSignatureResponse listSignatureResponse;
         
         public signIdWithReasonListResponse() {
         }
         
-        public signIdWithReasonListResponse(OneMoreTryWPF.LocalService.ListSignatureResponse listSignatureResponse) {
+        public signIdWithReasonListResponse(OneMoreTryWPF.SignatureService.ListSignatureResponse listSignatureResponse) {
             this.listSignatureResponse = listSignatureResponse;
         }
     }
@@ -586,12 +586,12 @@ namespace OneMoreTryWPF.LocalService {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="esf", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public OneMoreTryWPF.LocalService.DocumentSignatureRequest documentSignatureRequest;
+        public OneMoreTryWPF.SignatureService.DocumentSignatureRequest documentSignatureRequest;
         
         public generateDocumentSignature() {
         }
         
-        public generateDocumentSignature(OneMoreTryWPF.LocalService.DocumentSignatureRequest documentSignatureRequest) {
+        public generateDocumentSignature(OneMoreTryWPF.SignatureService.DocumentSignatureRequest documentSignatureRequest) {
             this.documentSignatureRequest = documentSignatureRequest;
         }
     }
@@ -604,12 +604,12 @@ namespace OneMoreTryWPF.LocalService {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="esf", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public OneMoreTryWPF.LocalService.DocumentSignatureResponse documentSignatureResponse;
+        public OneMoreTryWPF.SignatureService.DocumentSignatureResponse documentSignatureResponse;
         
         public generateDocumentSignatureResponse() {
         }
         
-        public generateDocumentSignatureResponse(OneMoreTryWPF.LocalService.DocumentSignatureResponse documentSignatureResponse) {
+        public generateDocumentSignatureResponse(OneMoreTryWPF.SignatureService.DocumentSignatureResponse documentSignatureResponse) {
             this.documentSignatureResponse = documentSignatureResponse;
         }
     }
@@ -622,12 +622,12 @@ namespace OneMoreTryWPF.LocalService {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="esf", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public OneMoreTryWPF.LocalService.ListSignatureRequest idListRequest;
+        public OneMoreTryWPF.SignatureService.ListSignatureRequest idListRequest;
         
         public signIdList() {
         }
         
-        public signIdList(OneMoreTryWPF.LocalService.ListSignatureRequest idListRequest) {
+        public signIdList(OneMoreTryWPF.SignatureService.ListSignatureRequest idListRequest) {
             this.idListRequest = idListRequest;
         }
     }
@@ -640,12 +640,12 @@ namespace OneMoreTryWPF.LocalService {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="esf", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public OneMoreTryWPF.LocalService.ListSignatureResponse listSignatureResponse;
+        public OneMoreTryWPF.SignatureService.ListSignatureResponse listSignatureResponse;
         
         public signIdListResponse() {
         }
         
-        public signIdListResponse(OneMoreTryWPF.LocalService.ListSignatureResponse listSignatureResponse) {
+        public signIdListResponse(OneMoreTryWPF.SignatureService.ListSignatureResponse listSignatureResponse) {
             this.listSignatureResponse = listSignatureResponse;
         }
     }
@@ -658,12 +658,12 @@ namespace OneMoreTryWPF.LocalService {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="esf", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public OneMoreTryWPF.LocalService.SignatureRequest signatureRequest;
+        public OneMoreTryWPF.SignatureService.SignatureRequest signatureRequest;
         
         public generateSignature() {
         }
         
-        public generateSignature(OneMoreTryWPF.LocalService.SignatureRequest signatureRequest) {
+        public generateSignature(OneMoreTryWPF.SignatureService.SignatureRequest signatureRequest) {
             this.signatureRequest = signatureRequest;
         }
     }
@@ -676,23 +676,23 @@ namespace OneMoreTryWPF.LocalService {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="esf", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public OneMoreTryWPF.LocalService.SignatureResponse signatureResponse;
+        public OneMoreTryWPF.SignatureService.SignatureResponse signatureResponse;
         
         public generateSignatureResponse() {
         }
         
-        public generateSignatureResponse(OneMoreTryWPF.LocalService.SignatureResponse signatureResponse) {
+        public generateSignatureResponse(OneMoreTryWPF.SignatureService.SignatureResponse signatureResponse) {
             this.signatureResponse = signatureResponse;
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface LocalServiceChannel : OneMoreTryWPF.LocalService.LocalService, System.ServiceModel.IClientChannel {
+    public interface LocalServiceChannel : OneMoreTryWPF.SignatureService.LocalService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class LocalServiceClient : System.ServiceModel.ClientBase<OneMoreTryWPF.LocalService.LocalService>, OneMoreTryWPF.LocalService.LocalService {
+    public partial class LocalServiceClient : System.ServiceModel.ClientBase<OneMoreTryWPF.SignatureService.LocalService>, OneMoreTryWPF.SignatureService.LocalService {
         
         public LocalServiceClient() {
         }
@@ -714,50 +714,50 @@ namespace OneMoreTryWPF.LocalService {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        OneMoreTryWPF.LocalService.signIdWithReasonListResponse OneMoreTryWPF.LocalService.LocalService.signIdWithReasonList(OneMoreTryWPF.LocalService.signIdWithReasonList request) {
+        OneMoreTryWPF.SignatureService.signIdWithReasonListResponse OneMoreTryWPF.SignatureService.LocalService.signIdWithReasonList(OneMoreTryWPF.SignatureService.signIdWithReasonList request) {
             return base.Channel.signIdWithReasonList(request);
         }
         
-        public OneMoreTryWPF.LocalService.ListSignatureResponse signIdWithReasonList(OneMoreTryWPF.LocalService.ListWithReasonSignatureRequest idWithReasonListRequest) {
-            OneMoreTryWPF.LocalService.signIdWithReasonList inValue = new OneMoreTryWPF.LocalService.signIdWithReasonList();
+        public OneMoreTryWPF.SignatureService.ListSignatureResponse signIdWithReasonList(OneMoreTryWPF.SignatureService.ListWithReasonSignatureRequest idWithReasonListRequest) {
+            OneMoreTryWPF.SignatureService.signIdWithReasonList inValue = new OneMoreTryWPF.SignatureService.signIdWithReasonList();
             inValue.idWithReasonListRequest = idWithReasonListRequest;
-            OneMoreTryWPF.LocalService.signIdWithReasonListResponse retVal = ((OneMoreTryWPF.LocalService.LocalService)(this)).signIdWithReasonList(inValue);
+            OneMoreTryWPF.SignatureService.signIdWithReasonListResponse retVal = ((OneMoreTryWPF.SignatureService.LocalService)(this)).signIdWithReasonList(inValue);
             return retVal.listSignatureResponse;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        OneMoreTryWPF.LocalService.generateDocumentSignatureResponse OneMoreTryWPF.LocalService.LocalService.generateDocumentSignature(OneMoreTryWPF.LocalService.generateDocumentSignature request) {
+        OneMoreTryWPF.SignatureService.generateDocumentSignatureResponse OneMoreTryWPF.SignatureService.LocalService.generateDocumentSignature(OneMoreTryWPF.SignatureService.generateDocumentSignature request) {
             return base.Channel.generateDocumentSignature(request);
         }
         
-        public OneMoreTryWPF.LocalService.DocumentSignatureResponse generateDocumentSignature(OneMoreTryWPF.LocalService.DocumentSignatureRequest documentSignatureRequest) {
-            OneMoreTryWPF.LocalService.generateDocumentSignature inValue = new OneMoreTryWPF.LocalService.generateDocumentSignature();
+        public OneMoreTryWPF.SignatureService.DocumentSignatureResponse generateDocumentSignature(OneMoreTryWPF.SignatureService.DocumentSignatureRequest documentSignatureRequest) {
+            OneMoreTryWPF.SignatureService.generateDocumentSignature inValue = new OneMoreTryWPF.SignatureService.generateDocumentSignature();
             inValue.documentSignatureRequest = documentSignatureRequest;
-            OneMoreTryWPF.LocalService.generateDocumentSignatureResponse retVal = ((OneMoreTryWPF.LocalService.LocalService)(this)).generateDocumentSignature(inValue);
+            OneMoreTryWPF.SignatureService.generateDocumentSignatureResponse retVal = ((OneMoreTryWPF.SignatureService.LocalService)(this)).generateDocumentSignature(inValue);
             return retVal.documentSignatureResponse;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        OneMoreTryWPF.LocalService.signIdListResponse OneMoreTryWPF.LocalService.LocalService.signIdList(OneMoreTryWPF.LocalService.signIdList request) {
+        OneMoreTryWPF.SignatureService.signIdListResponse OneMoreTryWPF.SignatureService.LocalService.signIdList(OneMoreTryWPF.SignatureService.signIdList request) {
             return base.Channel.signIdList(request);
         }
         
-        public OneMoreTryWPF.LocalService.ListSignatureResponse signIdList(OneMoreTryWPF.LocalService.ListSignatureRequest idListRequest) {
-            OneMoreTryWPF.LocalService.signIdList inValue = new OneMoreTryWPF.LocalService.signIdList();
+        public OneMoreTryWPF.SignatureService.ListSignatureResponse signIdList(OneMoreTryWPF.SignatureService.ListSignatureRequest idListRequest) {
+            OneMoreTryWPF.SignatureService.signIdList inValue = new OneMoreTryWPF.SignatureService.signIdList();
             inValue.idListRequest = idListRequest;
-            OneMoreTryWPF.LocalService.signIdListResponse retVal = ((OneMoreTryWPF.LocalService.LocalService)(this)).signIdList(inValue);
+            OneMoreTryWPF.SignatureService.signIdListResponse retVal = ((OneMoreTryWPF.SignatureService.LocalService)(this)).signIdList(inValue);
             return retVal.listSignatureResponse;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        OneMoreTryWPF.LocalService.generateSignatureResponse OneMoreTryWPF.LocalService.LocalService.generateSignature(OneMoreTryWPF.LocalService.generateSignature request) {
+        OneMoreTryWPF.SignatureService.generateSignatureResponse OneMoreTryWPF.SignatureService.LocalService.generateSignature(OneMoreTryWPF.SignatureService.generateSignature request) {
             return base.Channel.generateSignature(request);
         }
         
-        public OneMoreTryWPF.LocalService.SignatureResponse generateSignature(OneMoreTryWPF.LocalService.SignatureRequest signatureRequest) {
-            OneMoreTryWPF.LocalService.generateSignature inValue = new OneMoreTryWPF.LocalService.generateSignature();
+        public OneMoreTryWPF.SignatureService.SignatureResponse generateSignature(OneMoreTryWPF.SignatureService.SignatureRequest signatureRequest) {
+            OneMoreTryWPF.SignatureService.generateSignature inValue = new OneMoreTryWPF.SignatureService.generateSignature();
             inValue.signatureRequest = signatureRequest;
-            OneMoreTryWPF.LocalService.generateSignatureResponse retVal = ((OneMoreTryWPF.LocalService.LocalService)(this)).generateSignature(inValue);
+            OneMoreTryWPF.SignatureService.generateSignatureResponse retVal = ((OneMoreTryWPF.SignatureService.LocalService)(this)).generateSignature(inValue);
             return retVal.signatureResponse;
         }
     }

@@ -1,7 +1,9 @@
-﻿using OneMoreTryWPF.LocalService;
+﻿
+using OneMoreTryWPF.SignatureService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Windows;
 
@@ -15,7 +17,13 @@ namespace OneMoreTryWPF.Facades
 		{
 			if (serviceClient == null)
 			{
-				serviceClient = new LocalServiceClient();
+				string EndpointAddressString = ConfigManagerFacade.getLocalService_EndpointAddress();
+				EndpointAddress endpointAdress = new EndpointAddress(EndpointAddressString);
+
+				BasicHttpBinding basicHttpBinding = new BasicHttpBinding();
+
+
+				serviceClient = new LocalServiceClient(basicHttpBinding, endpointAdress);
 			}
 
 			return serviceClient;

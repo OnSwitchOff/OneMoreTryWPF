@@ -56,6 +56,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool EnterpriseValidation()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			EnterpriseValidationRequest enterpriseValidationRequest = new EnterpriseValidationRequest();
 			enterpriseValidationRequest.sessionId = SessionDataManagerFacade.getSessionId();
 
@@ -92,6 +93,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool QueryInvoiceById(out QueryInvoiceResponse queryInvoiceResponse)
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceByIdRequest invoiceByIdRequest = new InvoiceByIdRequest();
 			invoiceByIdRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceByIdRequest.idList = SessionDataManagerFacade.getInvoiceIdList();
@@ -112,6 +114,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool QueryInvoiceSummaryById()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceByIdRequest invoiceSummaryByIdRequest = new InvoiceByIdRequest();
 			invoiceSummaryByIdRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceSummaryByIdRequest.idList = SessionDataManagerFacade.getInvoiceIdList();
@@ -131,6 +134,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool QueryInvoiceByKey()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceByKeyRequest invoiceByKeyRequest = new InvoiceByKeyRequest();
 			invoiceByKeyRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceByKeyRequest.invoiceKeyList = SessionDataManagerFacade.getinvoiceKeyList();
@@ -151,6 +155,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool QueryUpdates(out QueryInvoiceUpdateResponse queryInvoiceUpdateResponse)
 		{
+			SessionServiceOperationsFacade.StartSession();
 			QueryInvoiceUpdateRequest queryInvoiceUpdateRequest = new QueryInvoiceUpdateRequest();
 			queryInvoiceUpdateRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			queryInvoiceUpdateRequest.lastEventDate = SessionDataManagerFacade.getlastEventDate();
@@ -175,6 +180,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool QueryInvoiceSummaryByKey()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceByKeyRequest invoiceSummaryByKeyRequest = new InvoiceByKeyRequest();
 			invoiceSummaryByKeyRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceSummaryByKeyRequest.invoiceKeyList = SessionDataManagerFacade.getinvoiceKeyList();
@@ -195,11 +201,10 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool QueryInvoice(out QueryInvoiceResponse queryInvoiceResponse)
 		{
+			SessionServiceOperationsFacade.StartSession();
 			QueryInvoiceRequest queryInvoiceRequest = new QueryInvoiceRequest();
 			queryInvoiceRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			queryInvoiceRequest.criteria = SessionDataManagerFacade.getQueryInvoiceCriteria();
-
-
 			try
 			{
 				queryInvoiceResponse = getServiceClient().queryInvoice(queryInvoiceRequest);
@@ -215,6 +220,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool RevokeInvoiceById()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceByIdWithReasonRequest invoiceByIdWithReasonRequest = new InvoiceByIdWithReasonRequest();
 			invoiceByIdWithReasonRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceByIdWithReasonRequest.signature = SessionDataManagerFacade.getInvoiceSignatureIdWithReason();
@@ -236,6 +242,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool declineInvoiceById()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceByIdWithReasonRequest invoiceByIdWithReasonRequest = new InvoiceByIdWithReasonRequest();
 			invoiceByIdWithReasonRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceByIdWithReasonRequest.signature = SessionDataManagerFacade.getInvoiceSignatureIdWithReason();
@@ -257,6 +264,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool unrevokeInvoiceById()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceByIdWithReasonRequest invoiceByIdWithReasonRequest = new InvoiceByIdWithReasonRequest();
 			invoiceByIdWithReasonRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceByIdWithReasonRequest.signature = SessionDataManagerFacade.getInvoiceSignatureIdWithReason();
@@ -278,6 +286,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool confirmInvoiceById()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceByIdRequest invoiceByIdRequest = new InvoiceByIdRequest();
 			invoiceByIdRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceByIdRequest.idList = SessionDataManagerFacade.getInvoiceIdList();
@@ -297,6 +306,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool QueryInvoiceErrorById()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			InvoiceErrorByIdRequest invoiceErrorByIdRequest = new InvoiceErrorByIdRequest();
 			invoiceErrorByIdRequest.sessionId = SessionDataManagerFacade.getSessionId();
 			invoiceErrorByIdRequest.idList = SessionDataManagerFacade.getInvoiceIdList();
@@ -316,6 +326,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool queryInvoiceHistoryById()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			QueryInvoiceHistoryByIdRequest queryInvoiceHistoryByIdRequest = new QueryInvoiceHistoryByIdRequest();
 			queryInvoiceHistoryByIdRequest.idList = SessionDataManagerFacade.getInvoiceIdList();
 			queryInvoiceHistoryByIdRequest.sessionId = SessionDataManagerFacade.getSessionId();
@@ -336,6 +347,7 @@ namespace OneMoreTryWPF.Facades
 
 		static public bool DeleteInvoiceById()
 		{
+			SessionServiceOperationsFacade.StartSession();
 			DeleteInvoiceByIdRequest deleteInvoiceByIdRequest = new DeleteInvoiceByIdRequest();
 			deleteInvoiceByIdRequest.idList = SessionDataManagerFacade.getInvoiceIdList();
 			deleteInvoiceByIdRequest.sessionId = SessionDataManagerFacade.getSessionId();

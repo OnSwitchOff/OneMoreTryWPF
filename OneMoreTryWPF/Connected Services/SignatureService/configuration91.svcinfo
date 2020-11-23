@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="wosuBHIrV8qG7kw75Kd37/bK4HNWXRRSIKdlQTykeF8=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="7fsOOb5eFRAU7y1nWMu4CbikzXefy8jeelNAByvIsH8=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="LocalServiceSoapBinding">
       <properties>
@@ -112,7 +112,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="LocalServicePort" contract="LocalService.LocalService" bindingType="basicHttpBinding" address="http://localhost:6666/LocalService" bindingConfiguration="LocalServiceSoapBinding">
+    <endpoint name="LocalServicePort" contract="SignatureService.LocalService" bindingType="basicHttpBinding" address="http://localhost:6666/LocalService" bindingConfiguration="LocalServiceSoapBinding">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://localhost:6666/LocalService</serializedValue>
@@ -127,7 +127,7 @@
           <serializedValue>LocalServiceSoapBinding</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>LocalService.LocalService</serializedValue>
+          <serializedValue>SignatureService.LocalService</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>

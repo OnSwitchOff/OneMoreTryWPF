@@ -9,14 +9,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" MinWidth="600" d:DesignWidth="800" >
     <UserControl.Resources>
-        <SolidColorBrush x:Key="required" Color="Green" Opacity="0.3"/>
-        <SolidColorBrush x:Key="optional" Color="Orange" Opacity="0.3"/>
-        <SolidColorBrush x:Key="ignored"  Color="DarkGray" Opacity="0.5"/>
         <converter:SellerStatusToStringConverter x:Key="StatusConverter"/>
         <converter:BoolToVisibleConverter x:Key="VisibleConverter"/>
         <converter:BoolInverter x:Key="BoolInverter"/>
     </UserControl.Resources>
-    <Border CornerRadius="0" Background="#FFEEF5FD"  BorderBrush="SteelBlue" BorderThickness="2" Height="Auto">
+    <Border CornerRadius="0" Background="Transparent"  BorderBrush="Transparent" BorderThickness="0" Height="Auto">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -24,7 +21,8 @@
             </Grid.RowDefinitions>
             <CheckBox x:Name="isGodMode" Visibility="Collapsed" IsChecked="{Binding GodMode}"  IsEnabled="{Binding IsEditable}"/>
             <Button  x:Name="btnAddPartnerContext" Visibility="Collapsed" Command="{Binding AddPartnerCommand}"/>
-            <Grid Background="#FF8AA7D1">
+            
+            <Grid Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition  Width="Auto"/>
@@ -33,13 +31,14 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="Поставщик"  FontSize="16"  Padding="25,5,5,5"/>
-                <Image x:Name="imgValidSeller" Source="/OneMoreTryWPF;component/Resources/images/confirm.png" IsEnabled="{Binding IsValidSeller, Converter={StaticResource BoolInverter}}" Visibility="{Binding IsValidSeller, Converter={StaticResource VisibleConverter}}" Height="20" Width="20"  Grid.Column="1"/>
-                <Image Source="/OneMoreTryWPF;component/Resources/images/question.png" Visibility="{Binding ElementName=imgValidSeller, Path=IsEnabled, Converter={StaticResource VisibleConverter}}"  Height="20" Width="20"  Grid.Column="2"/>
+                <TextBlock Text="Поставщик"  FontSize="16" FontWeight="Bold"  Padding="20,20,0,6"/>
+                <Image x:Name="imgValidSeller" Margin="5,14,0,6" Source="/OneMoreTryWPF;component/Resources/images/confirm.png" IsEnabled="{Binding IsValidSeller, Converter={StaticResource BoolInverter}}" Visibility="{Binding IsValidSeller, Converter={StaticResource VisibleConverter}}" Height="12" Width="12"  Grid.Column="1"/>
+                <Image Margin="5,14,0,6" Source="/OneMoreTryWPF;component/Resources/images/question.png" Visibility="{Binding ElementName=imgValidSeller, Path=IsEnabled, Converter={StaticResource VisibleConverter}}"  Height="12" Width="12"  Grid.Column="2"/>
             </Grid>
-            <Grid x:Name="sellerGrid" Margin="20" Visibility="Visible" DataContext="{Binding Invoice.sellers[0]}" Grid.Row="1" Height="Auto" MinWidth="300" >
+
+            <Grid x:Name="sellerGrid" Margin="15,0" Visibility="Visible" DataContext="{Binding Invoice.sellers[0]}" Grid.Row="1" Height="Auto" MinWidth="300" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition MinWidth="180" Width="180"/>
                     <ColumnDefinition Width="*" MinWidth="120"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
@@ -60,30 +59,30 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="l_tin" Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="ИИН/БИН" Grid.Row="0"></TextBlock>
-                <TextBlock x:Name="l_name" Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Наименование поставщика" Grid.Row="1"></TextBlock>
-                <TextBlock x:Name="l_address" Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Адрес" Grid.Row="2"></TextBlock>
-                <TextBlock x:Name="l_branchTin" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="БИН филиала, выписавшего ЭСФ за голову" Grid.Row="3"></TextBlock>
-                <TextBlock x:Name="l_reorganizedTin" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="БИН реорганизованного лица" Grid.Row="4"></TextBlock>
-                <TextBlock x:Name="l_shareParticipation" Padding="5,0"  TextWrapping="Wrap" Visibility="Collapsed"  VerticalAlignment="Center" Text="Доля участия" Grid.Row="5"></TextBlock>
-                <TextBlock x:Name="l_certificateSeries" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="Серия cвидетельства НДС" Grid.Row="6"></TextBlock>
-                <TextBlock x:Name="l_certificateNum" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="Номер cвидетельства НДС" Grid.Row="7"></TextBlock>
-                <TextBlock x:Name="l_isBranchNonResident" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"   VerticalAlignment="Center" Text="Cтруктурное подразделение юридического лица-нерезидента" Grid.Row="8"></TextBlock>
-                <TextBlock x:Name="l_statuses" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="Категория поставщика" Grid.Row="9"></TextBlock>
-                <TextBlock x:Name="l_trailer" Padding="5,0"  TextWrapping="Wrap"  VerticalAlignment="Center" Text="Дополнительные сведения" Grid.Row="10"></TextBlock>
-                <TextBlock x:Name="l_kbe" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="КБе" Grid.Row="11"></TextBlock>
-                <TextBlock x:Name="l_iik" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="Расчетный счет" Grid.Row="12"></TextBlock>
-                <TextBlock x:Name="l_bik" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="БИК" Grid.Row="13"></TextBlock>
-                <TextBlock x:Name="l_bank" Padding="5,0"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="Наименование банка" Grid.Row="14"></TextBlock>
+                <TextBlock x:Name="l_tin" Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="ИИН/БИН" Grid.Row="0"></TextBlock>
+                <TextBlock x:Name="l_name" Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Наименование поставщика" Grid.Row="1"></TextBlock>
+                <TextBlock x:Name="l_address" Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Адрес" Grid.Row="2"></TextBlock>
+                <TextBlock x:Name="l_branchTin" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="БИН филиала, выписавшего ЭСФ за голову" Grid.Row="3"></TextBlock>
+                <TextBlock x:Name="l_reorganizedTin" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="БИН реорганизованного лица" Grid.Row="4"></TextBlock>
+                <TextBlock x:Name="l_shareParticipation" Padding="5,0"  TextWrapping="NoWrap" Visibility="Collapsed"  VerticalAlignment="Center" Text="Доля участия" Grid.Row="5"></TextBlock>
+                <TextBlock x:Name="l_certificateSeries" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="Серия cвидетельства НДС" Grid.Row="6"></TextBlock>
+                <TextBlock x:Name="l_certificateNum" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="Номер cвидетельства НДС" Grid.Row="7"></TextBlock>
+                <TextBlock x:Name="l_isBranchNonResident" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"   VerticalAlignment="Center" Text="Cтруктурное подразделение юридического лица-нерезидента" Grid.Row="8"></TextBlock>
+                <TextBlock x:Name="l_statuses" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="Категория поставщика" Grid.Row="9"></TextBlock>
+                <TextBlock x:Name="l_trailer" Padding="5,0"  TextWrapping="NoWrap"  VerticalAlignment="Center" Text="Дополнительные сведения" Grid.Row="10"></TextBlock>
+                <TextBlock x:Name="l_kbe" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="КБе" Grid.Row="11"></TextBlock>
+                <TextBlock x:Name="l_iik" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="Расчетный счет" Grid.Row="12"></TextBlock>
+                <TextBlock x:Name="l_bik" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="БИК" Grid.Row="13"></TextBlock>
+                <TextBlock x:Name="l_bank" Padding="5,0"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="Наименование банка" Grid.Row="14"></TextBlock>
 
-                <TextBox x:Name="tbTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding tin, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"></TextBox>
-                <TextBox x:Name="tbName" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding name, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbAddress" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="Wrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding address, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbBranchTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="{Binding branchTin, Mode=TwoWay}" Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbReorganizedTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding reorganizedTin, Mode=TwoWay}" Grid.Column="1" Grid.Row="4"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbShareParticipation" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="Wrap" Visibility="Collapsed"  VerticalAlignment="Center" Text="{Binding shareParticipation, Mode=TwoWay}" Grid.Column="1" Grid.Row="5"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbCertificateSeries" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding certificateSeries, Mode=TwoWay}" Grid.Column="1" Grid.Row="6"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbCertificateNum" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="{Binding certificateNum, Mode=TwoWay}" Grid.Column="1" Grid.Row="7"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding tin, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"></TextBox>
+                <TextBox x:Name="tbName" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding name, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbAddress" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="Visible"  VerticalAlignment="Center" Text="{Binding address, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbBranchTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="{Binding branchTin, Mode=TwoWay}" Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbReorganizedTin" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding reorganizedTin, Mode=TwoWay}" Grid.Column="1" Grid.Row="4"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbShareParticipation" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="Collapsed"  VerticalAlignment="Center" Text="{Binding shareParticipation, Mode=TwoWay}" Grid.Column="1" Grid.Row="5"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbCertificateSeries" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding certificateSeries, Mode=TwoWay}" Grid.Column="1" Grid.Row="6"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbCertificateNum" Padding="5,0" Margin="2" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}" TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="{Binding certificateNum, Mode=TwoWay}" Grid.Column="1" Grid.Row="7"  Grid.ColumnSpan="2"></TextBox>
                 <CheckBox x:Name="cbIsBranchNonResident" Padding="5,0" Margin="2" IsEnabled="{Binding ElementName=isGodMode,Path=IsEnabled}" VerticalAlignment="Center" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  Grid.Column="1" IsChecked="{Binding isBranchNonResident}" Grid.Row="8"  Grid.ColumnSpan="2"></CheckBox>
                 <ListView x:Name="statusesList" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  Margin="2" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" ItemsSource="{Binding statuses, Mode=TwoWay}">
                     <ListView.ItemTemplate>
@@ -92,11 +91,11 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <TextBox x:Name="tbTrailer" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2" TextWrapping="Wrap"  VerticalAlignment="Center" Text="{Binding additional, Mode=TwoWay}" Grid.Column="1" Grid.Row="10"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbKbe" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2"  TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding kbe, Mode=TwoWay}" Grid.Column="1" Grid.Row="11"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbIik" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2" TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding iik, Mode=TwoWay}" Grid.Column="1" Grid.Row="12"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbBik" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2" TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="{Binding bik, Mode=TwoWay}" Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2"></TextBox>
-                <TextBox x:Name="tbBank" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2" TextWrapping="Wrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding bank, Mode=TwoWay}" Grid.Column="1" Grid.Row="14"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbTrailer" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2" TextWrapping="NoWrap"  VerticalAlignment="Center" Text="{Binding additional, Mode=TwoWay}" Grid.Column="1" Grid.Row="10"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbKbe" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2"  TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding kbe, Mode=TwoWay}" Grid.Column="1" Grid.Row="11"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbIik" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2" TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding iik, Mode=TwoWay}" Grid.Column="1" Grid.Row="12"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbBik" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2" TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}" VerticalAlignment="Center" Text="{Binding bik, Mode=TwoWay}" Grid.Column="1" Grid.Row="13"  Grid.ColumnSpan="2"></TextBox>
+                <TextBox x:Name="tbBank" Padding="5,0" IsReadOnly="{Binding ElementName=isGodMode,Path=IsEnabled,Converter={StaticResource BoolInverter}}"  Margin="2" TextWrapping="NoWrap" Visibility="{Binding ElementName=isGodMode, Path=IsChecked, Converter={StaticResource VisibleConverter}}"  VerticalAlignment="Center" Text="{Binding bank, Mode=TwoWay}" Grid.Column="1" Grid.Row="14"  Grid.ColumnSpan="2"></TextBox>
 
                 <Button IsEnabled="{Binding ElementName=imgValidSeller, Path=IsEnabled}" Grid.Column="2" Background="Transparent"  Padding="1" BorderThickness="1" BorderBrush="#FF8AA7D1" Margin="2" VerticalAlignment="Center" Command="{Binding ElementName=btnAddPartnerContext, Path=Command}">
                     <Image Source="/OneMoreTryWPF;component/Resources/images/create.png" Width="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>

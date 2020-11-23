@@ -1,0 +1,134 @@
+﻿<Window x:Class="OneMoreTryWPF.UserControls.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OneMoreTryWPF.UserControls"
+        xmlns:conv ="clr-namespace:OneMoreTryWPF.Converters" 
+        mc:Ignorable="d"
+        Title="Авторизация" Height="180" Width="500" ResizeMode="NoResize">
+    <Window.Resources>
+        <conv:BoolToVisibleConverter x:Key="VisibleConverter"/>
+        <LinearGradientBrush x:Key="borderBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFA3AEB9" Offset="0.0"/>
+                    <GradientStop Color="#FF718597" Offset="0.375"/>
+                    <GradientStop Color="#FF617584" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="fontBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FF386C9B" Offset="0"/>
+                    <GradientStop Color="#FF1B669E" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <Style TargetType="{x:Type Button}">
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="2"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                </Style>                
+                <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#ddf5ff" Offset="0" />
+                    <GradientStop Color="#b0e4fc" Offset="1" />
+                </LinearGradientBrush>
+                <LinearGradientBrush x:Key="{x:Static SystemColors.ControlBrushKey}" StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#ddf5ff" Offset="0" />
+                    <GradientStop Color="#b0e4fc" Offset="1" />
+                </LinearGradientBrush>
+                <!--  <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Blue" /> -->
+            </Style.Resources>
+            <!-- Style for the selected item -->          
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#ddf5ff" Offset="0" />
+                        <GradientStop Color="#b0e4fc" Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderBrush="{StaticResource borderBrush}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>                       
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsEnabled" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter Property="Background" Value="#ddf5ff"/>
+                    </MultiTrigger.Setters>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#bbcadd" Offset="0"/>
+                <GradientStop Color="#eef5fd" Offset="0.05"/>
+                <GradientStop Color="#bbcadd" Offset="0.1"/>
+                <GradientStop Color="#bbcadd" Offset="0.5"/>
+                <GradientStop Color="#bbcadd" Offset="0.9"/>
+                <GradientStop Color="#eef5fd" Offset="0.95"/>
+                <GradientStop Color="#bbcadd" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="159"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Margin="2,5,0,5" Padding="2" Text="ИИН/БИН" Foreground="{StaticResource fontBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="232"></TextBlock>
+        <TextBox IsReadOnly="True" Grid.Column="3" Grid.Row="3"  Grid.ColumnSpan="2" Margin="2" BorderBrush="{StaticResource borderBrush}" Height="26" Padding="2"   Foreground="{StaticResource borderBrush}"  Text="{Binding Tin}" VerticalAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+
+        <TextBlock Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Margin="2,5,0,5" Padding="2" Text="Пароль для авторизации в ИС ЭСФ" Foreground="{StaticResource fontBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="232"></TextBlock>
+        <PasswordBox x:Name="password" Grid.Column="3" Grid.Row="4" Margin="2" Padding="2" BorderBrush="{StaticResource borderBrush}" Foreground="{StaticResource borderBrush}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" ></PasswordBox>
+        <Button Grid.Column="4" Grid.Row="4" Margin="2"  BorderBrush="{StaticResource borderBrush}" IsEnabled="{Binding IsValidCert}" Click="Button_Click">
+            <Image Margin="2"  Source="/OneMoreTryWPF;component/Resources/images/Login.png"/>
+        </Button>
+
+        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="2,5,0,5" Padding="2" Text="Путь к электронному ключу авторизации" Foreground="{StaticResource fontBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="232"></TextBlock>
+        <TextBox Grid.Column="3" Grid.Row="1" Margin="2" Padding="2" BorderBrush="{StaticResource borderBrush}" Foreground="{StaticResource borderBrush}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Text="{Binding AuthCertificatePath}"></TextBox>
+        <Button Grid.Column="4" Grid.Row="1" Margin="2"  BorderBrush="{StaticResource borderBrush}" Command ="{Binding BrowseCommand}">
+            <Image Margin="2"  Source="/OneMoreTryWPF;component/Resources/images/search.png"/>
+        </Button>
+        <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"  Margin="2,5,0,5" Padding="2" Text="Пароль от электронного ключа авторизации" Foreground="{StaticResource fontBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Height="20" Width="252"></TextBlock>
+        <PasswordBox x:Name="pin" Grid.Column="3" Grid.Row="2" Margin="2" Padding="2" BorderBrush="{StaticResource borderBrush}" Foreground="{StaticResource borderBrush}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" PasswordChanged="pin_PasswordChanged"></PasswordBox>
+        <Button Grid.Column="4" Grid.Row="2" Margin="2"  BorderBrush="{StaticResource borderBrush}" IsEnabled="{Binding IsFailedCert}" Command ="{Binding ConfirmCommand}" CommandParameter="{Binding ElementName=pin, Path=.}">
+            <Grid Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition  Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image Margin="2" Grid.Column="0" Source="/OneMoreTryWPF;component/Resources/images/question.png" Visibility="{Binding IsFailedCert, Converter={StaticResource VisibleConverter}}"/>
+                <Image Margin="2" Grid.Column="1" Source="/OneMoreTryWPF;component/Resources/images/confirm.png"  Visibility="{Binding IsValidCert, Converter={StaticResource VisibleConverter}}"/>
+            </Grid>
+        </Button>
+    </Grid>
+</Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OneMoreTryWPF.Facades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace OneMoreTryWPF.Models
 			set
 			{
 				id = value;
+				if (Id != 0)
+				{
+
+					Name = SessionDataManagerFacade.getObjects().Select(String.Format("ID={0} ", Id))[0]["Name"].ToString();
+
+				}
 				OnPropertyChanged("Id");
 			}
 		}

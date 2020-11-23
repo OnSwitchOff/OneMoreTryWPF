@@ -34,7 +34,19 @@ namespace OneMoreTryWPF.Models
 			}
 		}*/
 
-		private DateTime DateFrom = DateTime.Now.AddDays(-10);
+
+		private DateTime SalesLimitDate = DateTime.Now.AddDays(-14);
+		public DateTime salesLimitDate
+		{
+			get { return SalesLimitDate; }
+			set
+			{
+				SalesLimitDate = value;
+				OnPropertyChanged("salesLimitDate");
+			}
+		}
+
+		private DateTime DateFrom = DateTime.Now.AddDays(-14);
 		public DateTime dateFrom
 		{
 			get { return DateFrom; }

@@ -154,7 +154,7 @@ namespace OneMoreTryWPF.Models
 			get { return ProductNumberInDeclaration; }
 			set
 			{
-				ProductNumberInDeclaration = value;
+				ProductNumberInDeclaration = value.ToString() == "0"? String.Empty : value ;
 				OnPropertyChanged("productNumberInDeclaration");
 			}
 		}
@@ -290,6 +290,23 @@ namespace OneMoreTryWPF.Models
 				OnPropertyChanged("rowNumber");
 			}
 		}
+
+		private bool isContained;
+		public bool IsContained
+		{
+			get { return isContained; }
+			set
+			{
+				isContained = value;
+				OnPropertyChanged("IsContained");
+				OnPropertyChanged("IsNotContained");
+			}
+		}
+		public bool IsNotContained
+		{
+			get { return !isContained;}
+		}
+
 
 		public ProductV2() { }
 

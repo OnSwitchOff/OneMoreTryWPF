@@ -1,4 +1,5 @@
-﻿using OneMoreTryWPF.InvoiceService;
+﻿using OneMoreTryWPF.Facades;
+using OneMoreTryWPF.InvoiceService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +22,82 @@ namespace OneMoreTryWPF.Models
 				seller = Invoice.sellers[0].name;
 				customer = Invoice.customers[0].name;
 				totalPriceWithTax = Invoice.productSet.totalPriceWithTax;
+
+				
+				IsValidProductSet = ProductSetValidation();
+				switch (Direction)
+				{
+					case InvoiceDirection.INBOUND:
+						IsValidSeller = SellerValidation(invoice.sellers[0]);
+						IsValidCustomer = true;
+						break;
+					case InvoiceDirection.OUTBOUND:
+						IsValidSeller = true;
+						IsValidCustomer = CustomerValidation(invoice.customers[0]);
+						break;
+					default:
+						IsValidSeller = SellerValidation(invoice.sellers[0]);
+						IsValidCustomer = CustomerValidation(invoice.customers[0]);
+						break;
+				}
 				OnPropertyChanged("invoice");
+			}
+		}
+
+		private bool isValidSeller;
+		private bool isValidCustomer;
+		private bool isValidProductSet;
+
+		public bool IsValidSeller
+		{
+			get { return isValidSeller; }
+			set
+			{
+				isValidSeller = value;
+				OnPropertyChanged("IsValidSeller");
+			}
+		}
+
+		public bool IsValidCustomer
+		{
+			get { return isValidCustomer; }
+			set
+			{
+				isValidCustomer = value;
+				OnPropertyChanged("IsValidCustomer");
+			}
+		}
+
+		public bool IsValidProductSet
+		{
+			get { return isValidProductSet; }
+			set
+			{
+				isValidProductSet = value;
+				OnPropertyChanged("IsValidProductSet");
+			}
+		}
+
+
+		private Partner MyPartner = new Partner();
+		public Partner myPartner
+		{
+			get { return MyPartner; }
+			set
+			{
+				MyPartner = value;
+				OnPropertyChanged("myPartner");
+			}
+		}
+
+		private Object MyObject = new Object();
+		public Object myObject
+		{
+			get { return MyObject; }
+			set
+			{
+				MyObject = value;
+				OnPropertyChanged("myObject");
 			}
 		}
 
@@ -110,6 +186,35 @@ namespace OneMoreTryWPF.Models
 		public void OnPropertyChanged(string prop = "")
 		{
 			MyPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+		}
+
+
+		private bool ProductSetValidation()
+		{
+			bool flag = true;
+			foreach (ProductV2 prod in Invoice.productSet.products)
+			{
+				prod.IsContained = ProductValidation(prod);
+				flag = flag && prod.IsContained;
+			}
+			return flag;
+		}
+
+		private bool SellerValidation(SellerV2 seller)
+		{
+			myPartner.Id = SessionDataManagerFacade.SearchInPartners(seller);		
+			return SessionDataManagerFacade.GetRetailUserName() == seller.name? true: myPartner.Id != 0;
+		}
+
+		private bool CustomerValidation(CustomerV2 customer)
+		{
+			myPartner.Id = SessionDataManagerFacade.SearchInPartners(customer);
+			return SessionDataManagerFacade.GetRetailUserName() == customer.name ? true : myPartner.Id != 0;
+		}
+
+		private bool ProductValidation(ProductV2 prod)
+		{
+			return SessionDataManagerFacade.SearchInGoods(prod) != 0;
 		}
 	}
 }

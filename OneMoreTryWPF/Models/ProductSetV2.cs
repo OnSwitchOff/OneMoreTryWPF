@@ -118,7 +118,10 @@ namespace OneMoreTryWPF.Models
 			}
 		}
 
-		public ProductSetV2() { }
+		public ProductSetV2() 
+		{
+			products = new ObservableCollection<ProductV2>();
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		public void OnPropertyChanged(string prop = "")

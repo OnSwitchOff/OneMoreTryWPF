@@ -1,10 +1,9 @@
-﻿using OneMoreTryWPF.Facades;
-using OneMoreTryWPF.Models;
+﻿using OneMoreTryWPF.Models;
+using OneMoreTryWPF.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,21 +16,14 @@ using System.Windows.Shapes;
 namespace OneMoreTryWPF.UserControls
 {
 	/// <summary>
-	/// Interaction logic for InvoicesManagerWindow.xaml
+	/// Interaction logic for ProductDetailsWindow.xaml
 	/// </summary>
-	public partial class InvoicesManagerWindow : Window
+	public partial class ProductDetailsWindow : Window
 	{
-		public InvoicesManagerWindow()
+		public ProductDetailsWindow(ProductV2 prod)
 		{
 			InitializeComponent();
-			DataContext = new InvoicesManagerViewModel();		
-
+			DataContext = new ProductDetailsViewModel(prod);
 		}
-
-		private void Invoices_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			
-		}
-		
 	}
 }

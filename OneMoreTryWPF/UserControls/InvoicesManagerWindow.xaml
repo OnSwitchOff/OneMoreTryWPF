@@ -5,12 +5,109 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:InvoiceService="clr-namespace:OneMoreTryWPF.InvoiceService"
-        xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:converter ="clr-namespace:OneMoreTryWPF.Converters"      
         xmlns:local="clr-namespace:OneMoreTryWPF.UserControls"
         mc:Ignorable="d"
-        Title="InvoicesManagerWindow" Height="900" Width="1200">
+        Title="InvoicesManagerWindow" Height="900" MinHeight="768" MinWidth="1024" Width="1960">
     <Window.Resources>
+        <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border x:Name="Border" Margin="0" CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStopCollection>
+                                            <GradientStop Color="{DynamicResource BorderMediumColor}" Offset="0.0" />
+                                            <GradientStop Color="{DynamicResource BorderDarkColor}" Offset="1.0" />
+                                        </GradientStopCollection>
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" />
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="LightBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="LightBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Arrow"  Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="DarkGray" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Path x:Name="Arrow"  HorizontalAlignment="Center"  VerticalAlignment="Center" Data="{Binding Content,   RelativeSource={RelativeSource TemplatedParent}}" >
+                                <Path.Fill>
+                                    <SolidColorBrush Color="Gray"/>
+                                </Path.Fill>
+                            </Path>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="#FFEEF5FD" BorderBrush="#bbcadd" BorderThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border x:Name="Border" CornerRadius="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" />
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="LightBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="LightBlue" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="InvoiceService:InvoiceDirection"/>
@@ -47,8 +144,8 @@
                     <ColumnDefinition Width="20" />
                 </Grid.ColumnDefinitions>
                 <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2"  Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource borderBrush}" BorderThickness="1" />
-                <Border Grid.Column="0" CornerRadius="2,0,0,2"  Margin="1" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource borderBrush}" BorderThickness="0,0,1,0" />
-                <Path  x:Name="Arrow" Grid.Column="1"   Fill="{StaticResource borderBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                <Border Grid.Column="0" CornerRadius="2,0,0,2"  Margin="1" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource borderBrush}" BorderThickness="0" />
+                <Path  x:Name="Arrow" Grid.Column="1"   Fill="{StaticResource borderBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 5 5 L 10 0 Z"/>
             </Grid>
         </ControlTemplate>
         <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
@@ -62,10 +159,10 @@
                             <ToggleButton Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press">
                             </ToggleButton>
                             <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}"  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"  Margin="3,3,23,3" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" Template="{StaticResource ComboBoxTextBox}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,3,23,3" Focusable="True" Background="Transparent" Visibility="Visible" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <TextBox x:Name="PART_EditableTextBox" Style="{x:Null}" IsEnabled="False" Template="{StaticResource ComboBoxTextBox}"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,3,23,3" Focusable="True" Background="Transparent" Visibility="Visible" IsReadOnly="{TemplateBinding IsReadOnly}"/>
                             <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                                 <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}"  MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                    <Border x:Name="DropDownBorder" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource borderBrush}" CornerRadius="2"  BorderThickness="1"/>
+                                    <Border x:Name="DropDownBorder" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource borderBrush}" CornerRadius="0"  BorderThickness="1"/>
                                     <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
                                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
@@ -75,8 +172,96 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-            </Style.Triggers>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <!--ComBoxItem-->
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="MinHeight" Value="22"></Setter>
+                        <Setter Property="MinWidth" Value="60"></Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBoxItem">
+                                    <Border Name="Back" Background="Transparent"  BorderThickness="0,0,0,0">
+                                        <ContentPresenter ContentSource="{Binding Source}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0"></ContentPresenter>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Back" Property="Background" Value="LightGray"></Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="Back" Property="Background" Value="LightBlue"></Setter>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="myBtn" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="btnBorder" BorderBrush="White" Background="#eef5fd" BorderThickness="2,0"  CornerRadius="0" Margin="0"  >
+                            <ContentPresenter x:Name="btnContent" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="true">
+                                <Setter TargetName="btnBorder" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#bbcadd"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="btnBorder" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="LightGray"/>
+                                            <GradientStop Offset="0.5" Color="White"/>
+                                            <GradientStop Offset="1" Color="LightGray"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="btnBorder" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="LightBlue"/>
+                                            <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="LightBlue"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="btnBorder" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#dfe7f1"/>
+                                            <GradientStop Offset="0.5" Color="#bbcadd"/>
+                                            <GradientStop Offset="1" Color="#dfe7f1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="btnBorder" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#dfe7f1"/>
+                                            <GradientStop Offset="0.5" Color="Gray"/>
+                                            <GradientStop Offset="1" Color="#dfe7f1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
     <Window.Background>
@@ -85,7 +270,7 @@
             <GradientStop Color="White" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
-    <Border BorderThickness="2" VerticalAlignment="Stretch">
+    <Border BorderThickness="0" VerticalAlignment="Stretch">
         <Border.BorderBrush>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="SteelBlue" Offset="0"/>
@@ -93,170 +278,789 @@
             </LinearGradientBrush>
         </Border.BorderBrush>
         <DockPanel x:Name="mainPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
-            <Grid Name="mainToolbar" DockPanel.Dock="Top"  VerticalAlignment="Top" Height="30" Background="#FFEEF5FD">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnConfirmInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreated}" Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="0" Command="{Binding ConfirmCommand}" >
-                    <StackPanel Orientation="Horizontal" >
-                        <Image Source="/OneMoreTryWPF;component/Resources/images/confirm.png" Width="20" Height="20"></Image>
-                        <TextBlock Text="Подтвердить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+            <Border  DockPanel.Dock="Top"  VerticalAlignment="Top" Margin="0" BorderBrush="white" Background="#eef5fd" BorderThickness="2" CornerRadius="0,0,0,10" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                <Border.Effect>
+                    <DropShadowEffect Color="Gray" Opacity="0.5" />
+                </Border.Effect>
+                <Grid Name="mainToolbar" Height="Auto" Background="Transparent" Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="420"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment ="Center" Margin="35,4,5,2" Grid.Row="0">
+                        <TextBlock Text="Партнёр" Padding="5" VerticalAlignment="Center" Width="60" FontWeight="Bold"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Partner.Name, Mode=TwoWay}" Padding="10,2" Margin="5,0,0,0" Grid.Column="1" VerticalAlignment="Center"  Width="300" BorderThickness="1,1,0,1" BorderBrush="#FF8AA7D1"/>
+                        <Button  Grid.Column="2" Background="White"  Padding="3" BorderThickness="0,1,1,1" BorderBrush="#FF8AA7D1" Margin="0,5" VerticalAlignment="Center" Command="{Binding Path=SelectPartnerCommand}">
+                            <Image Source="/OneMoreTryWPF;component/Resources/images/search.png" Width="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
                     </StackPanel>
-                </Button>
-                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnDeclineInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isDeclinable}"  Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="1" Command="{Binding DeclineCommand}" >
-                    <StackPanel Orientation="Horizontal" >
-                        <Image Source="/OneMoreTryWPF;component/Resources/images/decline.png" Width="20" Height="20"></Image>
-                        <TextBlock Text="Отклонить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment ="Center" Margin="35,2,5,5" Grid.Row="1">
+                        <TextBlock Text="Объект" Padding="5" VerticalAlignment="Center" Width="60" Grid.Row="1" FontWeight="Bold"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Object.Name, Mode=TwoWay}" Padding="10,2" Margin="5,0,0,0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" BorderThickness="1,1,0,1" Width="300" BorderBrush="#FF8AA7D1"/>
+                        <Button  Grid.Column="2"  Padding="3"  Grid.Row="1" BorderBrush="#FF8AA7D1" Background="White" Margin="0,5" VerticalAlignment="Center" BorderThickness="0,1,1,1" Command="{Binding Path=SelectObjectCommand}">
+                            <Image Source="/OneMoreTryWPF;component/Resources/images/search.png" Width="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>
                     </StackPanel>
-                </Button>
-                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnCreateInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreatable}"  Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="2" Command="{Binding CreateCommand}" >
-                    <StackPanel Orientation="Horizontal" >
-                        <Image Source="/OneMoreTryWPF;component/Resources/images/create.png" Width="20" Height="20"></Image>
-                        <TextBlock Text="Создать ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
-                    </StackPanel>
-                </Button>
-                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnRevokeInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isFailed, Converter={StaticResource BoolInverter}}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="3" Command="{Binding RevokeCommand}" >
-                    <StackPanel Orientation="Horizontal" >
-                        <Image Source="/OneMoreTryWPF;component/Resources/images/revoke.png" Width="20" Height="20"></Image>
-                        <TextBlock Text="Отозвать созданный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
-                    </StackPanel>
-                </Button>
-                <Button BorderBrush="{StaticResource borderBrush}"  x:Name="btnDeleteInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isFailed}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="4" Command="{Binding DeleteCommand}" >
-                    <StackPanel Orientation="Horizontal" >
-                        <Image Source="/OneMoreTryWPF;component/Resources/images/delete.png" Width="20" Height="20"></Image>
-                        <TextBlock Text="Удалить ошибочный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
-                    </StackPanel>
-                </Button>
-            </Grid>
+
+                    <Border BorderBrush="White"  BorderThickness="2,0,0,0" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3"  CornerRadius="0,0,0,100" Margin="0" >
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0" Color="#bbcadd"/>
+                                <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                <GradientStop Offset="1" Color="#bbcadd"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect Color="Gray" Opacity="0.5" />
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right"  Height="80">
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}" BorderThickness="1" x:Name="btnConfirmInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreated}" Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="0" Command="{Binding ConfirmCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/confirm.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Подтвердить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}" BorderThickness="1" x:Name="btnDeclineInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isDeclinable}"  Visibility="{Binding isInbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="1" Command="{Binding DeclineCommand}" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/decline.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Отклонить входящий ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}"  x:Name="btnCreateInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isCreatable}"  Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="2" Command="{Binding CreateCommand}" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/create.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Создать ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}" x:Name="btnRevokeInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isRevokable}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="3" Command="{Binding RevokeCommand}" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/revoke.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Отозвать созданный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                            <Button BorderBrush="White" Style="{StaticResource myBtn}" x:Name="btnDeleteInvoice" Margin="2" VerticalAlignment="Stretch" IsEnabled="{Binding isFailed}" Visibility="{Binding isOutbound, Converter={StaticResource VisibleConverter}}" Background="#FFEEF5FD" Grid.Column="4" Command="{Binding DeleteCommand}" >
+                                <StackPanel Orientation="Horizontal" >
+                                    <Image Source="/OneMoreTryWPF;component/Resources/images/delete.png" Width="20" Height="20"></Image>
+                                    <TextBlock Text="Удалить ошибочный ЭСФ" VerticalAlignment="Center" Margin="2" Background="Transparent"></TextBlock>
+                                </StackPanel>
+                            </Button>
+
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
             <StatusBar x:Name="mainStatusBar" Background="Transparent" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
             </StatusBar>
             <DockPanel x:Name="leftPanel" DockPanel.Dock="Left" VerticalAlignment="top" LastChildFill="False">
-
             </DockPanel>
-            <DockPanel x:Name="rightPanel" Background="#FFEEF5FD" DockPanel.Dock="Right" VerticalAlignment="Stretch" LastChildFill="False">
-                <Grid x:Name="criteria" VerticalAlignment="Top" Margin="20" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120"/>
-                        <ColumnDefinition Width="120"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition  Height="Auto"/>
-                        <RowDefinition  Height="Auto"/>
-                        <RowDefinition  Height="Auto"/>
-                        <RowDefinition  Height="Auto"/>
-                        <RowDefinition  Height="Auto"/>
-                        <RowDefinition  Height="Auto"/>
-                        <RowDefinition  Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <TextBlock Text="Дата от" Grid.Row="0" Padding="5" TextWrapping="Wrap"  VerticalAlignment="Center" HorizontalAlignment="Left" />
-                    <DatePicker Margin="0,5" Grid.Column="1" Grid.Row="0" SelectedDate="{Binding Criteria.dateFrom}">
-                    </DatePicker>
-
-                    <TextBlock Text="Дата до" Grid.Row="1" Padding="5" TextWrapping="Wrap"  VerticalAlignment="Center" HorizontalAlignment="Left" />
-                    <DatePicker Margin="0,5" Grid.Column="1" Grid.Row="1" SelectedDate="{Binding Criteria.dateTo}">
-                        
-                    </DatePicker>
-
-                    <Button x:Name="btnGetOperationByDates" Content="Загрузить продажи" Margin="5" Padding="4" BorderBrush="{StaticResource borderBrush}" Background="#FFEEF5FD" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding GetOperationsByDatesCommand}"/>
-
-                    <TextBlock Text="Направление" Padding="5"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="3"/>
-                    <ComboBox  Margin="0,5" x:Name="direction" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="3" SelectedItem="{Binding Criteria.direction, Converter={StaticResource InvoiceDirectionConverter}, Mode=TwoWay}">
-                        <System:String>Входящие</System:String>
-                        <System:String>Исходящие</System:String>
-                    </ComboBox>
-
-                    <GroupBox BorderBrush="{StaticResource borderBrush}"  Header="Тип ЭСФ" Grid.Row="4" Padding="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                        <UniformGrid Rows="3" Grid.Column="1" Grid.Row="4" >
-                            <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isOrdinary}" Content="Основной"/>
-                            <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isFixed}" Content="Исправленный"/>
-                            <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isAdditional}" Content="Дополнительный"/>
-                        </UniformGrid>
-                    </GroupBox>
+            <DockPanel x:Name="rightPanel" Background="#FFEEF5FD" DockPanel.Dock="Right" VerticalAlignment="Stretch" LastChildFill="False" Width="0">                
+            </DockPanel>
 
 
-                    <GroupBox BorderBrush="{StaticResource borderBrush}"  Header="Статус ЭСФ" Grid.Row="5" Padding="5" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                        <Grid  Grid.Column="1" Grid.Row="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                                <RowDefinition  Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isCreated}" Content="Созданный" Grid.Row="0"/>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isDelivered}" Content="Доставленный" Grid.Row="1"/>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isCanceled}" Content="Аннулированный" Grid.Row="2"/>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isCanceledByOGD}" Grid.Row="3">
-                                <TextBlock Text="Аннулирован ИС ЭСФ для отнесения в зачет и на вычеты" TextWrapping="Wrap"/>
-                            </CheckBox>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isRevoked}" Content="Отозванный" Grid.Row="4"/>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isImported}" Content="Импортированный" Grid.Row="5"/>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isDraft}" Content="Черновик" Grid.Row="6"/>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isFailed}" Content="Ошибочный" Grid.Row="7"/>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isDeleted}" Content="Удаленный" Grid.Row="8"/>
-                            <CheckBox Margin="0,5" IsChecked="{Binding Criteria.isDeclined}" Content="Отклоненный" Grid.Row="9"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Margin="4" BorderBrush="White" Background="#eef5fd" BorderThickness="2" Grid.Row="0" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Gray" Opacity="0.5" />
+                    </Border.Effect>
+                    <Grid Background="Transparent" Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Критерии загрузки" FontSize="16" VerticalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0"/>
+
+
+                        <Grid x:Name="criteria2" VerticalAlignment="Top" Margin="20,0" Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="200"/>
+                                <ColumnDefinition Width="Auto" MinWidth="150"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto" MinWidth="130"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" VerticalAlignment="Stretch" ShowGridLines="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="40"/>
+                                    <RowDefinition  Height="Auto" MinHeight="40"/>
+                                    <RowDefinition  Height="Auto"/>
+                                    <RowDefinition  Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Border BorderThickness="1" Grid.RowSpan="4" Grid.ColumnSpan="2" BorderBrush="White" CornerRadius="10"  >
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#bbcadd"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.5" />
+                                    </Border.Effect>
+                                </Border>
+                                <TextBlock Text="Дата от" Grid.Row="0" TextWrapping="Wrap" Margin="0,25,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Padding="15,0,5,0" FontWeight="SemiBold" Height="16"  />
+                                <DatePicker Margin="2,25,10,0" Grid.Column="1" Grid.Row="0" SelectedDate="{Binding Criteria.dateFrom}" VerticalAlignment="Center" Height="24" />
+                                <TextBlock Text="Дата до" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Center" HorizontalAlignment="Left" Padding="15,0,5,0" FontWeight="SemiBold" Height="16" Margin="0" />
+                                <DatePicker Margin="2,0,10,0" Grid.Column="1" Grid.Row="1" SelectedDate="{Binding Criteria.dateTo}" VerticalAlignment="Center" Height="24" />
+
+                                <TextBlock Text="Направление"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Padding="15,0,5,0" FontWeight="SemiBold" Height="16" Margin="0,15,0,25" />
+                                <ComboBox  Margin="2,13,10,25" x:Name="direction2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="2" SelectedItem="{Binding Criteria.direction, Converter={StaticResource InvoiceDirectionConverter}, Mode=TwoWay}" Height="22">
+                                    <System:String>Входящие</System:String>
+                                    <System:String>Исходящие</System:String>
+                                </ComboBox>
+                            </Grid>
+
+
+                            <Grid Grid.Column="1" Margin="5,0">
+                                <Border BorderThickness="1"  BorderBrush="White" CornerRadius="10"   Margin="5,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#bbcadd"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.5" />
+                                    </Border.Effect>
+                                </Border>
+                                <GroupBox Grid.Column="1" BorderBrush="{StaticResource borderBrush}"  Header="Тип ЭСФ"  VerticalAlignment="Stretch" HorizontalAlignment="Center" Margin="15" Padding="5" FontWeight="SemiBold">
+                                    <UniformGrid Rows="3" Grid.Column="1" Grid.Row="4" VerticalAlignment="Top" >
+                                        <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isOrdinary, Mode=TwoWay}" Content="Основной"/>
+                                        <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isFixed , Mode=TwoWay}" Content="Исправленный"/>
+                                        <RadioButton GroupName="invoiceType" Margin="0,5" IsChecked="{Binding Criteria.isAdditional , Mode=TwoWay}" Content="Дополнительный"/>
+                                    </UniformGrid>
+                                </GroupBox>
+                            </Grid>
+
+                            <Grid Grid.Column="2" Margin="0,0,10,0">
+                                <Border BorderThickness="1"  BorderBrush="White" CornerRadius="10"  Margin="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#bbcadd"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.5" />
+                                    </Border.Effect>
+                                </Border>
+                                
+                                <GroupBox Grid.Column="2" BorderBrush="{StaticResource borderBrush}"  Header="Статус ЭСФ"  Padding="5" Grid.ColumnSpan="1" VerticalAlignment="Stretch" Margin="15" HorizontalAlignment="Stretch">
+                                    <WrapPanel  Orientation="Horizontal">
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isCreated}" Content="Созданный" Grid.Row="0" Grid.Column="0"/>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isDelivered}" Content="Доставленный" Grid.Row="1" Grid.Column="0"/>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isCanceled}" Content="Аннулированный" Grid.Row="2" Grid.Column="0"/>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isCanceledByOGD}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                                            <TextBlock Text="Аннулирован ИС ЭСФ для отнесения в зачет и на вычеты" TextWrapping="Wrap"/>
+                                        </CheckBox>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isRevoked}" Content="Отозванный" Grid.Row="0" Grid.Column="1"/>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isImported}" Content="Импортированный" Grid.Row="1" Grid.Column="1"/>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isDraft}" Content="Черновик" Grid.Row="2" Grid.Column="1"/>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isFailed}" Content="Ошибочный" Grid.Row="0" Grid.Column="2"/>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isDeleted}" Content="Удаленный" Grid.Row="1" Grid.Column="2"/>
+                                        <CheckBox Margin="5" IsChecked="{Binding Criteria.isDeclined}" Content="Отклоненный" Grid.Row="2" Grid.Column="2"/>
+                                    </WrapPanel>
+                                </GroupBox>
+                            </Grid>
+                           
+                            <Grid Grid.Column="3" VerticalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Border BorderThickness="1" Grid.RowSpan="2" BorderBrush="White" Height="150" Width="150"  CornerRadius="10">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#bbcadd"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Gray" ShadowDepth="0" BlurRadius="5" Opacity="0.5" />
+                                    </Border.Effect>
+                                </Border>
+                                <Path Fill="Azure" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0">
+                                    <Path.Data>
+                                        <GeometryGroup>
+                                            <EllipseGeometry Center="10,10" RadiusX="9" RadiusY="9"  />
+                                            <EllipseGeometry Center="10,10" RadiusX="8" RadiusY="8"  />
+                                            <CombinedGeometry GeometryCombineMode="Union">
+                                                <CombinedGeometry.Geometry1>
+                                                    <EllipseGeometry Center="10,10" RadiusX="7" RadiusY="1" />
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <EllipseGeometry Center="10,10" RadiusX="1" RadiusY="7" />
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                            <EllipseGeometry Center="10,130" RadiusX="9" RadiusY="9"  />
+                                            <EllipseGeometry Center="10,130" RadiusX="8" RadiusY="8"  />
+                                            <CombinedGeometry GeometryCombineMode="Union">
+                                                <CombinedGeometry.Geometry1>
+                                                    <EllipseGeometry Center="10,130" RadiusX="7" RadiusY="1" />
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <EllipseGeometry Center="10,130" RadiusX="1" RadiusY="7" />
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                            <EllipseGeometry Center="130,10" RadiusX="9" RadiusY="9"  />
+                                            <EllipseGeometry Center="130,10" RadiusX="8" RadiusY="8"  />
+                                            <CombinedGeometry GeometryCombineMode="Union">
+                                                <CombinedGeometry.Geometry1>
+                                                    <EllipseGeometry Center="130,10" RadiusX="7" RadiusY="1" />
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <EllipseGeometry Center="130,10" RadiusX="1" RadiusY="7" />
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                            <EllipseGeometry Center="130,130" RadiusX="9" RadiusY="9"  />
+                                            <EllipseGeometry Center="130,130" RadiusX="8" RadiusY="8"  />
+                                            <CombinedGeometry GeometryCombineMode="Union">
+                                                <CombinedGeometry.Geometry1>
+                                                    <EllipseGeometry Center="130,130" RadiusX="7" RadiusY="1" />
+                                                </CombinedGeometry.Geometry1>
+                                                <CombinedGeometry.Geometry2>
+                                                    <EllipseGeometry Center="130,130" RadiusX="1" RadiusY="7" />
+                                                </CombinedGeometry.Geometry2>
+                                            </CombinedGeometry>
+                                        </GeometryGroup>
+                                    </Path.Data>
+                                </Path>
+
+                                <Border BorderThickness="1"  BorderBrush="White" CornerRadius="2"  VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="0"  Margin="5" >
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.05" Color="#eef5fd"/>
+                                            <GradientStop Offset="0.5" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.95" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#bbcadd"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Gray" ShadowDepth="0"  Opacity="0.5" />
+                                    </Border.Effect>
+                                    <Button x:Name="btnGetInvoices2" Content="Загрузить ЭСФ" FontWeight="SemiBold" BorderThickness="0" Background="Transparent" Height="30"   Command="{Binding GetInvoicesByCriteriaCommand}"/>
+                                </Border>
+                                <Border BorderThickness="1"  BorderBrush="White" CornerRadius="2" Height="30"  VerticalAlignment="Top" Grid.Column="0" Grid.Row="1"  Margin="5" >
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.05" Color="#eef5fd"/>
+                                            <GradientStop Offset="0.5" Color="#bbcadd"/>
+                                            <GradientStop Offset="0.95" Color="#eef5fd"/>
+                                            <GradientStop Offset="1" Color="#bbcadd"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Gray" ShadowDepth="0"  Opacity="0.5" />
+                                    </Border.Effect>
+                                    <Button x:Name="btnGetOperationByDates2" Content="Загрузить продажи" FontWeight="SemiBold" Background="Transparent"  BorderThickness="0" Command="{Binding GetOperationsByDatesCommand}" />
+                                </Border>
+
+                            </Grid>
                         </Grid>
-                    </GroupBox>
+                    </Grid>
+                </Border>
 
-                    <Button x:Name="btnGetInvoices" Content="Загрузить ЭСФ" Margin="5" Padding="4" BorderBrush="{StaticResource borderBrush}" Background="#FFEEF5FD" Grid.Column="0" Grid.Row="6" Command="{Binding GetInvoicesByCriteriaCommand}"/>
-                </Grid>
-                    
-                
-            </DockPanel>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Width="Auto">
-                <Grid x:Name="contentPanel" Height="Auto">
+                <Border Margin="4" BorderBrush="White" Background="#eef5fd" BorderThickness="2" Grid.Row="1" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Gray" Opacity="0.5" />
+                    </Border.Effect>
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Параметры сортировки" FontSize="16" VerticalAlignment="Center" FontWeight="Bold" Margin="20,0,0,0"/>
+                    </Grid>
+                </Border>
+
+                <Grid Background="Transparent" Grid.Row="2">
+                    <Grid.Resources>
+                        <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MaxHeight="18" />
+                                    <RowDefinition Height="0.00001*" />
+                                    <RowDefinition MaxHeight="18" />
+                                </Grid.RowDefinitions>
+                                <Border Grid.RowSpan="3" CornerRadius="2" BorderThickness="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0" Color="#bbcadd"/>
+                                                <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                                <GradientStop Offset="1" Color="#bbcadd"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+
+                                <RepeatButton Grid.Row="0" Style="{StaticResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineUpCommand"  Content="M 0,10 A 50,20 0 0 1 5,0 A 50,20 0 0 1 10,10 A 20,100 0 0 0 0,10 Z">
+                                    <RepeatButton.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0" Color="#bbcadd"/>
+                                                <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                                <GradientStop Offset="1" Color="#bbcadd"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </RepeatButton.Background>
+                                </RepeatButton>
+                                <Track x:Name="PART_Track"  Grid.Row="1" IsDirectionReversed="true">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageUpCommand" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ScrollBarThumb}" Margin="1,0,1,0">
+                                            <Thumb.BorderBrush>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop Color="LightGray"  Offset="0.0" />
+                                                            <GradientStop Color="LightGray" Offset="1.0" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Thumb.BorderBrush>
+                                            <Thumb.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStop Offset="0" Color="#bbcadd"/>
+                                                        <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                                        <GradientStop Offset="1" Color="#bbcadd"/>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Thumb.Background>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand" />
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                                <RepeatButton Grid.Row="2" Style="{StaticResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineDownCommand" Content="M 0,0 A 50,20 0 0 0 5,10 A 50,20 0 0 0 10,0 A 20,100 0 0 1 0,0 Z">
+                                    <RepeatButton.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0" Color="#bbcadd"/>
+                                                <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                                <GradientStop Offset="1" Color="#bbcadd"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </RepeatButton.Background>
+                                </RepeatButton>
+                            </Grid>
+                        </ControlTemplate>
+
+                        <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition MaxWidth="18" />
+                                    <ColumnDefinition Width="0.00001*" />
+                                    <ColumnDefinition MaxWidth="18" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.ColumnSpan="3" CornerRadius="2">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0" Color="#bbcadd"/>
+                                                <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                                <GradientStop Offset="1" Color="#bbcadd"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <RepeatButton Grid.Column="0" Style="{StaticResource ScrollBarLineButton}"   Command="ScrollBar.LineLeftCommand" Content="M 10,10 A 20,50 0 0 1 0,5 A 20,50 0 0 1 10,0 A 100,20 0 0 0 10,10 Z">
+                                    <RepeatButton.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0" Color="#bbcadd"/>
+                                                <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                                <GradientStop Offset="1" Color="#bbcadd"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </RepeatButton.Background>
+                                </RepeatButton>
+                                <Track x:Name="PART_Track" Grid.Column="1" IsDirectionReversed="False">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageLeftCommand" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ScrollBarThumb}" Margin="0,1,0,1">
+                                            <Thumb.BorderBrush>
+                                                <LinearGradientBrush  StartPoint="0,0" EndPoint="0,1">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStopCollection>
+                                                            <GradientStop Color="LightGray"  Offset="0.0" />
+                                                            <GradientStop Color="LightGray" Offset="1.0" />
+                                                        </GradientStopCollection>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Thumb.BorderBrush>
+                                            <Thumb.Background>
+                                                <LinearGradientBrush  StartPoint="0,0" EndPoint="0,1">
+                                                    <LinearGradientBrush.GradientStops>
+                                                        <GradientStop Offset="0" Color="#bbcadd"/>
+                                                        <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                                        <GradientStop Offset="1" Color="#bbcadd"/>
+                                                    </LinearGradientBrush.GradientStops>
+                                                </LinearGradientBrush>
+                                            </Thumb.Background>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"  Command="ScrollBar.PageRightCommand" />
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                                <RepeatButton Grid.Column="2" Style="{StaticResource ScrollBarLineButton}" Width="18" Command="ScrollBar.LineRightCommand" Content="M 0,10 A 20,50 0 0 0 10,5 A 20,50 0 0 0 0,0 A 100,20 0 0 1 0,10 Z">
+                                    <RepeatButton.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0" Color="#bbcadd"/>
+                                                <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                                <GradientStop Offset="1" Color="#bbcadd"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </RepeatButton.Background>
+                                </RepeatButton>
+                            </Grid>
+                        </ControlTemplate>
+
+                        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+                            <Setter Property="SnapsToDevicePixels" Value="True" />
+                            <Setter Property="OverridesDefaultStyle" Value="true" />
+                            <Style.Triggers>
+                                <Trigger Property="Orientation" Value="Horizontal">
+                                    <Setter Property="Width" Value="Auto" />
+                                    <Setter Property="Height" Value="18" />
+                                    <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+                                </Trigger>
+                                <Trigger Property="Orientation" Value="Vertical">
+                                    <Setter Property="Width" Value="18" />
+                                    <Setter Property="Height" Value="Auto" />
+                                    <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style TargetType="{x:Type DataGrid}">
+                            <Setter Property="AlternationCount" Value="2"/>
+                            <Setter Property="GridLinesVisibility" Value="None"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                                        <Border x:Name="border" SnapsToDevicePixels="True" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                            <Border.Background>
+                                                <SolidColorBrush Color="Transparent" />
+                                            </Border.Background>
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Disabled">
+                                                        <Storyboard>
+                                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                                <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource ControlLightColor}" />
+                                                            </ColorAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Normal" />
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false" Background="Black">
+                                                <ScrollViewer.Template>
+                                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="*" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+
+                                                            <Button Focusable="false" Command="{x:Static DataGrid.SelectAllCommand}" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}"
+                                                            Visibility="{Binding HeadersVisibility, 
+                                                            ConverterParameter={x:Static DataGridHeadersVisibility.All}, 
+                                                            Converter={x:Static DataGrid.HeadersVisibilityConverter}, 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                            Width="{Binding CellsPanelHorizontalOffset, 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+
+                                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter"
+                                                            Grid.Column="1"
+                                                            Visibility="{Binding HeadersVisibility, 
+                                                            ConverterParameter={x:Static DataGridHeadersVisibility.Column}, 
+                                                            Converter={x:Static DataGrid.HeadersVisibilityConverter}, 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.ColumnSpan="2" Grid.Row="1"  CanContentScroll="{TemplateBinding CanContentScroll}" />
+                                                            <ScrollBar x:Name="PART_VerticalScrollBar"
+                                                                     Grid.Column="2"
+                                                                     Grid.Row="1"
+                                                                     Orientation="Vertical"
+                                                                     ViewportSize="{TemplateBinding ViewportHeight}"
+                                                                     Maximum="{TemplateBinding ScrollableHeight}"
+                                                                     Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                                                     Value="{Binding VerticalOffset, Mode=OneWay,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            <Grid Grid.Column="1" Grid.Row="2">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                                                   Grid.Column="1"
+                                                                   Orientation="Horizontal"
+                                                                   ViewportSize="{TemplateBinding ViewportWidth}"
+                                                                   Maximum="{TemplateBinding ScrollableWidth}"
+                                                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                                                   Value="{Binding HorizontalOffset, Mode=OneWay, 
+                                                                   RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </ScrollViewer.Template>
+                                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                            </ScrollViewer>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Style.Triggers>
+                                <Trigger Property="AlternationIndex" Value="0">
+                                    <Setter Property="Background" Value="#ffffff" />
+                                </Trigger>
+                                <Trigger Property="AlternationIndex" Value="1">
+                                    <Setter Property="Background" Value="#eef5fd" />
+                                </Trigger>
+                            </Style.Triggers>
+                            <Setter Property="Height" Value="27"/>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#a2cbff" />
+                                    <Setter Property="BorderBrush" Value="#bbcadd"/>
+                                </Trigger>
+                            </Style.Triggers>
+                            <Setter Property="BorderBrush" Value="#eef5fd"/>
+                            <Setter Property="BorderThickness" Value="1,0"/>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#bbcadd"/>
+                                        <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                        <GradientStop Offset="1" Color="#bbcadd"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="BorderBrush" Value="#bbcadd"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Padding" Value="5,15" />
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="{x:Type DataGridRowHeader}">
+                            <Setter Property="Width" Value="0"/>
+                        </Style>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="Invoices" ItemsSource="{Binding InvoiceInfos}" IsReadOnly="True" SelectedItem="{Binding SelectedInvoice}" Grid.Row="0" Grid.ColumnSpan="2" Height="Auto" SelectionMode="Single" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HorizontalScrollBarVisibility="Visible" >
+                    <Border Margin="4" BorderBrush="White" Background="#eef5fd" BorderThickness="2" Grid.RowSpan="2"   CornerRadius="10,10,0,0">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Gray" Opacity="0.5" />
+                        </Border.Effect>
+                    </Border>
+                    <TextBlock Margin="20,6,0,0" Text="Информация о транзакциях" FontSize="16" VerticalAlignment="Center" FontWeight="Bold" />
+                    <DataGrid   Margin="6,0,6,6" x:Name="Invoices" ItemsSource="{Binding InvoiceInfos}" IsReadOnly="True" SelectedItem="{Binding SelectedInvoice, Mode=TwoWay}" Grid.Row="1" BorderThickness="1"    SelectionMode="Single" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserResizeColumns="True"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                        <DataGrid.BorderBrush>
+                            <LinearGradientBrush>
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop Offset="0" Color="#bbcadd"/>
+                                    <GradientStop Offset="0.5" Color="#eef5fd"/>
+                                    <GradientStop Offset="1" Color="#bbcadd"/>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </DataGrid.BorderBrush>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDoubleClick">
                                 <i:InvokeCommandAction Command="{Binding SelectedItemDoubleClickCommand}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <DataGrid.Resources>
-                            <Style x:Key="WrappedColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
-                                <Setter Property="ContentTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate>
-                                            <TextBlock TextWrapping="Wrap" Text="{Binding}" TextAlignment="Center" ></TextBlock>
-                                        </DataTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </DataGrid.Resources>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Дата продажи" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding turnoverDate}"/>
-                            <DataGridTextColumn Header="Номер продажи" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding turnoverNum}"/>
-                            <DataGridTextColumn Header="Продавец" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding seller}"/>
-                            <DataGridTextColumn Header="Покупатель" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding customer}"/>
-                            <DataGridTextColumn Header="Сумма" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding totalPriceWithTax}"/>
-                            <DataGridTextColumn Header="Номер ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceNumber}"/>
-                            <DataGridTextColumn Header="Дата выписки ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding inputDate, Converter={StaticResource DateConverter}}"/>
-                            <DataGridTextColumn Header="Направление" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding direction , Converter={StaticResource InvoiceDirectionConverter}}"/>
-                            <DataGridTextColumn Header="Статус ЭСФ" MinWidth="90" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding invoiceStatus, Converter={StaticResource InvoiceStatusConverter} }"/>
-                            <DataGridTextColumn Header="Дополнительная информация" MinWidth="120" Width="Auto" HeaderStyle="{StaticResource WrappedColumnHeaderStyle}" Binding="{Binding cancelReason}"/>
+                            <DataGridTemplateColumn SortMemberPath="turnoverDate" Header="Дата продажи" MinWidth="90" Width="90">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Path=turnoverDate}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Номер продажи" SortMemberPath="turnoverNum" MinWidth="90"  Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Padding="5,0,10,0" Text="{Binding Path=turnoverNum}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Продавец" SortMemberPath="seller" MinWidth="120" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Padding="10,0,5,0" Text="{Binding Path=seller}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Покупатель" SortMemberPath="customer"  MinWidth="120" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Padding="10,0,5,0" Text="{Binding Path=customer}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Сумма" SortMemberPath="totalPriceWithTax" MinWidth="90" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Padding="5,0,10,0" Text="{Binding totalPriceWithTax , StringFormat={}{0:0.00}}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Номер ЭСФ"  SortMemberPath="invoiceNumber"  MinWidth="90"  Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Padding="10,0,5,0" Text="{Binding invoiceNumber}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Дата выписки ЭСФ" SortMemberPath="inputDate" MinWidth="90"  Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding inputDate, Converter={StaticResource DateConverter}}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Направление" SortMemberPath="direction" MinWidth="90"  Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding direction , Converter={StaticResource InvoiceDirectionConverter}}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Статус ЭСФ" SortMemberPath="invoiceStatus"  MinWidth="90"  Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding invoiceStatus, Converter={StaticResource InvoiceStatusConverter} }"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Дополнительная информация" SortMemberPath="cancelReason"  MinWidth="120" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Padding="10,0,5,0" Text="{Binding cancelReason}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                </Grid>                
-            </ScrollViewer>
+                </Grid>
+            </Grid>
         </DockPanel>
     </Border>
 </Window>
